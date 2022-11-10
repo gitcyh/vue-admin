@@ -1,0 +1,64 @@
+import { defineStore } from "pinia";
+
+export const menuStore = defineStore('menu',{
+    state(){
+        return {
+            menuList:[
+                {
+                    name:"首页",
+                    value:"index",
+                    path:"/index/myindex"
+                },
+                {
+                    name:"我的店铺",
+                    value:"myshop",
+                    path:"/index/myshop",
+                    children:[
+                        {
+                            name:"订单管理",
+                            value:"myorder",
+                            path:"/index/myorder",
+                        },
+                        {
+                            value:"shopseting",
+                            name:"店铺设置",
+                            path:"/index/shopseting",
+                        },
+                        {
+                            name:"员工管理",
+                            value:"mystaff",
+                            path:"/index/mystaff",
+                        },
+                        {
+                            name:"商品管理",
+                            value:"mygoods",
+                            path:"/index/mygoods",
+                        }
+                    ]
+                },
+                {
+                    value:"shopmanage",
+                    name:"店铺管理",
+                    path:"/index/shopmanage"
+                },
+                {
+                    value:"stroe",
+                    name:"商品库",
+                    path:"/index/stroe"
+                },
+                {   
+                    value:"system",
+                    name:"系统设置",
+                    path:"/index/system"
+                },
+            ],
+            selectedMenu:[
+                {
+                    type:"",
+                    name:'首页',
+                    path:"/index/myindex"
+                }
+            ]
+        }
+    },
+})
