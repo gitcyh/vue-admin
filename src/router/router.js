@@ -5,6 +5,8 @@ import Index from '../index/Index.vue'
 import Myshop from '../index/main/myshop/Myshop.vue'
 import Myindex from '../index/main/myindex/Myindex.vue'
 import {menuStore} from "../store/menuStore"
+import GoodsHouse from '../index/main/goodsHouse/GoodsHouse.vue'
+import StaffMgr from '../index/main/myshop/staff/StaffMgr.vue'
 
 const routes = [
     {
@@ -41,6 +43,20 @@ const routes = [
                 path:'/index/myshop',
                 components:{
                     main:Myindex
+                }
+            },
+            {
+                name:"员工管理",
+                path:'/index/mystaff',
+                components:{
+                    main:StaffMgr
+                }
+            },
+            {
+                name:"商品库",
+                path:'/index/goodsHouse',
+                components:{
+                    main:GoodsHouse
                 }
             },
             

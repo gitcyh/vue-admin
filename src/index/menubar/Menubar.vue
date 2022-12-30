@@ -15,12 +15,12 @@
         <el-icon><icon-menu /></el-icon>
         <span>{{item.name}}</span>
       </el-menu-item>
-      <el-sub-menu v-else>
+      <el-sub-menu v-if="item.children">
           <template #title>
             <el-icon><location /></el-icon>
             <span>{{item.name}}</span>
           </template>
-          <el-menu-item v-for="child in item.children" :key="child.value" :index="item.path"  @click="goto(child)">{{child.name}}</el-menu-item>
+          <el-menu-item v-for="child in item.children" :key="child.value" :index="child.path"  @click="goto(child)">{{child.name}}</el-menu-item>
         </el-sub-menu>
     </template>
   </el-menu>
@@ -29,10 +29,10 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-const router = useRouter();
 import {menuStore} from "../../store/menuStore"
 import { Document,  Menu as IconMenu, Location, Setting} from "@element-plus/icons-vue";
 
+const router = useRouter();
 const menuList = menuStore().$state.menuList;
 
 

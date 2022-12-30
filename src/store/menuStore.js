@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 
+//菜单列表
 export const menuStore = defineStore('menu',{
     state(){
         return {
@@ -42,9 +43,9 @@ export const menuStore = defineStore('menu',{
                     path:"/index/shopmanage"
                 },
                 {
-                    value:"stroe",
+                    value:"goodsHouse",
                     name:"商品库",
-                    path:"/index/stroe"
+                    path:"/index/goodsHouse"
                 },
                 {   
                     value:"system",

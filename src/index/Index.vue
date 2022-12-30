@@ -4,8 +4,8 @@
       <Menubar :isCollapse="isCollapse" />
     </div>
     <div class="index-right">
-      <div class="index-header"><Header :isCollapse="isCollapse" @changeCollapse="changeCollapse" /></div>
-      <div class="index-menus"><MenuNav /></div>
+      <Header :isCollapse="isCollapse" @changeCollapse="changeCollapse" />
+      <MenuNav />
       <div class="index-main">
         <router-view v-slot="{ Component }" name="main">
           <keep-alive>
@@ -45,14 +45,6 @@ const isCollapse = ref(false)
 
   }
   .index-right{
-    width: 100%;
-  }
-  .index-header{
-    height: 50px;
-    width: 100%;
-  }
-  .index-menus{
-    height: 30px;
     width: 100%;
   }
 </style>>

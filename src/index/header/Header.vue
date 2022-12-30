@@ -7,17 +7,19 @@
       </el-icon>
     </div>
     <div class="header-name">
-      老陈科技有限公司
+      店铺后台管理系统
     </div>
+    <!-- 消息通知 -->
     <div class="header-message">
       <el-badge is-dot class="item">
         <el-icon size="24"><Bell /></el-icon>
       </el-badge>
     </div>
+    <!-- 个人中心 -->
     <div class="header-person">
       <el-dropdown>
         <span class="el-dropdown-link">
-          user-name
+          admin
           <el-icon class="el-icon--right">
             <CaretBottom />
           </el-icon>
@@ -31,16 +33,12 @@
       </el-dropdown>
     </div>
     <div class="header-img">
-      <el-avatar
-        :size="50"
-        src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
-      />
+      <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineComponent, ref } from "vue";
 import { Fold, Expand, Bell,CaretBottom  } from "@element-plus/icons-vue";
 
 defineProps({
@@ -51,41 +49,40 @@ defineProps({
 const emit = defineEmits(["changeCollapse"]);
 
 function change(value) {
-  console.log(value);
   emit("changeCollapse", value);
 }
 </script>
 
 <style scoped>
 .header-wrap {
+  height: 50px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   background-color: #2e8bee;
   color: #fff;
 }
 .header-collapse {
-  min-width: 30px;
-  display: flex;
-  align-items: center;
+  width: 30px;
   cursor: pointer;
   margin-left: 5px;
 }
 .header-name {
-  font-size: 20px;
-  width: 80%;
+  font-size: 22px;
+  width: calc(100% - 200px);
   cursor: default;
   display: flex;
   justify-content: center;
+  margin-bottom: 5px;
 }
 .header-message {
   cursor: pointer;
-  min-width: 20px;
+  width: 40px;
 }
 .header-person {
   cursor: pointer;
-  min-width: 100px;
+  width: 80px;
 }
 .header-person .el-dropdown{
   color: #fff;
@@ -93,7 +90,7 @@ function change(value) {
 .header-img {
   cursor: pointer;
   margin-right: 5px;
-  min-width: 50px;
+  margin-top: 4px;
 }
 .example-showcase .el-dropdown-link {
   cursor: pointer;
