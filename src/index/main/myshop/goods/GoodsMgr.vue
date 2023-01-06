@@ -8,23 +8,25 @@
             <BrandMgrVue></BrandMgrVue>
         </div>
     </div>
-    <el-table :data="filterTableData" border  style="width: 100%">
+    <el-table :data="filterTableData" border>
         <el-table-column label="序号" type="index" width="60" />
         <el-table-column label="日期" prop="date" sortable  />
-        <el-table-column label="品牌" prop="brand" sortable  />
-        <el-table-column label="商品名称" prop="name" sortable  />
-        <el-table-column label="规格" prop="specs" sortable  />
-        <!-- <el-table-column label="商品描述" prop="description" sortable>
-            <template #default="scope">
-                <el-button :icon="View" size="small" @click="handleView(scope.$index, scope.row)">详情</el-button>
-            </template>
-        </el-table-column> -->
-        <el-table-column align="right"  label="操作" >
+        <el-table-column label="品牌" prop="brand"  />
+        <el-table-column label="商品名称" prop="name"  />
+        <el-table-column label="规格" prop="specs" />
+        <el-table-column label="成本价" prop="costPrice" sortable />
+        <el-table-column label="配送价" prop="deliveryPrice" sortable />
+        <el-table-column label="自提价" prop="selfPrice" sortable />
+        <el-table-column label="水票价" prop="waterPrice" sortable />
+        <el-table-column label="月结价" prop="MonthlyPrice" sortable />
+        <el-table-column label="状态" prop="state" sortable />
+        <el-table-column fixed="right"  label="操作" width="220">
             <template #default="scope">
                 <el-button-group>
-                     <el-button :icon="View" size="small" type="success" @click="handleView(scope.$index, scope.row)">查看</el-button>
+                    <el-button :icon="View" size="small" type="success" @click="handleView(scope.$index, scope.row)">查看</el-button>
                     <el-button :icon="Edit" type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button :icon="Delete" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button :icon="Top" type="warning" size="small" @click="handleDelete(scope.$index, scope.row)">上架</el-button>
+                    <!-- <el-button :icon="Delete" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
                 </el-button-group>
             </template>
         </el-table-column>
@@ -35,8 +37,8 @@
   
 <script setup>
 import { computed, ref } from 'vue'
-import { Delete,  Edit,View} from "@element-plus/icons-vue";
-import Operation from '../../../common/util/operation';
+import { Top,  Edit,View} from "@element-plus/icons-vue";
+import Operation from '../../../../common/util/operation';
 import GoodsAdd from './GoodsAdd.vue'
 import GoodsEditVue from './GoodsEdit.vue';
 import GoodsViewVue from './GoodsView.vue';
@@ -75,24 +77,48 @@ const tableData = [
         brand:'农夫山泉',
         name: '农夫山泉纯净水',
         specs:'18L/桶',
+        costPrice:'15',
+        deliveryPrice:'28',
+        selfPrice:'26',
+        waterPrice:'25',
+        MonthlyPrice:'26',
+        state:'1',
     },
     {
         date: '2016-05-02',
         brand:'农夫山泉',
         name: '农夫山泉纯净水',
         specs:'18L/桶',
+        costPrice:'15',
+        deliveryPrice:'28',
+        selfPrice:'26',
+        waterPrice:'25',
+        MonthlyPrice:'26',
+        state:'1',
     },
     {
         date: '2016-05-04',
         brand:'农夫山泉',
         name: '农夫山泉纯净水',
         specs:'18L/桶',
+        costPrice:'15',
+        deliveryPrice:'28',
+        selfPrice:'26',
+        waterPrice:'25',
+        MonthlyPrice:'26',
+        state:'1',
     },
     {
         date: '2016-05-01',
         brand:'农夫山泉',
         name: '农夫山泉纯净水',
         specs:'18L/桶',
+        costPrice:'15',
+        deliveryPrice:'28',
+        selfPrice:'26',
+        waterPrice:'25',
+        MonthlyPrice:'26',
+        state:'1',
     },
 ]
 
@@ -111,6 +137,7 @@ const tableData = [
 }
 .search-item{
     display: flex;
+    align-items: center;
 }
 .search-item label{
     width: 50px;

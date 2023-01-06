@@ -2,13 +2,22 @@ import { createRouter,createWebHistory } from 'vue-router'
 import Login from '../login/Login.vue'
 import Register from '../register/Register.vue'
 import Index from '../index/Index.vue'
-import Myshop from '../index/main/myshop/Myshop.vue'
+import Myshop from '../index/main/myshop/shop/Myshop.vue'
 import Myindex from '../index/main/myindex/Myindex.vue'
 import {menuStore} from "../store/menuStore"
 import GoodsHouse from '../index/main/goodsHouse/GoodsHouse.vue'
 import StaffMgr from '../index/main/myshop/staff/StaffMgr.vue'
+import Forget from '../forget/Forget.vue'
+import Error_404 from '../error/Error_404.vue'
+import CustomerMgr from '../index/main/myshop/customer/CustomerMgr.vue'
+import OrderMgr from '../index/main/myshop/order/OrderMgr.vue'
+import GoodsMgr from '../index/main/myshop/goods/GoodsMgr.vue'
 
 const routes = [
+    {
+        path:"/",
+        redirect:'/login'
+    },
     {
         path:"/login",
         name:"登录",
@@ -18,6 +27,11 @@ const routes = [
         path:"/register",
         name:"注册",
         component:Register
+    },
+    {
+        path:"/forget",
+        name:"找回密码",
+        component:Forget
     },
     {
         path:"/index",
@@ -32,13 +46,6 @@ const routes = [
                 }
             },
             {
-                path:'/index/shopseting',
-                name:"店铺设置",
-                components:{
-                    main:Myshop
-                }
-            },
-            {
                 name:"我的店铺",
                 path:'/index/myshop',
                 components:{
@@ -46,10 +53,38 @@ const routes = [
                 }
             },
             {
+                path:'/index/shopseting',
+                name:"店铺管理",
+                components:{
+                    main:Myshop
+                }
+            },
+            {
+                path:'/index/order',
+                name:"订单管理",
+                components:{
+                    main:OrderMgr
+                }
+            },
+            {
+                name:"客户管理",
+                path:'/index/customer',
+                components:{
+                    main:CustomerMgr
+                }
+            },
+            {
                 name:"员工管理",
                 path:'/index/mystaff',
                 components:{
                     main:StaffMgr
+                }
+            },
+            {
+                name:"商品管理",
+                path:'/index/goods',
+                components:{
+                    main:GoodsMgr
                 }
             },
             {
@@ -61,6 +96,14 @@ const routes = [
             },
             
         ]
+    },
+    {
+        path: '/404',
+        component: Error_404
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: '/404'
     }
 ]
 
@@ -85,7 +128,6 @@ router.afterEach((to, from) => {
     if(!find && !["/login","register"].includes(to.path) && to.path !== "/index"){
       selectedMenu.push({
         name:to.name,
-        type:"",
         path:to.path
         })
     }

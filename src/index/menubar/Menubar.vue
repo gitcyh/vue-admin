@@ -1,15 +1,5 @@
 <template>
-  <el-menu
-    active-text-color="#ffd04b"
-    background-color="#545c64"
-    class="el-menu-vertical-demo"
-    default-active="/index/myindex"
-    text-color="#fff"
-    :collapse="isCollapse"
-    @open="handleOpen"
-    @close="handleClose"
-    style="height: 100%"
-  >
+  <el-menu active-text-color="#ffd04b"  background-color="#545c64" class="myMenu"  default-active="/index/myindex"  text-color="#fff"  :collapse="isCollapse"  @open="handleOpen"  @close="handleClose">
     <template v-for="item in menuList" :key="item.value">
       <el-menu-item v-if="!item.children" :index="item.path" @click="goto(item)">
         <el-icon><icon-menu /></el-icon>
@@ -58,8 +48,9 @@ const goto = (item)=>{
 </script>
 
 <style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.myMenu:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
+  height: 100%;
 }
 </style>

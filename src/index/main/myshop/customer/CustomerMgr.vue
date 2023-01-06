@@ -1,21 +1,19 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input v-model="search" size="small" placeholder="请输入员工姓名" />
+            <label>搜索:</label><el-input v-model="search" size="small" placeholder="请输入客户信息" />
         </div>
         <div class="search-item">
-            <StaffAdd></StaffAdd>
+            <CustomerAddVue></CustomerAddVue>
         </div>
     </div>
     
     <el-table :data="filterTableData" border  style="width: 100%">
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="姓名" prop="name" sortable  />
-        <el-table-column label="性别" prop="sex" sortable  />
-        <el-table-column label="年龄" prop="age" sortable  />
-        <el-table-column label="手机号" prop="phone" sortable />
-        <el-table-column label="身份证" prop="IDCard" sortable  />
-        <el-table-column label="住址" prop="address" sortable  />
+        <el-table-column label="客户名称" prop="name" sortable  />
+        <el-table-column label="地址" prop="address" sortable  />
+        <el-table-column label="手机号" prop="phone" sortable  />
+        <el-table-column label="备注" prop="remark" sortable />
         <el-table-column align="right"  label="操作" >
             <template #default="scope">
                 <el-button-group>
@@ -26,17 +24,18 @@
             </template>
         </el-table-column>
     </el-table>
-    <StaffEditVue ref="editChild" :data="data"></StaffEditVue>
-    <StaffViewVue ref="viewChild" :data="data"></StaffViewVue>
+    <CustomerEditVue ref="editChild" :data="data"></CustomerEditVue>
+    <CustomerViewVue ref="viewChild" :data="data"></CustomerViewVue>
 </template>
   
 <script setup>
 import { computed, ref } from 'vue'
 import { Delete,  Edit,View} from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
-import StaffAdd from './StaffAdd.vue'
-import StaffEditVue from './StaffEdit.vue';
-import StaffViewVue from './StaffView.vue';
+import CustomerAddVue from './CustomerAdd.vue';
+import CustomerEditVue from './CustomerEdit.vue';
+import CustomerViewVue from './CustomerView.vue';
+
 
 const search = ref('')
 const filterTableData = computed(() =>
@@ -60,7 +59,6 @@ const handleView = (index, row) => {
     viewChild.value.visible = true;
 }
 
-
 const handleDelete = (index, row) => {
     Operation.handleDelete(function(){
         console.log(index, row);
@@ -69,36 +67,28 @@ const handleDelete = (index, row) => {
 
 const tableData = [
     {
-        name: '邓安义',
-        sex:'男',
-        age: '34',
+        name: '陈先生',
+        address: '新围仔几巷几号',
         phone: '13712345678',
-        IDCard:'360724***********',
-        address: '新围仔',
+        remark:'',
     },
     {
-        name: '邓安义',
-        sex:'男',
-        age: '34',
+        name: '陈先生',
+        address: '新围仔几巷几号',
         phone: '13712345678',
-        IDCard:'360724***********',
-        address: '新围仔',
+        remark:'',
     },
     {
-        name: '邓安义',
-        sex:'男',
-        age: '34',
+        name: '陈先生',
+        address: '新围仔几巷几号',
         phone: '13712345678',
-        IDCard:'360724***********',
-        address: '新围仔',
+        remark:'',
     },
     {
-        name: '邓安义',
-        sex:'男',
-        age: '34',
+        name: '陈先生',
+        address: '新围仔几巷几号',
         phone: '13712345678',
-        IDCard:'360724***********',
-        address: '新围仔',
+        remark:'',
     },
 ]
 </script>

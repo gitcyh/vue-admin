@@ -1,25 +1,27 @@
 <template>
-     <el-dialog v-model="visible" :show-close="false" draggable title="编辑商品">
+    <el-dialog v-model="visible" :show-close="false" draggable title="客户信息修改">
             <template #header="{ close, titleId, titleClass }">
                 <div class="my-header">
-                    <h6 :id="titleId" :class="titleClass">编辑商品</h6>
+                    <h6 :id="titleId" :class="titleClass">客户信息修改</h6>
                     <el-button @click="close" :icon="CloseBold" circle />
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useGoodsCheck.rules" label-width="120px" class="demo-ruleForm">
-                    <el-form-item label="商品名称" prop="name">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useCustomerCheck.rules" label-width="120px" class="demo-ruleForm">
+                    <el-form-item label="客户名称" prop="name">
                         <el-input v-model="data.name" clearable />
                     </el-form-item>
-                    <BrandVue :brand="data.brand"></BrandVue>
-                    <el-form-item label="规格" prop="specs">
-                        <el-input type="text" v-model="data.specs" clearable />
+                    <el-form-item label="手机号" prop="phone">
+                        <el-input type="text" v-model="data.phone" clearable />
                     </el-form-item>
-                    <el-form-item label="商品描述" prop="description">
-                        <el-input type="textarea" v-model="ruleForm.description" />
+                    <el-form-item label="住址" prop="address">
+                        <el-input v-model="data.address" type="text" clearable />
+                    </el-form-item>
+                    <el-form-item label="备注" prop="remark">
+                        <el-input type="text" v-model="data.remark" clearable />
                     </el-form-item>
                     <el-form-item>
-                        <el-button @click="useGoodsCheck.resetForm(ruleFormRef)">重置</el-button>
+                        <el-button @click="useCustomerCheck.resetForm(ruleFormRef)">重置</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -29,21 +31,24 @@
                     <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
                 </span>
             </template>
-    </el-dialog>
+        </el-dialog>
+
 </template>
   
 <script setup>
-import { ref,reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
-import { CloseBold } from '@element-plus/icons-vue'
-import UseGoodsCheck from './useGoodsCheck'
-import operation from '../../../common/util/operation'
-import BrandVue from './Brand.vue'
+import { Plus, CloseBold } from '@element-plus/icons-vue'
+import UseCustomerCheck from './useCustomerCheck'
+let useCustomerCheck = UseCustomerCheck();
 
-let useGoodsCheck = UseGoodsCheck();
+const props = defineProps({
+    data:Object,
+})
+
+
 const ruleFormRef = ref();
 const visible = ref(false);
-
 defineExpose({
     visible
 })
@@ -51,15 +56,11 @@ defineExpose({
 const close = function(){
     visible.value = false;
 }
-
-const props = defineProps({
-    data:Object,
-})
-
 const ruleForm = reactive({
     name: '',
-    brand: '',
-    specs: '',
+    phone: '',
+    address: '',
+    remark:'',
 })
 
 const submitForm = async (formEl) => {
@@ -68,10 +69,11 @@ const submitForm = async (formEl) => {
     if (valid) {
       console.log('submit!')
     } else {
-        operation.tips("商品信息有误");
+        useGoodsCheck.tips();
     }
   })
 }
+
 
 </script>
   

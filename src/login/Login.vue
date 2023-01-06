@@ -4,26 +4,30 @@
             <div class="login-item login-title">
                 欢迎登录
             </div>
-            <div class="login-item">
-                <el-input type="text" v-model="userName" placeholder="请输入用户名" :prefix-icon="User"></el-input>
-            </div>
-            <div class="login-item">
-                <el-input type="password" v-model="passWord" placeholder="请输入密码" :prefix-icon="Lock"></el-input>
-            </div>
-            <div class="login-item valiCode">
-                <el-input type="text" v-model="valiCode" placeholder="请输入验证码" :prefix-icon="Lock"
-                    @input="valiCodeInput">
-                </el-input>
-                <span :class="valiClass">{{ valiResult }}</span>
-                <VerifyCode :contentWidth="80" :contentHeight="30" :identifyCode="identifyCode" @click="makeCode(4)">
-                </VerifyCode>
-            </div>
-            <div class="login-item">
-                <el-button class="login-btn" type="primary" style="width:100%;"
-                    @click="login">登&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
-            </div>
+            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
+                <el-form-item class="login-item" label="" prop="userName">
+                    <el-input type="text" v-model="ruleForm.userName" placeholder="请输入用户名" :prefix-icon="User"
+                        clearable></el-input>
+                </el-form-item>
+                <el-form-item class="login-item" label="" prop="passWord">
+                    <el-input type="password" v-model="ruleForm.passWord" placeholder="请输入密码" :prefix-icon="Lock"
+                        clearable></el-input>
+                </el-form-item>
+                <el-form-item class="login-item valiCode" label="" prop="valiCode">
+                    <el-input style="width:130px" type="text" v-model="valiCode" placeholder="请输入验证码"
+                        :prefix-icon="Lock" @input="valiCodeInput"></el-input>
+                    <span :class="valiClass">{{ valiResult }}</span>
+                    <VerifyCode :contentWidth="80" :contentHeight="32" :identifyCode="identifyCode"
+                        @click="makeCode(4)"></VerifyCode>
+                </el-form-item>
+
+                <el-form-item class="login-item">
+                    <el-button class="login-btn" color="#626aef" style="width:100%;"
+                        @click="login(ruleFormRef)">登&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
+                </el-form-item>
+            </el-form>
             <div class="login-item login-last">
-                <span>忘记密码</span>/<span @click="register">注册</span>
+                <span @click="forget">忘记密码</span>/<span @click="register">注册</span>
             </div>
         </div>
     </div>
@@ -31,35 +35,52 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import request from '../request/request'
 import { useRouter } from 'vue-router'
 import VerifyCode from './VerifyCode.vue'
 
+const ruleFormRef = ref();
+const ruleForm = reactive({
+    userName: '',
+    passWord: '',
+
+})
+
 const router = useRouter();
+const rules = reactive({
+    userName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+    passWord: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+})
 
-const userName = ref('')
-const passWord = ref('')
-const login = function () {
-    if (checkCode()) {
-        request.get('https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg')
-            .then(res => {
-                router.push({
-                    name: "首页",
-                    path: "/index/myindex"
-            })
-        });
-    }else{
-        fail();
-    }
-
+const login = async function (formEl) {
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+        if (valid && checkCode()) {
+            request.get('https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg')
+                .then(res => {
+                    router.push({
+                        name: "首页",
+                        path: "/index/myindex"
+                    })
+                });
+        } else {
+            fail();
+        }
+    })
 }
 
 const register = function () {
     router.push({
         name: "注册",
         path: "/register"
+    })
+}
+const forget = function () {
+    router.push({
+        name: "找回密码",
+        path: "/forget"
     })
 }
 const valiClass = ref("");
@@ -69,7 +90,7 @@ const valiCode = ref("");
 const checkCode = function () {
     return valiCode.value.toLocaleLowerCase() === identifyCode.value.toLocaleLowerCase()
 }
-const fail = function(){
+const fail = function () {
     valiResult.value = "验证失败";
     valiClass.value = 'valiFail';
 }
@@ -128,11 +149,12 @@ const makeCode = function (len) {
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background-color: rgb(42, 82, 158);
+    background: url(../../public/img/login-bg2.jpeg) no-repeat;
+    background-size: cover;
 }
 
 .login-container {
-    width: 300px;
+    width: 400px;
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -142,7 +164,7 @@ const makeCode = function (len) {
 }
 
 .login-item {
-    width: 100%;
+    width: 300px;
     margin-top: 40px;
 }
 
@@ -150,7 +172,6 @@ const makeCode = function (len) {
     text-align: center;
     color: #fff;
     font-size: 24px;
-    margin-top: 10px;
 }
 
 .login-btn {
@@ -165,9 +186,7 @@ const makeCode = function (len) {
     cursor: pointer;
 }
 
-.valiCode {
-    display: flex;
-    flex-direction: row;
+.valiCode>>>.el-form-item__content {
     justify-content: space-between;
     align-items: center;
 }
@@ -178,7 +197,7 @@ const makeCode = function (len) {
 
 .valiCode .s-canvas {
     position: relative;
-    top: 2px;
+    top: 6px;
 }
 
 .valiSuccess {

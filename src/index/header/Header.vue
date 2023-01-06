@@ -10,28 +10,9 @@
       店铺后台管理系统
     </div>
     <!-- 消息通知 -->
-    <div class="header-message">
-      <el-badge is-dot class="item">
-        <el-icon size="24"><Bell /></el-icon>
-      </el-badge>
-    </div>
+    <MessageVue></MessageVue>
     <!-- 个人中心 -->
-    <div class="header-person">
-      <el-dropdown>
-        <span class="el-dropdown-link">
-          admin
-          <el-icon class="el-icon--right">
-            <CaretBottom />
-          </el-icon>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
+    <PersonVue></PersonVue>
     <div class="header-img">
       <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
     </div>
@@ -39,7 +20,9 @@
 </template>
 
 <script setup>
-import { Fold, Expand, Bell,CaretBottom  } from "@element-plus/icons-vue";
+import { Fold, Expand } from "@element-plus/icons-vue";
+import PersonVue from "./Person.vue";
+import MessageVue from './Message.vue'
 
 defineProps({
   isCollapse: Boolean,
@@ -76,26 +59,10 @@ function change(value) {
   justify-content: center;
   margin-bottom: 5px;
 }
-.header-message {
-  cursor: pointer;
-  width: 40px;
-}
-.header-person {
-  cursor: pointer;
-  width: 80px;
-}
-.header-person .el-dropdown{
-  color: #fff;
-}
 .header-img {
   cursor: pointer;
   margin-right: 5px;
   margin-top: 4px;
-}
-.example-showcase .el-dropdown-link {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
 }
 </style>
 

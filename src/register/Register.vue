@@ -18,7 +18,7 @@
                     <el-input type="email" v-model="ruleForm.email"  placeholder="请输入邮箱" :prefix-icon="Message" clearable></el-input>
                 </el-form-item>
                 <el-form-item class="register-item">
-                    <el-button type="primary" style="width:100%;" @click="register(ruleFormRef)">注    册</el-button>
+                    <el-button color="#626aef" style="width:100%;" @click="register(ruleFormRef)">注    册</el-button>
                 </el-form-item>
             </el-form>
       </div>
@@ -100,7 +100,8 @@ const register = async (formEl) => {
         height: 100vh;
         justify-content: center;
         align-items: center;
-        background-color: rgb(42, 82, 158);
+        background: url(../../public/img/login-bg2.jpeg) no-repeat;
+        background-size: cover;
     }
     .register-container{
         width: 300px;

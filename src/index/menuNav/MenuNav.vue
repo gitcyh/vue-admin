@@ -1,14 +1,13 @@
 <template>
   <div class="menuNav-wrap">
-      <el-tag v-for="tag in tags" :key="tag.name" class="menuNav-item" closable :type="tag.type" @click="navto(tag)" @close="handleClose(tag)">{{ tag.name }}</el-tag>
+      <el-tag :type="currentPath===tag.path ? 'success' : 'info'" v-for="tag in tags" :key="tag.name" class="menuNav-item" closable  @click="navto(tag)" @close="handleClose(tag)">{{ tag.name }}</el-tag>
   </div>
 </template>
 
 
 <script setup>  
-import { Fold, Expand, Bell,CaretBottom  } from "@element-plus/icons-vue";
+import {ref} from 'vue';
 import {useRouter} from 'vue-router';
-
 import {menuStore} from "../../store/menuStore"
 const router = useRouter();
 const tags = menuStore().$state.selectedMenu
@@ -18,28 +17,26 @@ const handleClose = (tag) => {
   if(tag.name === "首页"){
     return
   }
-  tags.splice(tags.indexOf(tag), 1)
+  let index = tags.indexOf(tag);
+  tags.splice(index, 1);
+  router.push({
+      name:"",
+      path:tags[index-1].path,
+  })
 }
 
 const navto = (tag)=>{
     router.push({
         name:"",
         path:tag.path,
-
     })
 }
+const currentPath = ref('')
+router.afterEach((to, from) => {
+  currentPath.value = to.path;
+})
 
-// defineProps({
-//   isCollapse: Boolean,
-//   changeCollapse: Function,
-// });
 
-// const emit = defineEmits(["changeCollapse"]);
-
-// function change(value) {
-//   console.log(value);
-//   emit("changeCollapse", value);
-// }
 </script>
 
 <style scoped>

@@ -16,14 +16,19 @@ export const menuStore = defineStore('menu',{
                     path:"/index/myshop",
                     children:[
                         {
-                            name:"订单管理",
-                            value:"myorder",
-                            path:"/index/myorder",
+                            value:"shopseting",
+                            name:"店铺管理",
+                            path:"/index/shopseting",
                         },
                         {
-                            value:"shopseting",
-                            name:"店铺设置",
-                            path:"/index/shopseting",
+                            name:"订单管理",
+                            value:"order",
+                            path:"/index/order",
+                        },
+                        {
+                            name:"客户管理",
+                            value:"customer",
+                            path:"/index/customer",
                         },
                         {
                             name:"员工管理",
@@ -32,9 +37,9 @@ export const menuStore = defineStore('menu',{
                         },
                         {
                             name:"商品管理",
-                            value:"mygoods",
-                            path:"/index/mygoods",
-                        }
+                            value:"goods",
+                            path:"/index/goods",
+                        },
                     ]
                 },
                 {
@@ -55,7 +60,6 @@ export const menuStore = defineStore('menu',{
             ],
             selectedMenu:[
                 {
-                    type:"",
                     name:'首页',
                     path:"/index/myindex"
                 }

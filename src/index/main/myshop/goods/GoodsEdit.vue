@@ -15,8 +15,23 @@
                     <el-form-item label="规格" prop="specs">
                         <el-input type="text" v-model="data.specs" clearable />
                     </el-form-item>
-                    <el-form-item label="商品描述" prop="description">
-                        <el-input type="textarea" v-model="ruleForm.description" />
+                    <el-form-item label="成本价" prop="price">
+                        <el-input v-model.number="data.costPrice" clearable />
+                    </el-form-item>
+                    <el-form-item label="配送价" prop="price">
+                        <el-input v-model.number="data.deliveryPrice" clearable />
+                    </el-form-item>
+                    <el-form-item label="自提价" prop="price">
+                        <el-input v-model.number="data.selfPrice" clearable />
+                    </el-form-item>
+                    <el-form-item label="水票价" prop="price">
+                        <el-input v-model.number="data.waterPrice" clearable />
+                    </el-form-item>
+                    <el-form-item label="月结价" prop="price">
+                        <el-input v-model.number="data.MonthlyPrice" clearable />
+                    </el-form-item>
+                    <el-form-item label="状态" prop="state">
+                        <el-input type="text" v-model="data.state" clearable />
                     </el-form-item>
                     <el-form-item>
                         <el-button @click="useGoodsCheck.resetForm(ruleFormRef)">重置</el-button>
@@ -37,7 +52,6 @@ import { ref,reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import UseGoodsCheck from './useGoodsCheck'
-import operation from '../../../common/util/operation'
 import BrandVue from './Brand.vue'
 
 let useGoodsCheck = UseGoodsCheck();
@@ -59,6 +73,7 @@ const props = defineProps({
 const ruleForm = reactive({
     name: '',
     brand: '',
+    price: '',
     specs: '',
 })
 
@@ -68,7 +83,7 @@ const submitForm = async (formEl) => {
     if (valid) {
       console.log('submit!')
     } else {
-        operation.tips("商品信息有误");
+        useGoodsCheck.tips();
     }
   })
 }

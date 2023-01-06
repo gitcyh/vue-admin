@@ -8,17 +8,32 @@
            </template>
            <div>
                <el-form ref="ruleFormRef" :model="ruleForm" label-width="120px" class="demo-ruleForm">
-                   <el-form-item label="商品名称" prop="name">
-                       <el-input  :value="data.name" readonly />
-                   </el-form-item>
-                   <el-form-item label="品牌" prop="brand">
-                       <el-input type="text" :value="data.brand" readonly />
-                   </el-form-item>
-                   <el-form-item label="规格" prop="specs">
-                       <el-input type="text" :value="data.specs" readonly />
-                   </el-form-item>
-                   <el-form-item label="商品描述" prop="description">
-                        <el-input type="textarea" :value="ruleForm.description" />
+                    <el-form-item label="商品名称" prop="name">
+                       <el-input :value="data.name" readonly />
+                    </el-form-item>
+                    <el-form-item label="品牌" prop="brand">
+                        <el-input type="text" :value="data.brand" readonly />
+                    </el-form-item>
+                    <el-form-item label="规格" prop="specs">
+                        <el-input type="text" :value="data.specs" readonly />
+                    </el-form-item>
+                    <el-form-item label="成本价" prop="price">
+                        <el-input :value="data.costPrice" readonly />
+                    </el-form-item>
+                    <el-form-item label="配送价" prop="price">
+                        <el-input :value="data.deliveryPrice" readonly />
+                    </el-form-item>
+                    <el-form-item label="自提价" prop="price">
+                        <el-input :value="data.selfPrice" readonly />
+                    </el-form-item>
+                    <el-form-item label="水票价" prop="price">
+                        <el-input :value="data.waterPrice" readonly />
+                    </el-form-item>
+                    <el-form-item label="月结价" prop="price">
+                        <el-input :value="data.MonthlyPrice" readonly />
+                    </el-form-item>
+                    <el-form-item label="状态" prop="state">
+                        <el-input type="text" :value="data.state" readonly />
                     </el-form-item>
                    <el-form-item>
                        <el-button @click="useGoodsCheck.resetForm(ruleFormRef)">重置</el-button>
@@ -59,6 +74,7 @@ const props = defineProps({
 const ruleForm = reactive({
    name: '',
    brand: '',
+   price: '',
    specs: '',
 })
 
