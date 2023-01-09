@@ -5,12 +5,15 @@
                 找回密码
             </div>
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
-                  <el-form-item class="register-item" label="" prop="email">
-                      <el-input type="email" v-model="ruleForm.email"  placeholder="请输入注册时的邮箱" :prefix-icon="Message" clearable></el-input>
-                  </el-form-item>
-                  <el-form-item class="register-item">
-                      <el-button color="#626aef" style="width:100%;" @click="findPwd(ruleFormRef)">找回密码</el-button>
-                  </el-form-item>
+                <el-form-item class="register-item" label="" prop="phone">
+                    <el-input type="text" v-model="ruleForm.phone"  placeholder="请输入手机号" :prefix-icon="Message" clearable></el-input>
+                </el-form-item>
+                <el-form-item class="register-item" label="" prop="email">
+                    <el-input type="email" v-model="ruleForm.email"  placeholder="请输入注册时的邮箱" :prefix-icon="Message" clearable></el-input>
+                </el-form-item>
+                <el-form-item class="register-item">
+                    <el-button color="#626aef" style="width:100%;" @click="findPwd(ruleFormRef)">找回密码</el-button>
+                </el-form-item>
               </el-form>
         </div>
     </div>
@@ -20,6 +23,8 @@
   <script setup>
   import { ref,reactive } from 'vue'
   import {Message} from '@element-plus/icons-vue'
+  import useCheck from '../../common/check/useCheck';
+  import operation from '../../common/util/operation';
   
   const ruleFormRef = ref();
   const ruleForm = reactive({
@@ -28,6 +33,10 @@
   })
 
   const rules = reactive({
+    phone:[
+        { required: true, message: '请输入手机号', trigger: 'blur' },
+        { validator: useCheck.checkPhone, trigger: 'blur' }
+    ],
       email: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { type: 'email', message: '请输入正确的邮箱' },
@@ -40,7 +49,7 @@
       if (valid) {
         console.log('submit!')
       } else {
-          tips();
+        operation.tips("请输入相关信息");
       }
     })
   }

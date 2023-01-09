@@ -5,16 +5,19 @@
               欢迎注册
           </div>
           <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
-                <el-form-item class="register-item" label="" prop="userName">
+                <el-form-item class="register-item" prop="userName">
                     <el-input type="text" v-model="ruleForm.userName" placeholder="请输入用户名" :prefix-icon="User" clearable></el-input>
                 </el-form-item>
-                <el-form-item class="register-item" label="" prop="passWord">
+                <el-form-item class="register-item"  prop="phone">
+                    <el-input type="text" v-model="ruleForm.phone" placeholder="请输入手机号" :prefix-icon="Iphone" clearable></el-input>
+                </el-form-item>
+                <el-form-item class="register-item" prop="passWord">
                     <el-input type="password" v-model="ruleForm.passWord"  placeholder="请输入密码" :prefix-icon="Lock" clearable></el-input>
                 </el-form-item>
-                <el-form-item class="register-item" label="" prop="repassWord">
+                <el-form-item class="register-item" prop="repassWord">
                     <el-input type="password" v-model="ruleForm.repassWord"  placeholder="请再次确认密码" :prefix-icon="Lock" clearable></el-input>
                 </el-form-item>
-                <el-form-item class="register-item" label="" prop="email">
+                <el-form-item class="register-item" prop="email">
                     <el-input type="email" v-model="ruleForm.email"  placeholder="请输入邮箱" :prefix-icon="Message" clearable></el-input>
                 </el-form-item>
                 <el-form-item class="register-item">
@@ -28,16 +31,9 @@
 
 <script setup>
 import { ref,reactive } from 'vue'
-import {User,Lock,Message} from '@element-plus/icons-vue'
-import { ElNotification } from 'element-plus'
-
-const tips = () => {
-  ElNotification({
-    title: 'Warning',
-    message: '校验失败无法注册',
-    type: 'warning',
-  })
-}
+import {User,Lock,Message,Iphone} from '@element-plus/icons-vue'
+import useCheck from '../../common/check/useCheck';
+import operation from '../../common/util/operation';
 
 
 const ruleFormRef = ref();
@@ -65,6 +61,10 @@ const checkPwd = function (rlue, value, callback) {
 }
 const rules = reactive({
     userName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+    phone:[
+        { required: true, message: '请输入手机号', trigger: 'blur' },
+        { validator: useCheck.checkPhone, trigger: 'blur' }
+    ],
     passWord: [
         { required: true, message: '请输入密码', trigger: 'blur' },
         { validator: checkPwd, trigger: 'blur' }
@@ -85,7 +85,7 @@ const register = async (formEl) => {
     if (valid) {
       console.log('submit!')
     } else {
-        tips();
+        operation.tips("注册信息有误");
     }
   })
 }

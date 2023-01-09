@@ -69,15 +69,16 @@ CREATE TABLE IF NOT EXISTS `customer`(
 CREATE TABLE IF NOT EXISTS `shop`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT 'id',
     `user_id` varchar(64) NOT NULL COMMENT '店铺所有人id',
-    `shopname` varchar(100) NOT NULL COMMENT '店铺名称',
+    `shopname` varchar(255) NOT NULL COMMENT '店铺名称',
     `shop_address` varchar(255) NOT NULL COMMENT '店铺地址',
     `shop_tel` varchar(40) NOT NULL COMMENT '店铺电话',
-    `shopkeeper` varchar(100) NOT NULL COMMENT '店主',
+    `shopkeeper` varchar(20) NOT NULL COMMENT '店主姓名',
+    `idCard` varchar(20) NOT NULL COMMENT '店主身份证号码',
     `telephone` varchar(20) NOT NULL COMMENT '店主手机号',
     `shopCompany` varchar(250) NOT NULL COMMENT '公司名称',
     `shop_img` TEXT  COMMENT '店铺图标',
     `shop_license` TEXT  COMMENT '营业执照',
-    `apply_status` int(4) DEFAULT 0  COMMENT '-1:申请失败 0:填写中 1:提交申请，等待审核 2:审核通过',
+    `apply_status` int(4) DEFAULT 0  COMMENT '-1:申请失败,0:待审核 1:审核通过',
     `applyDesc` varchar(255)  COMMENT '申请失败原因',
     `longitude` decimal(10,7) COMMENT '店铺经度',
     `latitude` decimal(10,7) COMMENT '店铺纬度',
@@ -90,9 +91,9 @@ CREATE TABLE IF NOT EXISTS `shop`(
     `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
 
-INSERT INTO `shop` (`user_id`, `shopname`, `shop_address`, `shop_tel`,`shopkeeper`, `telephone`, `shopCompany`,`shop_img`,
+INSERT INTO `shop` (`user_id`, `shopname`, `shop_address`, `shop_tel`,`shopkeeper`,'shop_idcard', `telephone`, `shopCompany`,`shop_img`,
 `shop_license`, `apply_status`, `applyDesc`, `longitude`,`latitude`, `serviceStartTime`, `serviceEndTime`,`shopAtive`, `shopStatus`,`applyTime`) VALUES
-('cyh123', '新围仔农夫山泉店', '新围仔4巷', '075512345678','李老板', '15986620002', '农夫山泉有限公司','', '', 2,'',115,22, '08:30:00','22:30:00',1,1,'2022-11-10:10:00:00')
+('cyh123', '新围仔农夫山泉店', '新围仔4巷', '075512345678','李老板', '3607241994123456','15986620002', '农夫山泉有限公司','', '', 2,'',115,22, '08:30:00','22:30:00',1,1,'2022-11-10:10:00:00')
 
 
 --

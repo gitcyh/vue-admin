@@ -6,7 +6,7 @@
             </div>
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
                 <el-form-item class="login-item" label="" prop="userName">
-                    <el-input type="text" v-model="ruleForm.userName" placeholder="请输入用户名" :prefix-icon="User"
+                    <el-input type="text" v-model="ruleForm.userName" placeholder="请输入用户名或手机号" :prefix-icon="User"
                         clearable></el-input>
                 </el-form-item>
                 <el-form-item class="login-item" label="" prop="passWord">
@@ -37,7 +37,7 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
-import request from '../request/request'
+import request from '../../request/request'
 import { useRouter } from 'vue-router'
 import VerifyCode from './VerifyCode.vue'
 

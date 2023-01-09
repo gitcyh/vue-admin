@@ -9,7 +9,8 @@
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useGoodsCheck.rules" label-width="120px" class="demo-ruleForm">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useGoodsCheck.rules" label-width="120px"
+                    class="demo-ruleForm">
                     <el-form-item label="商品名称" prop="name">
                         <el-input v-model="ruleForm.name" clearable />
                     </el-form-item>
@@ -18,10 +19,7 @@
                         <el-input type="text" v-model="ruleForm.specs" clearable />
                     </el-form-item>
                     <el-form-item label="商品描述" prop="description">
-                        <el-input type="textarea" v-model="ruleForm.description" />
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button @click="useGoodsCheck.resetForm(ruleFormRef)">重置</el-button>
+                        <EditorVue></EditorVue>
                     </el-form-item>
                 </el-form>
             </div>
@@ -37,14 +35,18 @@
 </template>
   
 <script setup>
-import { ref,reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import UseGoodsCheck from './useGoodsCheck'
 import operation from '../../../common/util/operation'
 import BrandVue from './Brand.vue'
+import EditorVue from '../../../common/components/Editor.vue'
 
-let useGoodsCheck =  UseGoodsCheck();
+let useGoodsCheck = UseGoodsCheck();
+
+
+
 
 const ruleFormRef = ref();
 const visible = ref(false);
@@ -52,24 +54,25 @@ const ruleForm = reactive({
     name: '',
     brand: '',
     specs: '',
+    description:'',
 })
 
 
 const submitForm = async (formEl) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-        operation.tips("商品信息有误");
-    }
-  })
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!')
+        } else {
+            operation.tips("商品信息有误");
+        }
+    })
 }
 
 </script>
   
 <style scoped>
-.goods-add  .el-dialog__header {
+.goods-add .el-dialog__header {
     height: 30px;
     padding-left: 4px;
     padding-top: 4px;

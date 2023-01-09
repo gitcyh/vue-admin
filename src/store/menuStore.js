@@ -16,8 +16,8 @@ export const menuStore = defineStore('menu',{
                     path:"/index/myshop",
                     children:[
                         {
+                            name:"店铺设置",
                             value:"shopseting",
-                            name:"店铺管理",
                             path:"/index/shopseting",
                         },
                         {
@@ -43,9 +43,9 @@ export const menuStore = defineStore('menu',{
                     ]
                 },
                 {
-                    value:"shopmanage",
+                    value:"shopmgr",
                     name:"店铺管理",
-                    path:"/index/shopmanage"
+                    path:"/index/shopmgr"
                 },
                 {
                     value:"goodsHouse",

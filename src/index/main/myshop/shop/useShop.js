@@ -7,6 +7,10 @@ const rules = reactive({
     shop_address: [{ required: true, message: '请输入店铺地址', trigger: 'blur' }],
     shop_tel: [{ required: true, message: '请输入店铺电话', trigger: 'blur' }],
     shopkeeper: [{ required: true, message: '请输入店主姓名', trigger: 'blur' }],
+    idCard: [
+        { required: true, message: '请输入店主身份证', trigger: 'blur' },
+        { validator: useCheck.checkIDCard, trigger: 'blur' }
+    ],
     telephone: [
         { required: true, message: '请输入手机号码', trigger: 'blur' },
         { validator: useCheck.checkPhone, trigger: 'blur' }

@@ -22,6 +22,9 @@
                     <el-form-item label="店主姓名" prop="shopkeeper">
                         <el-input type="text" v-model="ruleForm.shopkeeper" placeholder="请输入店主姓名" />
                     </el-form-item>
+                    <el-form-item label="店主身份证" prop="idCard">
+                        <el-input type="text" v-model="ruleForm.idCard" placeholder="请输入店主身份证" />
+                    </el-form-item>
                     <el-form-item label="店主手机号" prop="telephone">
                         <el-input type="text" v-model="ruleForm.telephone" placeholder="请输入店主手机号" />
                     </el-form-item>
@@ -75,6 +78,7 @@ const ruleForm = reactive({
     shop_address: '',
     shop_tel: '',
     shopkeeper: '',
+    idCard:'',
     telephone: '',
     shop_img: '',
     shopCompany: '',

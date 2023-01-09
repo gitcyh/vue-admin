@@ -1,17 +1,18 @@
 import { createRouter,createWebHistory } from 'vue-router'
-import Login from '../login/Login.vue'
-import Register from '../register/Register.vue'
+import Login from '../user/login/Login.vue'
+import Register from '../user/register/Register.vue'
 import Index from '../index/Index.vue'
 import Myshop from '../index/main/myshop/shop/Myshop.vue'
 import Myindex from '../index/main/myindex/Myindex.vue'
 import {menuStore} from "../store/menuStore"
 import GoodsHouse from '../index/main/goodsHouse/GoodsHouse.vue'
 import StaffMgr from '../index/main/myshop/staff/StaffMgr.vue'
-import Forget from '../forget/Forget.vue'
-import Error_404 from '../error/Error_404.vue'
+import Forget from '../user/forget/Forget.vue'
+import Error_404 from '../common/components/Error_404.vue'
 import CustomerMgr from '../index/main/myshop/customer/CustomerMgr.vue'
 import OrderMgr from '../index/main/myshop/order/OrderMgr.vue'
 import GoodsMgr from '../index/main/myshop/goods/GoodsMgr.vue'
+import ShopList from '../index/main/ShopMgr/ShopList.vue'
 
 const routes = [
     {
@@ -54,7 +55,7 @@ const routes = [
             },
             {
                 path:'/index/shopseting',
-                name:"店铺管理",
+                name:"店铺设置",
                 components:{
                     main:Myshop
                 }
@@ -92,6 +93,13 @@ const routes = [
                 path:'/index/goodsHouse',
                 components:{
                     main:GoodsHouse
+                }
+            },
+            {
+                name:"店铺管理",
+                path:'/index/shopmgr',
+                components:{
+                    main:ShopList
                 }
             },
             
