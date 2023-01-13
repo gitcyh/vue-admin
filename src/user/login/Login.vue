@@ -186,7 +186,7 @@ const makeCode = function (len) {
     cursor: pointer;
 }
 
-.valiCode>>>.el-form-item__content {
+.valiCode:deep().el-form-item__content {
     justify-content: space-between;
     align-items: center;
 }

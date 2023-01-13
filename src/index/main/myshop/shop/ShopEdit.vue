@@ -1,9 +1,9 @@
 <template>
     <div class="shop">
         <el-button type="primary" size="large" @click="visible = true">店铺信息修改</el-button>
-        <el-dialog top="5vh" v-model="visible" :show-close="false" draggable title="修改店铺信息">
+        <el-dialog top="2vh" v-model="visible" :show-close="false" draggable title="修改店铺信息">
             <template #header="{ close, titleId, titleClass }">
-                <div class="my-header">
+                <div>
                     <h6 :id="titleId" :class="titleClass">修改店铺信息</h6>
                     <el-button @click="visible = false" :icon="CloseBold" circle />
                 </div>
@@ -29,13 +29,13 @@
                         <el-input type="text" v-model="ruleForm.telephone" placeholder="请输入店主手机号" />
                     </el-form-item>
                     <el-form-item label="店铺图片" prop="shop_img" required>
-                        <UploadVue ref="upload_img"></UploadVue>
+                        <UploadVue ref="upload_img" :fileList="fileList"></UploadVue>
                     </el-form-item>
                     <el-form-item label="公司名称" prop="shopCompany">
                         <el-input type="text" v-model="ruleForm.shopCompany" placeholder="请输入公司名称" />
                     </el-form-item>
                     <el-form-item label="营业执照" prop="shop_license" required>
-                        <UploadVue ref="upload_license"></UploadVue>
+                        <UploadVue ref="upload_license" :fileList="fileList"></UploadVue>
                     </el-form-item>
                     <el-form-item label="开始营业时间" prop="serviceStartTime">
                         <el-time-picker v-model="ruleForm.serviceStartTime" placeholder="请选择开始营业时间" />
@@ -89,6 +89,14 @@ const ruleForm = reactive({
     latitude: '',
 })
 
+const fileList = ref([
+  {
+    name: 'food.jpeg',
+    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+  }
+])
+
+
 
 const getPosition = function () {
     useShop.getPosition(ruleForm)
@@ -112,16 +120,9 @@ const submitForm = async (formEl) => {
 </script>
   
 <style scoped>
-.my-header {
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
-.shop>>>.el-dialog__body {
-    padding-right: 20px;
-}
+
+
 </style>
 
 

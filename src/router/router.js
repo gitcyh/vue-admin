@@ -13,6 +13,7 @@ import CustomerMgr from '../index/main/myshop/customer/CustomerMgr.vue'
 import OrderMgr from '../index/main/myshop/order/OrderMgr.vue'
 import GoodsMgr from '../index/main/myshop/goods/GoodsMgr.vue'
 import ShopList from '../index/main/ShopMgr/ShopList.vue'
+import StockMgr from '../index/main/myshop/stock/StockMgr.vue'
 
 const routes = [
     {
@@ -65,6 +66,13 @@ const routes = [
                 name:"订单管理",
                 components:{
                     main:OrderMgr
+                }
+            },
+            {
+                path:'/index/stock',
+                name:"库存管理",
+                components:{
+                    main:StockMgr
                 }
             },
             {

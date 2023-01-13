@@ -2,6 +2,22 @@
   margin:0;
   padding:0;
 }
+.el-dialog__header {
+  margin-right: 0 !important;
+  padding: 5px 5px 0 5px !important;
+}
+.el-dialog__header div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.el-dialog__body{
+  padding: 10px 16px 10px 16px !important;
+}
+.el-dialog__footer{
+  padding: 0 16px 10px 5px !important;
+}
 
 
 

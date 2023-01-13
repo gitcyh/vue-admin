@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input v-model="search" size="small" placeholder="请输入客户信息" />
+            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入客户信息" />
         </div>
         <div class="search-item">
             <CustomerAddVue></CustomerAddVue>
@@ -10,11 +10,17 @@
     
     <el-table :data="filterTableData" border  style="width: 100%">
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="客户名称" prop="name" sortable  />
-        <el-table-column label="地址" prop="address" sortable  />
-        <el-table-column label="手机号" prop="phone" sortable  />
-        <el-table-column label="备注" prop="remark" sortable />
-        <el-table-column align="right"  label="操作" >
+        <el-table-column label="客户名称" prop="name"  width="120" />
+        <el-table-column label="地址" prop="address" />
+        <el-table-column label="手机号" prop="phone" width="120"/>
+        <el-table-column label="押金状态" prop="depositState" width="120" sortable />
+        <el-table-column label="押金管理" width="100">
+            <template #default="scope">
+                <DepositMgr></DepositMgr>
+            </template>
+        </el-table-column>
+        <el-table-column label="备注" prop="remark" sortable width="300" />
+        <el-table-column align="right"  label="操作" width="220">
             <template #default="scope">
                 <el-button-group>
                     <el-button :icon="View" type="success" size="small" @click="handleView(scope.$index, scope.row)">查看</el-button>
@@ -30,11 +36,12 @@
   
 <script setup>
 import { computed, ref } from 'vue'
-import { Delete,  Edit,View} from "@element-plus/icons-vue";
+import { Delete,  Edit,View,Search} from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import CustomerAddVue from './CustomerAdd.vue';
 import CustomerEditVue from './CustomerEdit.vue';
 import CustomerViewVue from './CustomerView.vue';
+import DepositMgr from './DepositMgr.vue';
 
 
 const search = ref('')
@@ -70,24 +77,28 @@ const tableData = [
         name: '陈先生',
         address: '新围仔几巷几号',
         phone: '13712345678',
+        depositState:'已押',
         remark:'',
     },
     {
         name: '陈先生',
         address: '新围仔几巷几号',
         phone: '13712345678',
+        depositState:'已押',
         remark:'',
     },
     {
         name: '陈先生',
         address: '新围仔几巷几号',
         phone: '13712345678',
+        depositState:'已押',
         remark:'',
     },
     {
         name: '陈先生',
         address: '新围仔几巷几号',
         phone: '13712345678',
+        depositState:'已押',
         remark:'',
     },
 ]

@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input v-model="search" size="small" placeholder="请输入店铺信息" />&nbsp;
+            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入店铺信息" />&nbsp;
         </div>
     </div>
     
@@ -28,7 +28,7 @@
   
 <script setup>
 import { computed, ref } from 'vue'
-import { Position,View} from "@element-plus/icons-vue";
+import { Position,View,Search} from "@element-plus/icons-vue";
 
 const search = ref('')
 const filterTableData = computed(() =>

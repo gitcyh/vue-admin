@@ -8,7 +8,7 @@
     </div>
     <el-dialog v-model="visible" :show-close="false" draggable title="系统消息">
         <template #header="{ close, titleId, titleClass }">
-            <div class="my-header">
+            <div>
                 <h6 :id="titleId" :class="titleClass">系统消息</h6>
                 <el-button @click="visible = false" :icon="CloseBold" circle />
             </div>
@@ -36,12 +36,7 @@ const visible = ref(false);
   width: 40px;
 }
 
-.my-header {
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+
 </style>
 
 

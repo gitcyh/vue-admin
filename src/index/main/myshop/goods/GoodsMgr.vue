@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input v-model="search" size="small" placeholder="请输入商品属性" />
+            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入商品属性" />
         </div>
         <div class="search-item">
             <GoodsAdd></GoodsAdd>&nbsp;
@@ -10,23 +10,22 @@
     </div>
     <el-table :data="filterTableData" border>
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="日期" prop="date" sortable  />
-        <el-table-column label="品牌" prop="brand"  />
+        <el-table-column label="日期" prop="date" sortable  width="120"  />
+        <el-table-column label="品牌" prop="brand" width="120"  />
         <el-table-column label="商品名称" prop="name"  />
-        <el-table-column label="规格" prop="specs" />
-        <el-table-column label="成本价" prop="costPrice" sortable />
-        <el-table-column label="配送价" prop="deliveryPrice" sortable />
-        <el-table-column label="自提价" prop="selfPrice" sortable />
-        <el-table-column label="水票价" prop="waterPrice" sortable />
-        <el-table-column label="月结价" prop="MonthlyPrice" sortable />
-        <el-table-column label="状态" prop="state" sortable />
-        <el-table-column fixed="right"  label="操作" width="220">
+        <el-table-column label="规格" prop="specs" width="100"/>
+        <el-table-column label="成本价" prop="costPrice" sortable width="100"/>
+        <el-table-column label="配送价" prop="deliveryPrice" sortable width="100" />
+        <el-table-column label="自提价" prop="selfPrice" sortable  width="100"/>
+        <el-table-column label="水票价" prop="waterPrice" sortable width="100"/>
+        <el-table-column label="月结价" prop="MonthlyPrice" sortable width="100"/>
+        <el-table-column label="状态" prop="state" sortable width="100"/>
+        <el-table-column fixed="right" align="center" label="操作" width="220">
             <template #default="scope">
                 <el-button-group>
                     <el-button :icon="View" size="small" type="success" @click="handleView(scope.$index, scope.row)">查看</el-button>
                     <el-button :icon="Edit" type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button :icon="Top" type="warning" size="small" @click="handleDelete(scope.$index, scope.row)">上架</el-button>
-                    <!-- <el-button :icon="Delete" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
+                    <el-button :icon="Top" type="warning" size="small" @click="handleShelf(scope.$index, scope.row)">上架</el-button>
                 </el-button-group>
             </template>
         </el-table-column>
@@ -37,7 +36,7 @@
   
 <script setup>
 import { computed, ref } from 'vue'
-import { Top,  Edit,View} from "@element-plus/icons-vue";
+import { Top,  Edit,View,Search} from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import GoodsAdd from './GoodsAdd.vue'
 import GoodsEditVue from './GoodsEdit.vue';
@@ -65,10 +64,10 @@ const handleView = (index, row) => {
     data.value = row;
 }
 
-const handleDelete = (index, row) => {
-    Operation.handleDelete(function(){
-        console.log(index, row);
-    })
+const handleShelf = (index, row) => {
+    // Operation.handleShelf(function(){
+    //     console.log(index, row);
+    // })
 }
 
 const tableData = [

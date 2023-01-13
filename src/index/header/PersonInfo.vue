@@ -1,15 +1,18 @@
 <template>
-    <div class="goods-add">
+    <div>
         <span @click="visible = true">个人中心</span>
-        <el-dialog v-model="visible" :show-close="false" draggable title="个人中心">
+        <el-dialog v-model="visible" :show-close="false" draggable title="个人中心" append-to-body="true">
             <template #header="{ close, titleId, titleClass }">
-                <div class="my-header">
+                <div>
                     <h6 :id="titleId" :class="titleClass">个人中心</h6>
                     <el-button @click="visible = false" :icon="CloseBold" circle />
                 </div>
             </template>
             <div class="brand-add">
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="头像" prop="shop_img">
+                        <UploadVue ref="upload_img"></UploadVue>
+                    </el-form-item>
                     <el-form-item label="用户名" prop="username">
                         <el-input v-model="ruleForm.username" readonly />
                     </el-form-item>
@@ -18,9 +21,6 @@
                     </el-form-item>
                     <el-form-item label="邮箱" prop="email">
                         <el-input v-model="ruleForm.email" readonly />
-                    </el-form-item>
-                    <el-form-item label="头像" prop="shop_img">
-                        <UploadVue ref="upload_img"></UploadVue>
                     </el-form-item>
                 </el-form>
             </div>
@@ -81,23 +81,9 @@ const submitForm = async (formEl) => {
 </script>
   
 <style scoped>
-/* .goods-add .el-dialog__header {
-    height: 30px;
-    padding-left: 4px;
-    padding-top: 4px;
-    padding-right: 10px;
-} */
 
-.my-header {
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
-.brand-btn>>>.el-form-item__content {
-    flex-direction: row-reverse
-}
+
 </style>
 
 

@@ -1,9 +1,9 @@
 <template>
     <div class="shop">
         <el-button type="primary" size="large" @click="visible = true">申请开店</el-button>
-        <el-dialog top="5vh" v-model="visible" :show-close="false" draggable title="申请开店">
+        <el-dialog top="2vh" v-model="visible" :show-close="false" draggable title="申请开店">
             <template #header="{ close, titleId, titleClass }">
-                <div class="my-header">
+                <div>
                     <h6 :id="titleId" :class="titleClass">申请开店</h6>
                     <el-button @click="visible = false" :icon="CloseBold" circle />
                 </div>
@@ -92,6 +92,7 @@ const ruleForm = reactive({
 
 
 
+
 const getPosition = function () {
     useShop.getPosition(ruleForm)
 }
@@ -113,16 +114,8 @@ const submitForm = async (formEl) => {
 </script>
   
 <style scoped>
-.my-header {
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
-.shop>>>.el-dialog__body {
-    padding-right: 20px;
-}
+
 </style>
 
 

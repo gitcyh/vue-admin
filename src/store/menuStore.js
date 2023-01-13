@@ -26,6 +26,11 @@ export const menuStore = defineStore('menu',{
                             path:"/index/order",
                         },
                         {
+                            name:"库存管理",
+                            value:"stock",
+                            path:"/index/stock",
+                        },
+                        {
                             name:"客户管理",
                             value:"customer",
                             path:"/index/customer",

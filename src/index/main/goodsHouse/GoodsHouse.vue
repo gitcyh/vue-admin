@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input v-model="search" size="small" placeholder="请输入商品属性" />
+            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入商品属性" />
         </div>
         <div class="search-item">
             <GoodsAdd></GoodsAdd>&nbsp;
@@ -35,7 +35,7 @@
   
 <script setup>
 import { computed, ref } from 'vue'
-import { Delete,  Edit,View} from "@element-plus/icons-vue";
+import { Delete,  Edit,View,Search} from "@element-plus/icons-vue";
 import Operation from '../../../common/util/operation';
 import GoodsAdd from './GoodsAdd.vue'
 import GoodsEditVue from './GoodsEdit.vue';

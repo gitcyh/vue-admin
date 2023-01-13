@@ -1,13 +1,13 @@
 <template>
     <el-dialog v-model="visible" :show-close="false" draggable title="添加员工">
             <template #header="{ close, titleId, titleClass }">
-                <div class="my-header">
+                <div>
                     <h6 :id="titleId" :class="titleClass">添加员工</h6>
                     <el-button @click="close" :icon="CloseBold" circle />
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useStaffCheck.rules" label-width="120px" class="demo-ruleForm">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useStaffCheck.rules" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="姓名" prop="name">
                         <el-input v-model="data.name" clearable />
                     </el-form-item>
@@ -93,12 +93,7 @@ const submitForm = async (formEl) => {
 </script>
   
 <style scoped>
-.my-header {
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+
 </style>
 
 

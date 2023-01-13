@@ -25,28 +25,36 @@ import MenuNav from './menuNav/MenuNav.vue'
 
 const isCollapse = ref(false)
 
- function changeCollapse(value){
-   isCollapse.value = !value
- }
+function changeCollapse(value) {
+  isCollapse.value = !value;
+  let right = document.querySelector(".index-right");
+  if (value) {
+    right.style.width = 'calc(100% - 200px)';
+  } else {
+    right.style.width = 'calc(100% - 64px)';
+  }
+}
 
 </script>
 
 <style  scoped>
-  .index-wrap{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
-  .index-left{
-    width: auto;
-    height: 100%;
+.index-wrap {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  }
-  .index-right{
-    width: 100%;
-  }
+.index-left {
+  width: auto;
+  height: 100%;
+  background-color: #545c64;
+}
+
+.index-right {
+  width: calc(100% - 200px)
+}
 </style>>
 
 

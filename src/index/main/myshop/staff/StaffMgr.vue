@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input v-model="search" size="small" placeholder="请输入员工姓名" />
+            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入员工姓名" />
         </div>
         <div class="search-item">
             <StaffAdd></StaffAdd>
@@ -32,7 +32,7 @@
   
 <script setup>
 import { computed, ref } from 'vue'
-import { Delete,  Edit,View} from "@element-plus/icons-vue";
+import { Delete,  Edit,View,Search} from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import StaffAdd from './StaffAdd.vue'
 import StaffEditVue from './StaffEdit.vue';

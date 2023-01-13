@@ -26,6 +26,8 @@ export default function(){
           ],
           name: [{ required: true, message: '请输入客户名称', trigger: 'blur' }],
           address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
+          money: [{ required: true, message: '请输入押金金额', trigger: 'blur' }],
+          num: [{ required: true, message: '请输入空桶数量', trigger: 'blur' }],
       })
       
       const resetForm = (formEl) => {

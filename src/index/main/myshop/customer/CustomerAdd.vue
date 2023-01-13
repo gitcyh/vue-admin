@@ -1,15 +1,15 @@
 <template>
-    <div class="goods-add">
+    <div>
         <el-button :icon="Plus" type="primary" size="small" @click="visible = true">添加客户</el-button>
         <el-dialog v-model="visible" :show-close="false" draggable title="添加客户">
             <template #header="{ close, titleId, titleClass }">
-                <div class="my-header">
+                <div>
                     <h6 :id="titleId" :class="titleClass">添加客户</h6>
                     <el-button @click="visible = false" :icon="CloseBold" circle />
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useCustomerCheck.rules" label-width="120px" class="demo-ruleForm">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useCustomerCheck.rules" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="客户名称" prop="name">
                         <el-input v-model="ruleForm.name" clearable />
                     </el-form-item>
@@ -69,19 +69,9 @@ const submitForm = async (formEl) => {
 </script>
   
 <style scoped>
-.goods-add .el-dialog__header {
-    height: 30px;
-    padding-left: 4px;
-    padding-top: 4px;
-    padding-right: 10px;
-}
 
-.my-header {
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+
+
 </style>
 
 

@@ -1,13 +1,13 @@
 <template>
     <el-dialog v-model="visible" :show-close="false" draggable title="查看客户">
           <template #header="{ close, titleId, titleClass }">
-              <div class="my-header">
+              <div>
                   <h6 :id="titleId" :class="titleClass">查看客户</h6>
                   <el-button @click="close" :icon="CloseBold" circle />
               </div>
           </template>
           <div>
-              <el-form ref="ruleFormRef" :model="data"  label-width="120px" class="demo-ruleForm">
+              <el-form ref="ruleFormRef" :model="data"  label-width="100px" class="demo-ruleForm">
                 <el-form-item label="客户名称" prop="name">
                         <el-input :value="data.name" readonly />
                     </el-form-item>

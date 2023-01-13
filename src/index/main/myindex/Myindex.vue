@@ -1,6 +1,6 @@
 <template>
     <div>
-        首页概览
+        管理员首页概览
     </div>
 </template>
 
