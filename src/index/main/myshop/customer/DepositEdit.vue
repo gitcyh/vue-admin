@@ -10,20 +10,20 @@
             <div>
                 <el-form ref="ruleFormRef" :model="ruleForm" :rules="useCustomerCheck.rules" label-width="100px">
                     <el-form-item label="押金描述" prop="descrition">
-                        <el-input type="textarea" v-model="ruleForm.descrition" clearable />
+                        <el-input type="textarea" v-model="data.descrition" clearable />
                     </el-form-item>
                     <el-form-item label="押金金额" prop="money">
-                        <el-input v-model="ruleForm.money" type="number" style="width:214px" />
+                        <el-input v-model="data.money" type="number" style="width:214px" />
                     </el-form-item>
                     <el-form-item label="押桶数量" prop="num">
-                        <el-input v-model="ruleForm.num" type="number" style="width:214px" />
+                        <el-input v-model="data.num" type="number" style="width:214px" />
                     </el-form-item>
-                    <DepositState />
+                    <DepositState :depositState="data.depositState"/>
                     <el-form-item label="押金单据">
                         <Upload :fileList="fileList"/>
                     </el-form-item>
                     <el-form-item label="备注" prop="remark">
-                        <el-input type="textarea" v-model="ruleForm.remark" clearable />
+                        <el-input type="textarea" v-model="data.remark" clearable />
                     </el-form-item>
                 </el-form>
             </div>

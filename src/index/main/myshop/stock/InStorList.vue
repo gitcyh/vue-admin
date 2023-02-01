@@ -1,7 +1,8 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入商品属性" />
+            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入商品属性" />&nbsp;
+            <el-date-picker v-model="date" type="date"  label="请选择日期"  placeholder="请选择日期" clearable />
         </div>
         <div class="search-item">
             <InStorAdd></InStorAdd>
@@ -14,6 +15,8 @@
         <el-table-column label="品牌" prop="brand" />
         <el-table-column label="规格" prop="specs" />
         <el-table-column label="单价" prop="price" sortable />
+        <el-table-column label="进货数量" prop="num" sortable />
+        <el-table-column label="回桶数量" prop="bucket" />
         <el-table-column label="数量" prop="num" sortable />
         <el-table-column label="金额" prop="money" sortable />
         <el-table-column align="center" fixed="right" label="操作" width="160">
@@ -44,6 +47,7 @@ import InStorView from './InStorView.vue'
 const search = ref('')
 const editChild = ref(null);
 const viewChild = ref(null);
+const date = ref(new Date())
 
 const filterTableData = computed(() =>
     tableData.filter(
@@ -71,6 +75,7 @@ const tableData = [
         specs: '18L/桶',
         price: '15',
         num: '20',
+        bucket:20,
         money: '300',
         remark: '无',
     },
@@ -81,6 +86,7 @@ const tableData = [
         specs: '18L/桶',
         price: '15',
         num: '20',
+        bucket:20,
         money: '300',
         remark: '无',
     },
@@ -91,6 +97,7 @@ const tableData = [
         specs: '18L/桶',
         price: '15',
         num: '20',
+        bucket:20,
         money: '300',
         remark: '无',
     },
@@ -101,6 +108,7 @@ const tableData = [
         specs: '18L/桶',
         price: '15',
         num: '20',
+        bucket:20,
         money: '300',
         remark: '无',
     },
@@ -111,6 +119,7 @@ const tableData = [
         specs: '18L/桶',
         price: '15',
         num: '20',
+        bucket:20,
         money: '300',
         remark: '无',
     },

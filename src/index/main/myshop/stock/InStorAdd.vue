@@ -19,8 +19,11 @@
                     <el-form-item label="单价" prop="price">
                         <el-input v-model="ruleForm.price" type="number"  />
                     </el-form-item>
-                    <el-form-item label="数量" prop="num">
+                    <el-form-item label="进货数量" prop="num">
                         <el-input v-model="ruleForm.num" type="number"  />
+                    </el-form-item>
+                    <el-form-item label="回桶数量" prop="bucket">
+                        <el-input v-model="ruleForm.bucket" type="number"  />
                     </el-form-item>
                     <el-form-item label="金额" prop="money">
                         <el-input v-model="ruleForm.money" type="number"  />
@@ -69,6 +72,7 @@ const ruleForm = reactive({
     specs: '18L/桶',
     price: '15',
     num: '20',
+    bucket:20,
     money: '300',
     remark: '无',
 })

@@ -13,22 +13,22 @@
                         <el-input type="textarea" :value="data.date" readonly />
                     </el-form-item>
                     <el-form-item label="押金描述" prop="descrition">
-                        <el-input type="textarea" :value="ruleForm.descrition" readonly />
+                        <el-input type="textarea" :value="data.descrition" readonly />
                     </el-form-item>
                     <el-form-item label="押金金额" prop="money">
-                        <el-input :value="ruleForm.money" type="number" style="width:214px"  readonly/>
+                        <el-input :value="data.money" type="number" style="width:214px"  readonly/>
                     </el-form-item>
                     <el-form-item label="押桶数量" prop="num">
-                        <el-input :value="ruleForm.num" type="number" style="width:214px"  readonly/>
+                        <el-input :value="data.num" type="number" style="width:214px"  readonly/>
                     </el-form-item>
                     <el-form-item label="押金状态" prop="depositState">
-                        <el-input :value="ruleForm.depositState" type="text" style="width:214px"  readonly/>
+                        <el-input :value="data.depositState" type="text" style="width:214px"  readonly/>
                     </el-form-item>
                     <el-form-item label="押金单据">
                         <el-image style="width: 100px; height: 100px" src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg" fit="fill" :preview-src-list="['https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg']" />
                     </el-form-item>
                     <el-form-item label="备注" prop="remark">
-                        <el-input type="textarea" :value="ruleForm.remark" readonly />
+                        <el-input type="textarea" :value="data.remark" readonly />
                     </el-form-item>
                 </el-form>
             </div>

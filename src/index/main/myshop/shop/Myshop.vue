@@ -15,7 +15,7 @@ import { ref,onMounted } from "vue";
 import ShopAddVue from "./ShopAdd.vue";
 import ShopViewVue from "./ShopView.vue";
 
-const hasShop = ref(false);
+const hasShop = ref(true);
 
 onMounted(()=>{
     console.log('请求店铺信息')

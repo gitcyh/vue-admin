@@ -12,6 +12,7 @@
         <el-table-column label="序号" type="index" width="60" />
         <el-table-column label="客户名称" prop="name"  width="120" />
         <el-table-column label="地址" prop="address" />
+        <el-table-column label="结算方式" prop="settlement"  width="120" />
         <el-table-column label="手机号" prop="phone" width="120"/>
         <el-table-column label="押金状态" prop="depositState" width="120" sortable />
         <el-table-column label="押金管理" width="100">
@@ -76,6 +77,7 @@ const tableData = [
     {
         name: '陈先生',
         address: '新围仔几巷几号',
+        settlement:"水票",
         phone: '13712345678',
         depositState:'已押',
         remark:'',
@@ -83,6 +85,7 @@ const tableData = [
     {
         name: '陈先生',
         address: '新围仔几巷几号',
+        settlement:"月结",
         phone: '13712345678',
         depositState:'已押',
         remark:'',
@@ -90,6 +93,7 @@ const tableData = [
     {
         name: '陈先生',
         address: '新围仔几巷几号',
+        settlement:"及时支付",
         phone: '13712345678',
         depositState:'已押',
         remark:'',
@@ -97,6 +101,7 @@ const tableData = [
     {
         name: '陈先生',
         address: '新围仔几巷几号',
+        settlement:"其他",
         phone: '13712345678',
         depositState:'已押',
         remark:'',

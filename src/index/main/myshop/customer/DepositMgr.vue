@@ -79,7 +79,7 @@ const tableData = [
         descrition: '3桶怡宝押金',
         money: '120',
         num: '3',
-        depositState:'已押',
+        depositState:'0',
         remark:'',
     },
 ]

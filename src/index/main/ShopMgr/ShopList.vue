@@ -24,11 +24,13 @@
             </template>
         </el-table-column>
     </el-table>
+    <ShopViewVue ref="viewChild" :data="data"></ShopViewVue>
 </template>
   
 <script setup>
 import { computed, ref } from 'vue'
 import { Position,View,Search} from "@element-plus/icons-vue";
+import ShopViewVue from './ShopView.vue';
 
 const search = ref('')
 const filterTableData = computed(() =>

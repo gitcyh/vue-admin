@@ -14,6 +14,7 @@ import OrderMgr from '../index/main/myshop/order/OrderMgr.vue'
 import GoodsMgr from '../index/main/myshop/goods/GoodsMgr.vue'
 import ShopList from '../index/main/ShopMgr/ShopList.vue'
 import StockMgr from '../index/main/myshop/stock/StockMgr.vue'
+import ExpensesMgr from '../index/main/myshop/expenses/ExpensesMgr.vue'
 
 const routes = [
     {
@@ -108,6 +109,13 @@ const routes = [
                 path:'/index/shopmgr',
                 components:{
                     main:ShopList
+                }
+            },
+            {
+                name:"收支管理",
+                path:'/index/expenses',
+                components:{
+                    main:ExpensesMgr
                 }
             },
             

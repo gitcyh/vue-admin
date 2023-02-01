@@ -29,10 +29,10 @@
                         <el-input v-model="ruleForm.specs"  clearable />
                     </el-form-item>
                     <el-form-item label="价格" prop="price">
-                        <el-input-number v-model="ruleForm.price" :min="0"  size="small" :controls="false" style="width: 100%"/>
+                        <el-input-number v-model="ruleForm.price" :min="0"  size="small" :controls="false" style="width: 214px"/>
                     </el-form-item>
                     <el-form-item label="数量" prop="num">
-                        <el-input-number v-model="ruleForm.num" :min="0"  size="small" :controls="false" style="width: 100%"/>
+                        <el-input-number v-model="ruleForm.num" :min="0"  size="small" :controls="false" style="width: 214px"/>
                     </el-form-item>
                     <PayWayVue :payway="ruleForm.payway"></PayWayVue>
                     <SendStateVue :sendState="ruleForm.sendState"></SendStateVue>

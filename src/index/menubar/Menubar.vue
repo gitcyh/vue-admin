@@ -2,25 +2,33 @@
   <el-menu active-text-color="#ffd04b"  background-color="#545c64" class="myMenu"  default-active="/index/myindex"  text-color="#fff"  :collapse="isCollapse"  @open="handleOpen"  @close="handleClose">
     <template v-for="item in menuList" :key="item.value">
       <el-menu-item v-if="!item.children" :index="item.path" @click="goto(item)">
-        <el-icon><icon-menu /></el-icon>
+        <el-icon>
+          <component :is="item.icon" />
+        </el-icon>
         <span>{{item.name}}</span>
       </el-menu-item>
       <el-sub-menu v-if="item.children">
           <template #title>
-            <el-icon><location /></el-icon>
+            <el-icon>
+              <component :is="item.icon" />
+            </el-icon>
             <span>{{item.name}}</span>
           </template>
-          <el-menu-item v-for="child in item.children" :key="child.value" :index="child.path"  @click="goto(child)">{{child.name}}</el-menu-item>
+          <el-menu-item v-for="child in item.children" :key="child.value" :index="child.path"  @click="goto(child)">
+            <el-icon>
+              <component :is="child.icon" />
+            </el-icon>
+            {{child.name}}
+          </el-menu-item>
         </el-sub-menu>
     </template>
   </el-menu>
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import {defineProps} from 'vue'
 import { useRouter } from "vue-router";
-import {menuStore} from "../../store/menuStore"
-import { Document,  Menu as IconMenu, Location, Setting} from "@element-plus/icons-vue";
+import {menuStore} from "../../store/menuStore";
 
 const router = useRouter();
 const menuList = menuStore().$state.menuList;

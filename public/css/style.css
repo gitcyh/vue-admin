@@ -18,7 +18,9 @@
 .el-dialog__footer{
   padding: 0 16px 10px 5px !important;
 }
-
+.el-input-number .el-input__inner {
+  text-align: left !important;
+}
 
 
 

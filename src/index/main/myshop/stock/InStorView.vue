@@ -18,8 +18,11 @@
                     <el-form-item label="单价" prop="price">
                         <el-input :value="ruleForm.price" type="number"  readonly />
                     </el-form-item>
-                    <el-form-item label="数量" prop="num">
+                    <el-form-item label="进货数量" prop="num">
                         <el-input :value="ruleForm.num" type="number"  readonly />
+                    </el-form-item>
+                    <el-form-item label="回桶数量" prop="bucket">
+                        <el-input :value="ruleForm.bucket" type="number" readonly />
                     </el-form-item>
                     <el-form-item label="金额" prop="money">
                         <el-input :value="ruleForm.money" type="number"  readonly/>

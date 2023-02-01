@@ -9,7 +9,7 @@
             <div>
                 <el-form ref="ruleFormRef" :model="ruleForm"  label-width="100px" class="demo-ruleForm">
                     <el-form-item label="日期" prop="date">
-                        <el-date-picker :value="data.date" type="datetime"  label="请选择日期"  placeholder="请选择日期" readonly style="width: 100%"/>
+                        <el-input :value="data.date" readonly />
                     </el-form-item>
                     <el-form-item label="客户名称" prop="name">
                         <el-input :value="data.name" readonly />
@@ -27,10 +27,10 @@
                         <el-input :value="data.specs"  readonly />
                     </el-form-item>
                     <el-form-item label="价格" prop="price">
-                        <el-input-number :value="data.price" :min="0"  size="small" :controls="false" style="width: 100%" readonly/>
+                        <el-input type="text" :value="data.price" :min="0"  size="small" :controls="false" readonly/>
                     </el-form-item>
                     <el-form-item label="数量" prop="num">
-                        <el-input-number :value="data.num" :min="0"  size="small" :controls="false" style="width: 100%" readonly/>
+                        <el-input type="text" :value="data.num" :min="0"  size="small" :controls="false" readonly/>
                     </el-form-item>
                     <el-form-item label="付款方式" prop="payway">
                         <el-input :value="data.payway"  readonly />

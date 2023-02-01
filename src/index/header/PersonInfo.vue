@@ -1,7 +1,7 @@
 <template>
     <div>
         <span @click="visible = true">个人中心</span>
-        <el-dialog v-model="visible" :show-close="false" draggable title="个人中心" append-to-body="true">
+        <el-dialog v-model="visible" :show-close="false" draggable title="个人中心" :append-to-body="true">
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">个人中心</h6>

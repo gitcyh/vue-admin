@@ -1,7 +1,8 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入商品属性" />
+            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入商品属性" />&nbsp;
+            <el-date-picker v-model="date" type="date"  label="请选择日期"  placeholder="请选择日期" clearable />
         </div>
     </div>
     <el-table :data="filterTableData" border>
@@ -19,6 +20,7 @@ import { computed, ref } from 'vue'
 import { Search } from "@element-plus/icons-vue";
 
 const search = ref('')
+const date = ref(new Date())
 
 
 const filterTableData = computed(() =>

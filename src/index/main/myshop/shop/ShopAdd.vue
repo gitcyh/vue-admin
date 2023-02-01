@@ -9,7 +9,7 @@
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useShop.rules" label-width="120px" class="demo-ruleForm">
+                <el-form ref="ruleFormRef"  :model="ruleForm" :rules="useShop.rules" label-width="120px" class="demo-ruleForm" style="height:700px;overflow-y:auto;">
                     <el-form-item label="店铺名称" prop="shopname">
                         <el-input v-model="ruleForm.shopname" placeholder="请输入店铺名称" clearable />
                     </el-form-item>
