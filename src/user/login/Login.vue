@@ -40,6 +40,7 @@ import { User, Lock } from '@element-plus/icons-vue'
 import request from '../../request/request'
 import { useRouter } from 'vue-router'
 import VerifyCode from './VerifyCode.vue'
+import operation from '../../common/util/operation'
 
 const ruleFormRef = ref();
 const ruleForm = reactive({
@@ -58,13 +59,19 @@ const login = async function (formEl) {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid && checkCode()) {
-            request.get('https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg')
-                .then(res => {
+            request.post('/login',{
+                username:ruleForm.userName,
+                password:ruleForm.passWord,
+            }).then(res => {
+                if(res.data.code === 200){
                     router.push({
                         name: "首页",
                         path: "/index/myindex"
                     })
-                });
+                }else{
+                    operation.tips(res.data.msg)
+                }
+            }); 
         } else {
             fail();
         }
@@ -100,7 +107,7 @@ const valiCodeInput = function () {
             valiClass.value = 'valiSuccess';
             valiResult.value = "验证成功";
         } else {
-            fail();
+            operation.tips("注册信息有误");
         }
     } else {
         fail();

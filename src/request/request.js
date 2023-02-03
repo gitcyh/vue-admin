@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const request = axios.create({
-    timeout: 10000
+    baseURL: import.meta.env.VITE_BASE_URL, // 所有的请求地址前缀部分
+    timeout: 60000
 })
 
 request.interceptors.request.use(function(config){

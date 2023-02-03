@@ -34,8 +34,10 @@ import { ref,reactive } from 'vue'
 import {User,Lock,Message,Iphone} from '@element-plus/icons-vue'
 import useCheck from '../../common/check/useCheck';
 import operation from '../../common/util/operation';
+import request from '../../request/request'
+import { useRouter } from 'vue-router'
 
-
+const router = useRouter();
 const ruleFormRef = ref();
 const ruleForm = reactive({
     userName: '',
@@ -83,7 +85,21 @@ const register = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!')
+        request.post('/register',{
+                username:ruleForm.userName,
+                password:ruleForm.passWord,
+                phone:ruleForm.phone,
+                email:ruleForm.email,
+            }).then(res => {
+                if(res.data.code === 200){
+                    router.push({
+                        name: "登录",
+                        path: "/login"
+                    })
+                }else{
+                    operation.tips(res.data.msg)
+                }
+            });
     } else {
         operation.tips("注册信息有误");
     }

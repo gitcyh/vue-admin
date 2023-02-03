@@ -1,5 +1,5 @@
 <template>
-    <el-tabs  type="border-card" v-model="activeName" @tab-click="handleClick">
+    <el-tabs  type="border-card" v-model="activeName">
         <el-tab-pane label="图表" name="chart">
            图表
         </el-tab-pane>

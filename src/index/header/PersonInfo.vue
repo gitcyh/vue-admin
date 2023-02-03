@@ -11,7 +11,7 @@
             <div class="brand-add">
                 <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="头像" prop="shop_img">
-                        <UploadVue ref="upload_img"></UploadVue>
+                        <UploadVue ref="upload_img" :file-list="fileList"></UploadVue>
                     </el-form-item>
                     <el-form-item label="用户名" prop="username">
                         <el-input v-model="ruleForm.username" readonly />
@@ -42,11 +42,19 @@ import { CloseBold} from '@element-plus/icons-vue'
 import UploadVue from '../../common/components/Upload.vue';
 
 const ruleFormRef = ref();
+const upload_img = ref();
 const visible = ref(false);
 const ruleForm = reactive({
     brand: '',
 })
 const currentIndex = ref("")
+
+const fileList =[
+{
+    name: 'food.jpeg',
+    url: 'http://localhost:8099/download?id=3428506fbd4b4ae1a805020d952c9d4b',
+  },
+]
 
 const rules = reactive({
     brand: [{ required: true, message: '请输入品牌名称', trigger: 'blur' }],
@@ -65,12 +73,15 @@ const handleDelete = function(index, row){
         console.log(index,row);
     })
 }
-
+const submitUpload = () => {
+    upload_img.value.submitUpload()
+}
 
 const submitForm = async (formEl) => {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {
+            submitUpload();
             console.log('submit!')
         } else {
             operation.tips("请输入品牌名称");

@@ -4,12 +4,12 @@
 --
 CREATE TABLE IF NOT EXISTS `user`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '用户id',
-    `username` varchar(30) NOT NULL COMMENT '用户名',
-    `password` varchar(30) NOT NULL COMMENT '密码',
+    `username` varchar(64) NOT NULL COMMENT '用户名',
+    `password` varchar(64) NOT NULL COMMENT '密码',
     `phone` varchar(20) NOT NULL COMMENT '手机号',
     `email` varchar(60) NOT NULL COMMENT '邮箱用于找回密码',
-    `picture_id`  varchar(64) DEFAULT NULL  COMMENT '头像id',
-    `role` int(4) unsigned NOT NULL COMMENT '角色',
+    `picture_id`  varchar(64)  COMMENT '头像id',
+    `role` int(4) unsigned NOT NULL DEFAULT 0 COMMENT '角色',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -252,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `order`(
 CREATE TABLE IF NOT EXISTS `file`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
     `shop_id` varchar(64) DEFAULT NULL COMMENT '所属店铺id,为空则是系统文件',
-    `file_name` varchar(50) DEFAULT NULL COMMENT '文件名称',
+    `file_name` varchar(255) DEFAULT NULL COMMENT '文件名称',
     `file_type` varchar(10) DEFAULT NULL COMMENT '文件类型',
     `file_size` double DEFAULT NULL COMMENT '文件大小',
     `content` longblob DEFAULT NULL COMMENT '文件内容',
