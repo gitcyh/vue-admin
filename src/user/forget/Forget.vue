@@ -49,7 +49,7 @@
       if (valid) {
         console.log('submit!')
       } else {
-        operation.tips("请输入相关信息");
+        operation.warning("请输入相关信息");
       }
     })
   }

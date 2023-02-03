@@ -100,7 +100,7 @@ const submitForm = async (formEl) => {
         if (valid) {
             console.log('submit!')
         } else {
-            operation.tips("请输入品牌名称");
+            operation.warning("请输入品牌名称");
         }
     })
 }

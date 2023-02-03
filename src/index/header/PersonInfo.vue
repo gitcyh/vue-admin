@@ -9,7 +9,7 @@
                 </div>
             </template>
             <div class="brand-add">
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
+                <el-form ref="ruleFormRef" :model="ruleForm" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="头像" prop="shop_img">
                         <UploadVue ref="upload_img" :file-list="fileList"></UploadVue>
                     </el-form-item>
@@ -36,55 +36,72 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
-import { CloseBold} from '@element-plus/icons-vue'
+import { CloseBold } from '@element-plus/icons-vue'
 import UploadVue from '../../common/components/Upload.vue';
+import request from '../../request/request';
+import operation from '../../common/util/operation';
+import jwtUtil from '../../common/util/jwtUtil';
 
 const ruleFormRef = ref();
 const upload_img = ref();
 const visible = ref(false);
 const ruleForm = reactive({
-    brand: '',
+    username: '',
+    phone: '',
+    email: '',
+    userid: '',
+    pictureId: '',
 })
-const currentIndex = ref("")
 
-const fileList =[
-{
-    name: 'food.jpeg',
-    url: 'http://localhost:8099/download?id=3428506fbd4b4ae1a805020d952c9d4b',
-  },
+const fileList = [
+    {
+        name: 'food.jpeg',
+        url: jwtUtil.getPictureId(),
+    },
 ]
 
-const rules = reactive({
-    brand: [{ required: true, message: '请输入品牌名称', trigger: 'blur' }],
+
+onMounted(() => {
+    request.post("/getUserInfo", {
+        username: localStorage.getItem("username")
+    }).then(res => {
+        if (res.data.code === 200) {
+            const { username, phone, email, userid } = res.data.data;
+            ruleForm.username = username;
+            ruleForm.phone = phone;
+            ruleForm.email = email;
+            ruleForm.userid = userid;
+        } else {
+            operation.warning(res.data.msg)
+        }
+    })
 })
 
-const hideInput = function(){
-    currentIndex.value = "";
-}
 
-const handleEdit = function(index, row){
-    currentIndex.value = index;
-}
-
-const handleDelete = function(index, row){
-    operation.handleDelete(function(){
-        console.log(index,row);
-    })
-}
-const submitUpload = () => {
-    upload_img.value.submitUpload()
-}
 
 const submitForm = async (formEl) => {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {
-            submitUpload();
-            console.log('submit!')
+            upload_img.value.submitUpload().then(res => {
+                const fileId = res.data.data.fileId;
+                ruleForm.fileId = fileId;
+                request.post("/updateUserInfo",{ 
+                    id:ruleForm.userid,
+                    pictureId:fileId,
+                }).then(res => {
+                    localStorage.setItem("pictureId",fileId)
+                    if (res.data.code === 200) {
+                        operation.success("信息修改成功!")
+                    } else {
+                        operation.warning(res.data.msg)
+                    }
+                })
+            })
         } else {
-            operation.tips("请输入品牌名称");
+            operation.warning("请输入品牌名称");
         }
     })
 }
@@ -92,8 +109,6 @@ const submitForm = async (formEl) => {
 </script>
   
 <style scoped>
-
-
 
 </style>
 

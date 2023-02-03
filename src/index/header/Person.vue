@@ -3,7 +3,7 @@
     <div class="header-person">
         <el-dropdown :hide-on-click="false">
             <span class="el-dropdown-link">
-                <span title="admin231123" class="userName">admin</span>
+                <span :title="userName" class="userName">{{ userName }}</span>
                 <el-icon class="el-icon--right">
                     <CaretBottom />
                 </el-icon>
@@ -20,7 +20,15 @@
 
 <script setup>
 import { CaretBottom  } from "@element-plus/icons-vue";
+import { onMounted, ref } from "vue";
+import jwtUtil from "../../common/util/jwtUtil";
 import PersonInfoVue from "./PersonInfo.vue";
+
+
+const userName = ref("");
+onMounted(()=>{
+    userName.value = jwtUtil.decode().username;
+})
 
 </script>
 

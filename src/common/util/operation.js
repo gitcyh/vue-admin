@@ -23,7 +23,7 @@ const handleDelete = (callback) => {
         })
 }
 
-const tips = (message) => {
+const warning = (message) => {
     ElNotification({
         title: 'Warning',
         message: message,
@@ -32,9 +32,19 @@ const tips = (message) => {
     })
 }
 
+const success = (message) => {
+    ElNotification({
+        title: 'Success',
+        message: message,
+        type: 'success',
+        duration:3000
+    })
+}
+
 
 
 export default {
     handleDelete,
-    tips
+    warning,
+    success
 }

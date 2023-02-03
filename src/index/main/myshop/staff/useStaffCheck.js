@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 import { ElNotification } from 'element-plus'
 
 export default function(){
-    const tips = () => {
+    const warning = () => {
         ElNotification({
           title: 'Warning',
           message: '员工信息有误',
@@ -61,7 +61,7 @@ export default function(){
 
       return {
         rules,
-        tips,
+        warning,
         resetForm
       }
       

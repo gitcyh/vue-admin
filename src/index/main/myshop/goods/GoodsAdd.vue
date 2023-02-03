@@ -76,7 +76,7 @@ const submitForm = async (formEl) => {
     if (valid) {
       console.log('submit!')
     } else {
-        UseGoodsCheck.tips();
+        UseGoodsCheck.warning();
     }
   })
 }

@@ -14,7 +14,7 @@
     <!-- 个人中心 -->
     <PersonVue></PersonVue>
     <div class="header-img">
-      <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
+      <el-avatar :size="40" :src="src"/>
     </div>
   </div>
 </template>
@@ -22,12 +22,16 @@
 <script setup>
 import { Fold, Expand } from "@element-plus/icons-vue";
 import PersonVue from "./Person.vue";
-import MessageVue from './Message.vue'
+import MessageVue from './Message.vue';
+import jwtUtil from "../../common/util/jwtUtil";
 
 defineProps({
   isCollapse: Boolean,
   changeCollapse: Function,
 });
+
+const src = jwtUtil.getPictureId();
+
 
 const emit = defineEmits(["changeCollapse"]);
 

@@ -29,7 +29,7 @@ const getPosition = function (ruleForm) {
         console.log(longitude,latitude)
 
     }, function () {
-        operation.tips("获取地理位置失败")
+        operation.warning("获取地理位置失败")
     });
 }
 export default {

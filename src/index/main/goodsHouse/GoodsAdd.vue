@@ -64,7 +64,7 @@ const submitForm = async (formEl) => {
         if (valid) {
             console.log('submit!')
         } else {
-            operation.tips("商品信息有误");
+            operation.warning("商品信息有误");
         }
     })
 }

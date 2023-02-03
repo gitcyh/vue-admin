@@ -44,8 +44,8 @@ import operation from '../../common/util/operation'
 
 const ruleFormRef = ref();
 const ruleForm = reactive({
-    userName: '',
-    passWord: '',
+    userName: 'admin',
+    passWord: '123456cyhZ',
 
 })
 
@@ -58,18 +58,21 @@ const rules = reactive({
 const login = async function (formEl) {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
-        if (valid && checkCode()) {
+        if (valid) {//&& checkCode()
             request.post('/login',{
                 username:ruleForm.userName,
                 password:ruleForm.passWord,
             }).then(res => {
                 if(res.data.code === 200){
+                    localStorage.setItem("token", res.data.data.token);
+                    localStorage.setItem("username",res.data.data.username);
+                    localStorage.setItem("pictureId",res.data.data.pictureId);
                     router.push({
                         name: "首页",
                         path: "/index/myindex"
                     })
                 }else{
-                    operation.tips(res.data.msg)
+                    operation.warning(res.data.msg)
                 }
             }); 
         } else {
@@ -107,7 +110,7 @@ const valiCodeInput = function () {
             valiClass.value = 'valiSuccess';
             valiResult.value = "验证成功";
         } else {
-            operation.tips("注册信息有误");
+            operation.warning("注册信息有误");
         }
     } else {
         fail();

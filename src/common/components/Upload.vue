@@ -16,6 +16,8 @@
 import { ref } from 'vue'
 import { genFileId } from 'element-plus'
 import operation from '../util/operation';
+import request from '../../request/request';
+
 const props = defineProps({
     fileList: {
         type: Array,
@@ -31,7 +33,20 @@ const dialogVisible = ref(false)
 
 
 const submitUpload = () => {
-    upload.value.submit();
+    //upload.value.submit();
+    return new Promise((resolve, reject) => {
+        let formData = new FormData();
+        formData.append("file", props.fileList[0].raw);//拿到存在fileList的文件存放到formData中
+        request.post("/upload", formData, {
+            "Content-Type": "multipart/form-data;charset=utf-8"
+        }).then(res => {
+            if (res.data.code === 200) {
+                resolve(res);
+            }else{
+                reject(res)
+            }
+        })
+    })
 }
 defineExpose({
     submitUpload
@@ -54,20 +69,20 @@ const handlePreview = (uploadFile) => {
     dialogVisible.value = true
 }
 
-const onChange = function(file, fileList) {
+const onChange = function (file, fileList) {
     const fileSuffix = file.name.substring(file.name.lastIndexOf('.') + 1);
     const whiteList = ['png', 'jpg', 'jpeg'];
     const isSuffix = whiteList.indexOf(fileSuffix.toLowerCase()) === -1;
     const isLt2M = file.size / 1024 / 1024 > 2
     console.log('this.fileList:', this.fileList)
     if (isSuffix) {
-        operation.tips('上传文件只能是 png、jpg、jpeg格式');
+        operation.warning('上传文件只能是 png、jpg、jpeg格式');
         const currIdx = fileList.indexOf(file)
         fileList.splice(currIdx, 1)
         return;
     }
     if (isLt2M) {
-        operation.tips('上传文件大小不能超过 2MB')
+        operation.warning('上传文件大小不能超过 2MB')
         const currIdx = fileList.indexOf(file)
         this.fileList.splice(currIdx, 1)
         return;

@@ -97,11 +97,11 @@ const register = async (formEl) => {
                         path: "/login"
                     })
                 }else{
-                    operation.tips(res.data.msg)
+                    operation.warning(res.data.msg)
                 }
             });
     } else {
-        operation.tips("注册信息有误");
+        operation.warning("注册信息有误");
     }
   })
 }

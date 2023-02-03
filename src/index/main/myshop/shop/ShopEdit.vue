@@ -112,7 +112,7 @@ const submitForm = async (formEl) => {
             upload_img.value.submitUpload();
             upload_license.value.submitUpload();
         } else {
-            operation.tips("店铺信息有误");
+            operation.warning("店铺信息有误");
         }
     })
 }
