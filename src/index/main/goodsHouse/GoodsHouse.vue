@@ -10,16 +10,16 @@
     </div>
     <el-table :data="filterTableData" border  style="width: 100%">
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="日期" prop="date" sortable  />
-        <el-table-column label="品牌" prop="brand" sortable  />
-        <el-table-column label="商品名称" prop="name" sortable  />
-        <el-table-column label="规格" prop="specs" sortable  />
+        <el-table-column label="日期" prop="date" sortable width="120" />
+        <el-table-column label="品牌" prop="brand" />
+        <el-table-column label="商品名称" prop="name" />
+        <el-table-column label="规格" prop="specs"  />
         <!-- <el-table-column label="商品描述" prop="description" sortable>
             <template #default="scope">
                 <el-button :icon="View" size="small" @click="handleView(scope.$index, scope.row)">详情</el-button>
             </template>
         </el-table-column> -->
-        <el-table-column align="right"  label="操作" >
+        <el-table-column align="right"  label="操作" width="220" >
             <template #default="scope">
                 <el-button-group>
                      <el-button :icon="View" size="small" type="success" @click="handleView(scope.$index, scope.row)">查看</el-button>

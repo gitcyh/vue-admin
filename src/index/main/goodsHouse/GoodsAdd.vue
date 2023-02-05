@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-button :icon="Plus" type="primary" size="small" @click="visible = true">添加商品</el-button>
-        <el-dialog v-model="visible" :show-close="false" draggable title="添加商品" append-to-body="true" top="5vh">
+        <el-dialog v-model="visible" :show-close="false" draggable title="添加商品" append-to-body top="5vh">
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">添加商品</h6>

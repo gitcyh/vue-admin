@@ -64,13 +64,16 @@ const login = async function (formEl) {
                 password:ruleForm.passWord,
             }).then(res => {
                 if(res.data.code === 200){
-                    localStorage.setItem("token", res.data.data.token);
-                    localStorage.setItem("username",res.data.data.username);
-                    localStorage.setItem("pictureId",res.data.data.pictureId);
+                    const {token,username,pictureId,userid} = res.data.data;
+                    localStorage.setItem("token",token);
+                    localStorage.setItem("username",username);
+                    localStorage.setItem("pictureId",pictureId);
+                    localStorage.setItem("userid",userid);
                     router.push({
                         name: "首页",
                         path: "/index/myindex"
                     })
+                    operation.success("欢迎"+username+"进入系统!")
                 }else{
                     operation.warning(res.data.msg)
                 }

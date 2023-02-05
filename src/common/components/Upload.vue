@@ -7,7 +7,7 @@
         </template>
         <span class="el-upload__tip">jpg/jpeg/png 文件小于2M</span>
     </el-upload>
-    <el-dialog v-model="dialogVisible" style="overflow: hidden;" append-to-body="true">
+    <el-dialog v-model="dialogVisible" style="overflow: hidden;" append-to-body>
         <el-image :src="dialogImageUrl" alt="Preview Image" fit="scale-down" />
     </el-dialog>
 </template>

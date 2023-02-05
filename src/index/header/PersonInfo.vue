@@ -1,7 +1,7 @@
 <template>
     <div>
         <span @click="visible = true">个人中心</span>
-        <el-dialog v-model="visible" :show-close="false" draggable title="个人中心" :append-to-body="true">
+        <el-dialog v-model="visible" :show-close="false" draggable title="个人中心" append-to-body>
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">个人中心</h6>
@@ -94,7 +94,8 @@ const submitForm = async (formEl) => {
                 }).then(res => {
                     localStorage.setItem("pictureId",fileId)
                     if (res.data.code === 200) {
-                        operation.success("信息修改成功!")
+                        operation.success("信息修改成功!");
+                        visible.value = false;
                     } else {
                         operation.warning(res.data.msg)
                     }

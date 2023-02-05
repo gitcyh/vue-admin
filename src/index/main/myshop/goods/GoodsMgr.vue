@@ -10,16 +10,16 @@
     </div>
     <el-table :data="filterTableData" border>
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="日期" prop="date" sortable  width="120"  />
-        <el-table-column label="品牌" prop="brand" width="120"  />
-        <el-table-column label="商品名称" prop="name"  />
-        <el-table-column label="规格" prop="specs" width="100"/>
-        <el-table-column label="成本价" prop="costPrice" sortable width="100"/>
-        <el-table-column label="配送价" prop="deliveryPrice" sortable width="100" />
-        <el-table-column label="自提价" prop="selfPrice" sortable  width="100"/>
-        <el-table-column label="水票价" prop="waterPrice" sortable width="100"/>
-        <el-table-column label="月结价" prop="MonthlyPrice" sortable width="100"/>
-        <el-table-column label="状态" prop="state" sortable width="100"/>
+        <el-table-column label="日期" prop="date" sortable />
+        <el-table-column label="品牌" prop="brand" />
+        <el-table-column label="商品名称" prop="name"  min-width="200"/>
+        <el-table-column label="规格" prop="specs"/>
+        <el-table-column label="成本价" prop="costPrice" sortable />
+        <el-table-column label="配送价" prop="deliveryPrice" sortable />
+        <el-table-column label="自提价" prop="selfPrice" sortable  />
+        <el-table-column label="水票价" prop="waterPrice" sortable />
+        <el-table-column label="月结价" prop="MonthlyPrice" sortable />
+        <el-table-column label="状态" prop="state" sortable />
         <el-table-column fixed="right" align="center" label="操作" width="220">
             <template #default="scope">
                 <el-button-group>

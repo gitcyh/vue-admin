@@ -10,17 +10,17 @@
     
     <el-table :data="filterTableData" border  style="width: 100%">
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="客户名称" prop="name"  width="120" />
-        <el-table-column label="地址" prop="address" />
-        <el-table-column label="结算方式" prop="settlement"  width="120" />
-        <el-table-column label="手机号" prop="phone" width="120"/>
-        <el-table-column label="押金状态" prop="depositState" width="120" sortable />
+        <el-table-column label="客户名称" prop="name" />
+        <el-table-column label="地址" prop="address" min-width="300"/>
+        <el-table-column label="结算方式" prop="settlement" />
+        <el-table-column label="手机号" prop="phone" />
+        <el-table-column label="押金状态" prop="depositState" sortable />
         <el-table-column label="押金管理" width="100">
             <template #default="scope">
                 <DepositMgr></DepositMgr>
             </template>
         </el-table-column>
-        <el-table-column label="备注" prop="remark" sortable width="300" />
+        <el-table-column label="备注" prop="remark" sortable min-width="200" />
         <el-table-column align="right"  label="操作" width="220">
             <template #default="scope">
                 <el-button-group>

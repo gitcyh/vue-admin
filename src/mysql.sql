@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `user`(
 )
 
 INSERT INTO `user` (`id`, `username`, `password`, `phone`,`email`, `picture_id`, `role`) VALUES
-('cyh123', '英哥', '123456', '13576004423','1643017650@qq.com', '', '9999')
+('asd23123123fsdfsdf2w4234234', 'admin', '123456cyhZ', '13576004423','1643017650@qq.com', '', '9999')
 
 --
 --第三方用户信息表
@@ -189,6 +189,7 @@ CREATE TABLE IF NOT EXISTS `goods`(
 CREATE TABLE IF NOT EXISTS `brand_sys`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT 'id',
     `brand` varchar(255) NOT NULL COMMENT '品牌名称',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:无效',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -240,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `order`(
     `send_state` tinyint(4) NOT NULL DEFAULT 1 COMMENT '配送状态0:未配送,1:配送中,2:已配送,3:客户自提,4:其他',
     `payway` tinyint(4) NOT NULL DEFAULT 0 COMMENT '支付方式0:微信支付,1:支付宝,2:水票,3:月结,4:现金,5:其他',
     `sender` varchar(64) NOT NULL COMMENT '配送员一般是员工id或客户自提',
-    `remark` TEXT  COMMENT '备注',
+    `remark` varchar(255)  COMMENT '备注',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -271,6 +272,7 @@ CREATE TABLE IF NOT EXISTS `instock`(
     `num` int NOT NULL DEFAULT 0 COMMENT '进货数量',
     `bucket` int NOT NULL DEFAULT 0 COMMENT '回桶数量'
     `money` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '进货金额',
+    `remark` varchar(255)  COMMENT '备注',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -313,5 +315,7 @@ INSERT INTO `expense_category` (`id`,`name`,`description`) VALUES
 ('10','税费支出','个人所得税、营业税等')
 ('11','充值缴费','水费、电费、燃气费、话费、宽带费等')
 ('11','其他','其他不便分类的费用')
+('12','工资支出','工资,奖金等')
+('13','经营支出','进货,运费等')
 
 

@@ -10,12 +10,12 @@
     
     <el-table :data="filterTableData" border  style="width: 100%">
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="姓名" prop="name" sortable  />
-        <el-table-column label="性别" prop="sex" sortable  />
-        <el-table-column label="年龄" prop="age" sortable  />
-        <el-table-column label="手机号" prop="phone" sortable />
-        <el-table-column label="身份证" prop="IDCard" sortable  />
-        <el-table-column label="住址" prop="address" sortable  />
+        <el-table-column label="姓名" prop="name"  />
+        <el-table-column label="性别" prop="sex" />
+        <el-table-column label="年龄" prop="age" sortable />
+        <el-table-column label="手机号" prop="phone" />
+        <el-table-column label="身份证" prop="IDCard"  />
+        <el-table-column label="住址" prop="address" min-width="200"  />
         <el-table-column align="right"  label="操作" >
             <template #default="scope">
                 <el-button-group>

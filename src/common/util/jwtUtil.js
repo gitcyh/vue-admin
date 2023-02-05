@@ -1,11 +1,10 @@
 
 
 
-const decode = function(token){
-    if(!token){
-        token = localStorage.getItem("token");
-    }
-    return JSON.parse(decodeURIComponent(window.atob(token.split('.')[1])))
+const getValue = function(key){
+    let token = localStorage.getItem("token");
+    let obj = JSON.parse(decodeURIComponent(window.atob(token.split('.')[1])));
+    return obj[key];
 }
 
 const getDowloadId = function(id){
@@ -21,7 +20,7 @@ const getPictureId = function(){
 
 
 export default {
-    decode,
+    getValue,
     getDowloadId,
     getPictureId
 }

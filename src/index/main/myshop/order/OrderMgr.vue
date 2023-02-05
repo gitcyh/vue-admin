@@ -9,18 +9,18 @@
     <div style="">
         <el-table :data="filterTableData" border  style="width: 100%;" max-height="1000px">
             <el-table-column label="序号" type="index" width="60" />
-            <el-table-column label="日期" prop="date" width="140" />
-            <el-table-column label="客户名称" prop="name" width="120" />
-            <el-table-column label="地址" prop="address" width="360"  />
-            <el-table-column label="手机号" prop="phone"  width="120" />
-            <el-table-column label="商品名称" prop="goodsName" width="120" />
-            <el-table-column label="规格" prop="specs"  width="100"  />
-            <el-table-column label="价格" prop="price"  width="80"/>
-            <el-table-column label="数量" prop="num" width="80"/>
-            <el-table-column label="付款方式" prop="payway" sortable width="120"/>
-            <el-table-column label="配送状态" prop="sendState" sortable width="120"/>
-            <el-table-column label="配送员" prop="sender" sortable width="120"/>
-            <el-table-column label="备注" prop="remark" width="200"/>
+            <el-table-column label="日期" prop="date" />
+            <el-table-column label="客户名称" prop="name" />
+            <el-table-column label="地址" prop="address" min-width="360"  />
+            <el-table-column label="手机号" prop="phone" />
+            <el-table-column label="商品名称" prop="goodsName" />
+            <el-table-column label="规格" prop="specs" />
+            <el-table-column label="价格" prop="price" />
+            <el-table-column label="数量" prop="num"/>
+            <el-table-column label="付款方式" prop="payway" sortable />
+            <el-table-column label="配送状态" prop="sendState" sortable />
+            <el-table-column label="配送员" prop="sender" sortable />
+            <el-table-column label="备注" prop="remark" min-width="200"  />
             <el-table-column align="center" fixed="right"  label="操作" width="220">
                 <template #default="scope">
                     <el-button-group>

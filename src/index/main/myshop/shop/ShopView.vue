@@ -3,7 +3,7 @@
         <div class="shop-title">
             我的店铺信息
         </div>
-        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
+        <el-form ref="ruleFormRef" :model="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="店铺名称" prop="shopname">
                 <el-input :value="ruleForm.shopname" readonly />
             </el-form-item>

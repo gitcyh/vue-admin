@@ -7,7 +7,7 @@
     </div>
     <el-table :data="filterTableData" border>
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="品牌" prop="brand" />
+        <el-table-column label="品牌名称" prop="brand" />
         <el-table-column label="商品名称" prop="name" />
         <el-table-column label="规格" prop="specs" />
         <el-table-column label="库存余量" prop="allowance" sortable />

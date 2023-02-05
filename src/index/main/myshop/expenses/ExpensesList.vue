@@ -11,13 +11,13 @@
     </div>
     <el-table :data="filterTableData" border>
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="日期" prop="date" sortable  width="120"/>
-        <el-table-column label="费用名称" prop="name" width="200"/>
-        <el-table-column label="费用类别" prop="category" width="120"/>
-        <el-table-column label="费用描述" prop="description" width="200" />
-        <el-table-column label="金额" prop="amount" sortable width="120"/>
-        <el-table-column label="备注" prop="remark" />
-        <el-table-column align="center" fixed="right" label="操作" width="90">
+        <el-table-column label="日期" prop="date" sortable />
+        <el-table-column label="费用名称" prop="name" />
+        <el-table-column label="费用类别" prop="category" />
+        <el-table-column label="费用描述" prop="description" />
+        <el-table-column label="金额" prop="amount" sortable />
+        <el-table-column label="备注" prop="remark" min-width="200"/>
+        <el-table-column align="center" fixed="right" label="操作" width="100">
             <template #default="scope">
                 <el-button :icon="Edit" type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             </template>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-button type="primary" size="small" @click="visible = true">添加押金单</el-button>
-        <el-dialog v-model="visible" :show-close="false" draggable title="添加押金单" append-to-body="true">
+        <el-dialog v-model="visible" :show-close="false" draggable title="添加押金单" append-to-body>
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">添加押金单</h6>

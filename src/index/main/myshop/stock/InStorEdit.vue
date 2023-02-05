@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-dialog v-model="visible" :show-close="false" draggable title="修改入库" append-to-body="true">
+        <el-dialog v-model="visible" :show-close="false" draggable title="修改入库" append-to-body>
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">修改入库</h6>

@@ -14,7 +14,8 @@
     <!-- 个人中心 -->
     <PersonVue></PersonVue>
     <div class="header-img">
-      <el-avatar :size="40" :src="src"/>
+       <el-image style="width: 40px; height: 40px" :src="src[0]" :zoom-rate="1.2" :preview-src-list="src" :initial-index="0" fit="cover"/>
+      <!-- <el-avatar :size="40" :src="src"/> -->
     </div>
   </div>
 </template>
@@ -30,7 +31,7 @@ defineProps({
   changeCollapse: Function,
 });
 
-const src = jwtUtil.getPictureId();
+const src = [jwtUtil.getPictureId()];
 
 
 const emit = defineEmits(["changeCollapse"]);
@@ -67,6 +68,10 @@ function change(value) {
   cursor: pointer;
   margin-right: 5px;
   margin-top: 4px;
+}
+
+.header-img .el-image{
+  border-radius: 20px;
 }
 </style>
 
