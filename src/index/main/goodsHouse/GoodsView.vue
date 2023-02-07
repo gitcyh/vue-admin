@@ -7,40 +7,37 @@
                </div>
            </template>
            <div>
-               <el-form ref="ruleFormRef" :model="ruleForm" label-width="100px" class="demo-ruleForm">
-                   <el-form-item label="商品名称" prop="name">
-                       <el-input  :value="data.name" readonly />
+               <el-form label-width="100px" class="demo-ruleForm">
+                   <el-form-item label="商品名称">
+                       <el-input  :value="data.goodsName" readonly />
                    </el-form-item>
-                   <el-form-item label="品牌" prop="brand">
-                       <el-input type="text" :value="data.brand" readonly />
+                   <el-form-item label="品牌名称">
+                       <el-input type="text" :value="data.brandName" readonly />
                    </el-form-item>
-                   <el-form-item label="规格" prop="specs">
+                   <el-form-item label="规格">
                        <el-input type="text" :value="data.specs" readonly />
                    </el-form-item>
-                   <el-form-item label="商品描述" prop="description">
-                        <el-input type="textarea" :value="ruleForm.description" />
+                   <el-form-item label="商品描述">
+                       <div style="overflow: scroll;height: 500px;width: auto;" v-html="data.goodsDesc"></div>
                     </el-form-item>
-                   <el-form-item>
-                       <el-button @click="useGoodsCheck.resetForm(ruleFormRef)">重置</el-button>
-                   </el-form-item>
                </el-form>
            </div>
            <template #footer>
                <span class="dialog-footer">
-                   <el-button @click="close">关闭</el-button>
+                   <el-button @click="visible = false">关闭</el-button>
                </span>
            </template>
    </el-dialog>
 </template>
  
 <script setup>
-import { ref,reactive } from 'vue'
+import { ref } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
-import UseGoodsCheck from './useGoodsCheck'
 
-let useGoodsCheck = UseGoodsCheck();
-const ruleFormRef = ref();
+const props = defineProps({
+   data:Object,
+})
 
 const visible = ref(false);
 
@@ -48,30 +45,6 @@ defineExpose({
     visible
 })
 
-const close = function(){
-    visible.value = false;
-}
-
-const props = defineProps({
-   data:Object,
-})
-
-const ruleForm = reactive({
-   name: '',
-   brand: '',
-   specs: '',
-})
-
-const submitForm = async (formEl) => {
- if (!formEl) return
- await formEl.validate((valid, fields) => {
-   if (valid) {
-     console.log('submit!')
-   } else {
-       useGoodsCheck.warning();
-   }
- })
-}
 
 </script>
  

@@ -8,93 +8,104 @@
             <BrandMgrVue></BrandMgrVue>
         </div>
     </div>
-    <el-table :data="filterTableData" border  style="width: 100%">
+    <el-table :data="filterTableData" border style="width: 100%">
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="日期" prop="date" sortable width="120" />
-        <el-table-column label="品牌" prop="brand" />
-        <el-table-column label="商品名称" prop="name" />
-        <el-table-column label="规格" prop="specs"  />
-        <!-- <el-table-column label="商品描述" prop="description" sortable>
+        <el-table-column label="日期" prop="createTime" sortable width="180" />
+        <el-table-column label="品牌名称" prop="brandName" />
+        <el-table-column label="商品名称" prop="goodsName" />
+        <el-table-column label="规格" prop="specs" />
+        <el-table-column align="center" label="商品描述" prop="description" width="120">
             <template #default="scope">
-                <el-button :icon="View" size="small" @click="handleView(scope.$index, scope.row)">详情</el-button>
+                <EditorView :data="scope.row.goodsDesc"></EditorView>
             </template>
-        </el-table-column> -->
-        <el-table-column align="right"  label="操作" width="220" >
+        </el-table-column>
+        <el-table-column align="center" label="操作" width="220">
             <template #default="scope">
                 <el-button-group>
-                     <el-button :icon="View" size="small" type="success" @click="handleView(scope.$index, scope.row)">查看</el-button>
-                    <el-button :icon="Edit" type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button :icon="Delete" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button :icon="View" size="small" type="success"
+                        @click="handleView(scope.$index, scope.row)">查看</el-button>
+                    <el-button :icon="Edit" type="primary" size="small"
+                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button :icon="Delete" size="small" type="danger"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </el-button-group>
             </template>
         </el-table-column>
     </el-table>
-    <GoodsEditVue :data="data" ref="editChild"></GoodsEditVue>
+    <GoodsEditVue :id="id" ref="editChild"></GoodsEditVue>
     <GoodsViewVue :data="data" ref="viewChild"></GoodsViewVue>
 </template>
   
 <script setup>
-import { computed, ref } from 'vue'
-import { Delete,  Edit,View,Search} from "@element-plus/icons-vue";
+import { computed, ref, onMounted } from 'vue'
+import { Delete, Edit, View, Search } from "@element-plus/icons-vue";
 import Operation from '../../../common/util/operation';
 import GoodsAdd from './GoodsAdd.vue'
 import GoodsEditVue from './GoodsEdit.vue';
 import GoodsViewVue from './GoodsView.vue';
 import BrandMgrVue from './BrandMgr.vue';
+import EditorView from '../../../common/components/EditorView.vue';
+import request from '../../../request/request';
+import api from '../../../request/api';
+import useGoods from './useGoods';
 
 const search = ref('')
 const editChild = ref(null);
 const viewChild = ref(null);
+const tableData = ref([]);
 
 const filterTableData = computed(() =>
-    tableData.filter(
-        (data) => !search.value || data.name.toLowerCase().includes(search.value.toLowerCase())
-    )
+    tableData.value.filter(data =>{
+        if(!search.value){
+            return true;
+        }else{
+            return data.goodsName.includes(search.value) || data.brandName.includes(search.value) || data.specs.includes(search.value) || data.goodsDesc.includes(search.value)
+        }
+    })
 )
-const data = ref('');
-
+const data = ref({});
+const id = ref("");
 const handleEdit = (index, row) => {
     editChild.value.visible = true;
-    data.value = row;
+    id.value = row.id;
 }
 
 const handleView = (index, row) => {
     viewChild.value.visible = true;
-    data.value = row;
-}
-
-const handleDelete = (index, row) => {
-    Operation.handleDelete(function(){
-        console.log(index, row);
+    useGoods.getGoods(row.id).then(res => {
+        if (res.data.code == 200) {
+            data.value = res.data.data.data;
+        }
     })
 }
 
-const tableData = [
-    {
-        date: '2016-05-03',
-        brand:'农夫山泉',
-        name: '农夫山泉纯净水',
-        specs:'18L/桶',
-    },
-    {
-        date: '2016-05-02',
-        brand:'农夫山泉',
-        name: '农夫山泉纯净水',
-        specs:'18L/桶',
-    },
-    {
-        date: '2016-05-04',
-        brand:'农夫山泉',
-        name: '农夫山泉纯净水',
-        specs:'18L/桶',
-    },
-    {
-        date: '2016-05-01',
-        brand:'农夫山泉',
-        name: '农夫山泉纯净水',
-        specs:'18L/桶',
-    },
-]
+const handleDelete = (index, row) => {
+    Operation.handleDelete(function () {
+        request.get(api.sysDeleteGoods,{
+            params:{
+                id:row.id,
+            }
+        }).then(res => {
+            if (res.data.code === 200) {
+                Operation.success("删除成功")
+            } else {
+                Operation.warning(res.data.msg)
+            }
+        })
+    })
+}
+
+
+
+const getGoodsList = function () {
+    request.post(api.sysGetGoodsList).then(res => {
+        tableData.value = res.data.data.data;
+    })
+}
+
+onMounted(() => {
+    getGoodsList();
+})
 
 
 
@@ -102,23 +113,26 @@ const tableData = [
   
 
 <style scoped>
-.search-header{
+.search-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 36px;
     margin: 2px;
 }
-.search-item{
+
+.search-item {
     display: flex;
 }
-.search-item label{
+
+.search-item label {
     width: 50px;
     display: inline-block;
     color: rgb(12, 138, 241);
     padding-left: 4px;
 }
-.search-header .el-input{
+
+.search-header .el-input {
     width: 300px;
     height: 30px;
 }

@@ -101,7 +101,7 @@ const routes = [
                 name:"商品库",
                 path:'/index/goodsHouse',
                 components:{
-                    main:GoodsHouse
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/goodsHouse/GoodsHouse.vue')
                 }
             },
             {

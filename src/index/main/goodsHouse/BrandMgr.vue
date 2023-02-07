@@ -1,8 +1,6 @@
 <template>
   <div>
-    <el-button type="success" size="small" @click="visible = true"
-      >品牌管理</el-button
-    >
+    <el-button type="success" size="small" @click="visible = true">品牌管理</el-button>
     <el-dialog v-model="visible" :show-close="false" draggable title="品牌管理">
       <template #header="{ close, titleId, titleClass }">
         <div>
@@ -11,20 +9,12 @@
         </div>
       </template>
       <div class="brand-add">
-        <el-form
-          ref="ruleFormRef"
-          :model="ruleForm"
-          :rules="rules"
-          label-width="100px"
-          class="demo-ruleForm"
-        >
+        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
           <el-form-item label="品牌名称" prop="brand">
             <el-input v-model="ruleForm.brand" clearable />
           </el-form-item>
           <el-form-item class="brand-btn">
-            <el-button @click="submitForm(ruleFormRef)" type="primary"
-              >添加品牌</el-button
-            >
+            <el-button @click="submitForm(ruleFormRef)" type="primary">添加品牌</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -34,32 +24,18 @@
           <el-table-column label="日期" prop="createTime" width="180" />
           <el-table-column label="品牌名称" prop="brand">
             <template #default="scope">
-              <el-input
-                v-if="currentId === scope.row.id"
-                @blur="hideInput(scope.row)"
-                size="mini"
-                v-model="scope.row.brand"
-              ></el-input>
+              <el-input v-if="currentId === scope.row.id" @blur="hideInput(scope.row)" size="mini"
+                v-model="scope.row.brand"></el-input>
               <span v-else>{{ scope.row.brand }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" width="160">
             <template #default="scope">
               <el-button-group>
-                <el-button
-                  :icon="Edit"
-                  type="primary"
-                  size="small"
-                  @click="handleEdit(scope.$index, scope.row)"
-                  >编辑</el-button
-                >
-                <el-button
-                  :icon="Delete"
-                  size="small"
-                  type="danger"
-                  @click="handleDelete(scope.$index, scope.row)"
-                  >删除</el-button
-                >
+                <el-button :icon="Edit" type="primary" size="small"
+                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button :icon="Delete" size="small" type="danger"
+                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </el-button-group>
             </template>
           </el-table-column>
@@ -115,8 +91,17 @@ const handleEdit = function (index, row) {
 };
 
 const handleDelete = function (index, row) {
-  operation.handleDelete(function () {
-    console.log(index, row);
+  operation.handleDelete(()=> {
+    requset.post(api.sysDeleteBrand, {
+      id: row.id,
+    }).then(res => {
+      if (res.data.code == 200) {
+        sysGetBrandList();
+        operation.success("操作成功");
+      }else{
+        operation.warning("操作失败");
+      }
+    })
   });
 };
 

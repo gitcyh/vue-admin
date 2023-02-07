@@ -90,7 +90,7 @@ const submitForm = async (formEl) => {
     if (valid) {
       console.log('submit!')
     } else {
-        useGoodsCheck.warning();
+        operation.warning("校验失败");
     }
   })
 }

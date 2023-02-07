@@ -11,22 +11,23 @@
             <el-table-column label="序号" type="index" width="60" />
             <el-table-column label="日期" prop="date" />
             <el-table-column label="客户名称" prop="name" />
-            <el-table-column label="地址" prop="address" min-width="360"  />
+            <el-table-column label="地址" prop="address" min-width="200"  />
             <el-table-column label="手机号" prop="phone" />
             <el-table-column label="商品名称" prop="goodsName" />
             <el-table-column label="规格" prop="specs" />
-            <el-table-column label="价格" prop="price" />
-            <el-table-column label="数量" prop="num"/>
+            <el-table-column label="价格" prop="price" width="60" />
+            <el-table-column label="数量" prop="num" width="60"/>
             <el-table-column label="付款方式" prop="payway" sortable />
             <el-table-column label="配送状态" prop="sendState" sortable />
             <el-table-column label="配送员" prop="sender" sortable />
-            <el-table-column label="备注" prop="remark" min-width="200"  />
-            <el-table-column align="center" fixed="right"  label="操作" width="220">
+            <el-table-column label="备注" prop="remark" min-width="180"  />
+            <el-table-column align="center" fixed="right"  label="操作" width="280">
                 <template #default="scope">
                     <el-button-group>
+                        <el-button color="#626aef" :icon="CopyDocument" type="success" size="small" @click="copy(scope.$index, scope.row)">复制</el-button>
                         <el-button :icon="View" type="success" size="small" @click="handleView(scope.$index, scope.row)">查看</el-button>
                         <el-button :icon="Edit" type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                        <el-button :icon="Delete" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        <el-button :icon="Delete" type="danger" size="small"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </el-button-group>
                 </template>
             </el-table-column>
@@ -39,7 +40,7 @@
   
 <script setup>
 import { computed, ref } from 'vue'
-import { Delete,  Edit,View,Search} from "@element-plus/icons-vue";
+import { Delete,  Edit,View,Search,CopyDocument} from "@element-plus/icons-vue";
 import OrderAddVue from './OrderAdd.vue';
 import OrderEditVue from './OrderEdit.vue';
 import OrderViewVue from './OrderView.vue';
@@ -57,6 +58,11 @@ const editChild = ref('');
 const viewChild = ref('');
 const data = ref('');
 
+
+const copy = (index, row) => {
+    data.value = row;
+    editChild.value.visible = true;
+}
 
 const handleEdit = (index, row) => {
     data.value = row;

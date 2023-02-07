@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `goods`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '商品id',
     `cat_id` varchar(64) NOT NULL COMMENT '商品分类id',
     `shop_id` varchar(64) NOT NULL COMMENT '店铺id',
-    `goods_num` varchar(20) NOT NULL COMMENT '商品编号',
+    `goods_num` varchar(32) NOT NULL COMMENT '商品编号',
     `goods_name` varchar(255) NOT NULL COMMENT '商品名称',
     `brand_name` varchar(255) NOT NULL COMMENT '品牌名称',
     `specs` varchar(255) NOT NULL COMMENT '商品规格',
@@ -199,13 +199,14 @@ CREATE TABLE IF NOT EXISTS `brand_sys`(
 --
 CREATE TABLE IF NOT EXISTS `goods_sys`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '商品id',
-    `cat_id` varchar(64) NOT NULL COMMENT '商品分类id',
+    `cat_id` varchar(64) DEFAULT NULL COMMENT '商品分类id',
     `brand_name` varchar(255) NOT NULL COMMENT '品牌名称',
-    `goods_num` varchar(20) NOT NULL COMMENT '商品编号',
+    `goods_num` varchar(20)  DEFAULT NULL COMMENT '商品编号',
     `goods_name` varchar(255) NOT NULL COMMENT '商品名称',
     `specs` varchar(255) NOT NULL COMMENT '商品规格',
-    `goodsimg_id` varchar(64) DEFAULT NULL  COMMENT '商品图片id',
+    `img_id` varchar(64) DEFAULT NULL  COMMENT '商品图片id',
     `goods_desc` TEXT  COMMENT '商品描述',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:无效',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
