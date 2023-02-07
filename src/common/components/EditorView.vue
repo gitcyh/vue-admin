@@ -1,5 +1,5 @@
 <template>
-    <el-button :icon="View" size="small" @click="visible = true">预览</el-button>
+    <el-button :icon="View" color="#626aef" size="small" @click="visible = true">预览</el-button>
     <el-dialog style="z-index:99" v-model="visible" :show-close="false" title="预览" :fullscreen="true"
         append-to-body>
         <template #header="{ close, titleId, titleClass }">

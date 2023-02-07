@@ -9,11 +9,15 @@
         </div>
     </div>
     <el-table :data="filterTableData" border style="width: 100%">
-        <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="日期" prop="createTime" sortable width="180" />
-        <el-table-column label="品牌名称" prop="brandName" />
-        <el-table-column label="商品名称" prop="goodsName" />
-        <el-table-column label="规格" prop="specs" />
+        <el-table-column label="序号" align="center" type="index" width="100" />
+        <el-table-column label="日期" align="center" prop="createTime" sortable width="180">
+            <template #default="scope">
+                {{ scope.row.createTime.split(" ")[0] }}
+            </template>
+        </el-table-column>
+        <el-table-column label="品牌名称" align="center" prop="brandName" />
+        <el-table-column label="商品名称" align="center" prop="goodsName" />
+        <el-table-column label="规格" align="center" prop="specs" />
         <el-table-column align="center" label="商品描述" prop="description" width="120">
             <template #default="scope">
                 <EditorView :data="scope.row.goodsDesc"></EditorView>
