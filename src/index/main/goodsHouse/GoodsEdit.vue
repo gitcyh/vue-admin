@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="visible" :show-close="false" draggable title="编辑商品">
+    <el-dialog v-model="visible" :show-close="false" draggable title="编辑商品" top="4vh">
         <template #header="{ close, titleId, titleClass }">
             <div>
                 <h6 :id="titleId" :class="titleClass">编辑商品</h6>
@@ -13,6 +13,9 @@
                     <el-input v-model="ruleForm.name" clearable />
                 </el-form-item>
                 <BrandVue :brand="ruleForm.brand" :changeValue="changeValue"></BrandVue>
+                <el-form-item label="商品分类" prop="categoryId">
+                    <TreeSelect :value="ruleForm.categoryId" :nodeClick="nodeClick" style="width:100%"></TreeSelect>
+                </el-form-item>
                 <el-form-item label="规格" prop="specs">
                     <el-input type="text" v-model="ruleForm.specs" clearable />
                 </el-form-item>
@@ -39,17 +42,18 @@ import useGoods from './useGoods'
 import operation from '../../../common/util/operation'
 import BrandVue from './Brand.vue'
 import EditorVue from '../../../common/components/Editor.vue'
+import TreeSelect from '../../../common/components/TreeSelect.vue'
 import request from '../../../request/request'
 import api from '../../../request/api'
 
 const props = defineProps({
-    data: Object,
     id: String,
 })
 const ruleForm = reactive({
     id: '',
     name: '',
     brand: '',
+    categoryId:'',
     specs: '',
     description: '',
 })
@@ -60,6 +64,10 @@ const visible = ref(false);
 defineExpose({
     visible
 })
+
+const nodeClick = function (id,deep) {
+    ruleForm.categoryId = id;
+}
 
 const changeValue = function (value) {
     ruleForm.brand = value;
@@ -79,10 +87,11 @@ watch(visible, (newValue, oldValue) => {
     if (newValue) {
         useGoods.getGoods(props.id).then(res => {
             if (res.data.code == 200) {
-                const {id,goodsName,brandName,specs,goodsDesc} = res.data.data.data
+                const {id,goodsName,brandName,specs,goodsDesc,categoryId} = res.data.data.data
                 ruleForm.id = id;
                 ruleForm.name = goodsName;
-                ruleForm.brand = brandName,
+                ruleForm.brand = brandName;
+                ruleForm.categoryId = categoryId;
                 ruleForm.specs = specs;
                 ruleForm.description = goodsDesc;
             }
@@ -96,6 +105,7 @@ const updateSysGoods = function () {
         id: ruleForm.id,
         goodsName: ruleForm.name,
         brandName: ruleForm.brand,
+        categoryId: ruleForm.categoryId,
         specs: ruleForm.specs,
         goodsDesc: ruleForm.description,
     }).then(res => {

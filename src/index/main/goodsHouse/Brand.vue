@@ -1,6 +1,6 @@
 <template>
     <el-form-item label="品牌名称" prop="brand">
-        <el-select v-model="brand" placeholder="请选择品牌名称" @change="changeValue" clearable>
+        <el-select v-model="brand" placeholder="请选择品牌名称" @change="changeValue" clearable style="width:100%">
             <el-option v-for="item in options" :key="item.key" :label="item.label" :value="item.label" />
         </el-select>
     </el-form-item>

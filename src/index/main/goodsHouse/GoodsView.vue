@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="visible" :show-close="false" draggable title="查看商品" top="5vh">
+    <el-dialog v-model="visible" :show-close="false" draggable title="查看商品" top="2vh">
            <template #header="{ close, titleId, titleClass }">
                <div>
                    <h6 :id="titleId" :class="titleClass">查看商品</h6>
@@ -8,7 +8,7 @@
            </template>
            <div>
                <el-form label-width="100px" class="demo-ruleForm">
-                   <el-form-item label="日期">
+                   <el-form-item label="创建日期">
                        <el-input  :value="data.createTime" readonly />
                    </el-form-item>
                    <el-form-item label="商品名称">
@@ -16,6 +16,9 @@
                    </el-form-item>
                    <el-form-item label="品牌名称">
                        <el-input type="text" :value="data.brandName" readonly />
+                   </el-form-item>
+                   <el-form-item label="商品分类">
+                        <TreeSelect :value="data.categoryId" :nodeClick="nodeClick" style="width:100%"></TreeSelect>
                    </el-form-item>
                    <el-form-item label="规格">
                        <el-input type="text" :value="data.specs" readonly />
@@ -37,12 +40,16 @@
 import { ref } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
+import TreeSelect from '../../../common/components/TreeSelect.vue';
 
 const props = defineProps({
    data:Object,
 })
 
 const visible = ref(false);
+const nodeClick = function(){
+
+}
 
 defineExpose({
     visible

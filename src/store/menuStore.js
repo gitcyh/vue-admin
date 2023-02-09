@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Document,  Menu as IconMenu, Location, Setting,User,HomeFilled,House,Avatar,Memo,Files,GoodsFilled,Shop} from "@element-plus/icons-vue";
+import { List,  Menu as IconMenu, Location, Setting,User,HomeFilled,House,Avatar,Memo,Files,GoodsFilled,Shop} from "@element-plus/icons-vue";
 import {markRaw} from 'vue'
 
 
@@ -76,6 +76,12 @@ export const menuStore = defineStore('menu',{
                     name:"商品库",
                     path:"/index/goodsHouse",
                     icon:markRaw(House),
+                },
+                {
+                    value:"catHouse",
+                    name:"类别库",
+                    path:'/index/catHouse',
+                    icon:markRaw(List),
                 },
                 {   
                     value:"system",

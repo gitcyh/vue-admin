@@ -63,30 +63,7 @@ const tableData = [
   
 
 <style scoped>
-.search-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 36px;
-    margin: 2px;
-}
 
-.search-item {
-    display: flex;
-    align-items: center;
-}
-
-.search-item label {
-    width: 50px;
-    display: inline-block;
-    color: rgb(12, 138, 241);
-    padding-left: 4px;
-}
-
-.search-header .el-input {
-    width: 300px;
-    height: 30px;
-}
 </style>
 
 

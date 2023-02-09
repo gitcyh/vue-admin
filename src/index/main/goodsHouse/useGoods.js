@@ -6,6 +6,7 @@ const rules = reactive({
     name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
     specs: [{ required: true, message: '请输入商品规格', trigger: 'blur' }],
     brand: [{ required: true, message: '请选择品牌名称', trigger: 'blur' }],
+    categoryId:[{ required: true, message: '请选商品分类', trigger: 'blur' }],
 })
 
 const resetForm = (formEl) => {

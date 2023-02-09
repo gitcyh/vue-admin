@@ -128,17 +128,27 @@ CREATE TABLE IF NOT EXISTS `bank`(
 --
 --商品分类表
 --
-CREATE TABLE IF NOT EXISTS `goods_cat`(
+CREATE TABLE IF NOT EXISTS `category`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT 'id',
-    `pid` varchar(64)  COMMENT '父id',
-    `cat_name` varchar(255) NOT NULL COMMENT '分类名称',
+    `parent_id` varchar(64) DEFAULT NULL COMMENT '父id',
+    `name` varchar(255) NOT NULL COMMENT '分类名称',
+    `sub_title` varchar(255) DEFAULT NULL COMMENT '二级标题',
+    `level`tinyint(4) NOT NULL DEFAULT 1 COMMENT '分类等级,如一级分类二级分类默认一级分类',
     `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:删除',
-    `catimg_id` varchar(64) DEFAULT NULL  COMMENT '分类图片id',
-    `subTitle` varchar(150) COMMENT '二级标题',
-    `is_show` tinyint(4)  COMMENT '1：是 0：否',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
+
+INSERT INTO `category` (`id`,`parent_id`,`name`,`sub_title`,`level`) VALUES
+('1',null,'食品','食品类',1),
+('2',null,'女装','女装类',1),
+('3',null,'手机','手机类',1),
+('4',null,'百货','百货类',1)
+('5','1','牛奶饮料','牛奶饮料类',2),
+('6','2','外套','外套类',2),
+('7','3','手机配件','手机配件类',2),
+('8','4','饰品','饰品类',2),
+('9','5','饮用水','饮用水类',3),
 
 --
 --店铺品牌表
@@ -155,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `brand`(
 --
 CREATE TABLE IF NOT EXISTS `goods`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '商品id',
-    `cat_id` varchar(64) NOT NULL COMMENT '商品分类id',
+    `category_id` varchar(64) NOT NULL COMMENT '商品分类id',
     `shop_id` varchar(64) NOT NULL COMMENT '店铺id',
     `goods_num` varchar(32) NOT NULL COMMENT '商品编号',
     `goods_name` varchar(255) NOT NULL COMMENT '商品名称',
@@ -199,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `brand_sys`(
 --
 CREATE TABLE IF NOT EXISTS `goods_sys`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '商品id',
-    `cat_id` varchar(64) DEFAULT NULL COMMENT '商品分类id',
+    `category_id` varchar(64) DEFAULT NULL COMMENT '商品分类id',
     `brand_name` varchar(255) NOT NULL COMMENT '品牌名称',
     `goods_num` varchar(20)  DEFAULT NULL COMMENT '商品编号',
     `goods_name` varchar(255) NOT NULL COMMENT '商品名称',
@@ -284,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `instock`(
 CREATE TABLE IF NOT EXISTS `payout`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
     `shop_id` varchar(64) NOT NULL COMMENT '店铺id',
-    `cat_id`  varchar(64) NOT NULL COMMENT '费用类别id',
+    `category_id`  varchar(64) NOT NULL COMMENT '费用类别id',
     `name`  varchar(255) NOT NULL COMMENT '费用名称',
     `amount` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '支出金额',
     `remark` varchar(255) DEFAULT NULL COMMENT '备注',

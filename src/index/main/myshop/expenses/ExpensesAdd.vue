@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button type="primary" size="small" @click="visible = true">添加支出</el-button>
+        <el-button :icon="Plus" type="primary" size="small" @click="visible = true">添加支出</el-button>
         <el-dialog v-model="visible" :show-close="false" draggable title="添加支出">
             <template #header="{ close, titleId, titleClass }">
                 <div>
@@ -44,7 +44,7 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
-import { CloseBold } from '@element-plus/icons-vue'
+import { CloseBold,Plus } from '@element-plus/icons-vue'
 
 import ExpensesCat from './ExpensesCat.vue';
 

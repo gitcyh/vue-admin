@@ -5,7 +5,6 @@ import Index from '../index/Index.vue'
 import Myshop from '../index/main/myshop/shop/Myshop.vue'
 import Myindex from '../index/main/myindex/Myindex.vue'
 import {menuStore} from "../store/menuStore"
-import GoodsHouse from '../index/main/goodsHouse/GoodsHouse.vue'
 import StaffMgr from '../index/main/myshop/staff/StaffMgr.vue'
 import Forget from '../user/forget/Forget.vue'
 import Error_404 from '../common/components/Error_404.vue'
@@ -102,6 +101,13 @@ const routes = [
                 path:'/index/goodsHouse',
                 components:{
                     main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/goodsHouse/GoodsHouse.vue')
+                }
+            },
+            {
+                name:"类别库",
+                path:'/index/catHouse',
+                components:{
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/catHouse/CatHouse.vue')
                 }
             },
             {

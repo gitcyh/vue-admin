@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-button :icon="Plus" type="primary" size="small" @click="visible = true">添加商品</el-button>
-        <el-dialog v-model="visible" :show-close="false" draggable title="添加商品" append-to-body top="5vh">
+        <el-dialog v-model="visible" :show-close="false" draggable title="添加商品" append-to-body top="4vh">
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">添加商品</h6>
@@ -15,6 +15,9 @@
                         <el-input v-model="ruleForm.name" clearable />
                     </el-form-item>
                     <BrandVue :brand="ruleForm.brand" :changeValue="changeValue"></BrandVue>
+                    <el-form-item label="商品分类" prop="categoryId">
+                        <TreeSelect :value="ruleForm.categoryId" :nodeClick="nodeClick"  style="width:100%"></TreeSelect>
+                    </el-form-item>
                     <el-form-item label="规格" prop="specs">
                         <el-input type="text" v-model="ruleForm.specs" clearable />
                     </el-form-item>
@@ -42,6 +45,7 @@ import useGoods from './useGoods'
 import operation from '../../../common/util/operation'
 import BrandVue from './Brand.vue'
 import EditorVue from '../../../common/components/Editor.vue'
+import TreeSelect from '../../../common/components/TreeSelect.vue'
 import request from '../../../request/request'
 import api from '../../../request/api'
 
@@ -53,9 +57,14 @@ const visible = ref(false);
 const ruleForm = reactive({
     name: '',
     brand: '',
+    categoryId:'',
     specs: '',
     description: '',
 })
+
+const nodeClick = function (id,deep) {
+    ruleForm.categoryId = id;
+}
 
 const changeValue = function (value) {
     ruleForm.brand = value;
@@ -77,6 +86,7 @@ const addSysGoods = function () {
     request.post(api.sysAddGoods, {
         goodsName: ruleForm.name,
         brandName: ruleForm.brand,
+        categoryId: ruleForm.categoryId,
         specs: ruleForm.specs,
         goodsDesc: ruleForm.description,
     }).then(res => {
