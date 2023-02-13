@@ -9,16 +9,17 @@
         </div>
     </div>
     <el-table :data="filterTableData" border style="width: 100%">
-        <el-table-column label="序号" align="center" type="index" width="100" />
-        <el-table-column label="日期" align="center" prop="createTime" sortable width="180">
+        <el-table-column label="序号" align="center" type="index" width="80" />
+        <el-table-column label="日期" align="center" prop="createTime" sortable width="120">
             <template #default="scope">
                 {{ scope.row.createTime.split(" ")[0] }}
             </template>
         </el-table-column>
-        <el-table-column label="品牌名称" align="center" prop="brandName" />
         <el-table-column label="商品名称" align="center" prop="goodsName" />
         <el-table-column label="规格" align="center" prop="specs" />
-        <el-table-column align="center" label="商品描述" prop="description" width="120">
+        <el-table-column label="品牌名称" align="center" prop="brandName" />
+        <el-table-column label="商品类别" align="center" prop="categoryName" />
+        <el-table-column align="center" label="商品描述" prop="description" width="100">
             <template #default="scope">
                 <EditorView :data="scope.row.goodsDesc"></EditorView>
             </template>
@@ -60,10 +61,13 @@ const tableData = ref([]);
 
 const filterTableData = computed(() =>
     tableData.value.filter(data =>{
-        if(!search.value){
+        let value = search.value;
+        if(!value){
             return true;
         }else{
-            return data.goodsName.includes(search.value) || data.brandName.includes(search.value) || data.specs.includes(search.value) || data.goodsDesc.includes(search.value)
+            return data.goodsName.includes(value) || data.brandName.includes(value)
+             || data.specs.includes(value) || data.goodsDesc.includes(value)
+             || data.categoryName.includes(value)
         }
     })
 )

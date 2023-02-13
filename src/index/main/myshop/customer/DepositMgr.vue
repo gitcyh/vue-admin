@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button type="primary" size="small" @click="visible = true">押金管理</el-button>
+        <el-button color="#626aef" size="small" @click="visible = true">押金管理</el-button>
         <el-dialog v-model="visible" :show-close="false" draggable title="押金管理" append-to-body width="70%">
             <template #header="{ close, titleId, titleClass }">
                 <div>
@@ -9,14 +9,22 @@
                 </div>
             </template>
             <div>
-                <DepositAddVue></DepositAddVue>
+                <DepositAddVue :customerId="customerId"></DepositAddVue>
                 <el-table :data="tableData" border style="width: 100%">
                     <el-table-column label="序号" type="index" width="60" />
-                    <el-table-column label="日期" prop="date" width="120" />
-                    <el-table-column label="押金描述" prop="descrition" width="300"/>
+                    <el-table-column label="创建日期" prop="createTime" width="120">
+                        <template #default="scope">
+                            {{ scope.row.createTime.split(" ")[0] }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="押金描述" prop="description" width="300"/>
                     <el-table-column label="押金金额" prop="money" width="100" />
                     <el-table-column label="押桶数量" prop="num" width="100" />
-                    <el-table-column label="押金状态" prop="depositState" width="100"  />
+                    <el-table-column label="押金状态" prop="state" width="100">
+                        <template #default="scope">
+                            {{ useCustomer.getState(scope.row.state) }}
+                        </template>             
+                    </el-table-column>
                     <el-table-column label="备注" prop="remark"  />
                     <el-table-column align="right" label="操作" width="220">
                         <template #default="scope">
@@ -31,7 +39,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <DepositEditVue ref="editChild" :data="data"></DepositEditVue>
+                <DepositEditVue ref="editChild" :id="id"></DepositEditVue>
                 <DepositViewVue ref="viewChild" :data="data"></DepositViewVue>
             </div>
 
@@ -41,22 +49,29 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold,Delete,View,Edit } from '@element-plus/icons-vue'
 import DepositAddVue from './DepositAdd.vue'
 import DepositEditVue from './DepositEdit.vue'
 import DepositViewVue from './DepositView.vue'
+import request from '../../../../request/request'
+import api from '../../../../request/api'
+import useCustomer from './useCustomer'
+
+const props = defineProps({
+    customerId:String,
+})
 
 const visible = ref(false);
-
+const tableData = ref([]);
 const editChild = ref('');
 const viewChild = ref('');
-const data = ref('');
+const data = ref({});
 
-
+const id = ref("");
 const handleEdit = (index, row) => {
-    data.value = row;
+    id.value = row.id;
     editChild.value.visible = true;
 }
 
@@ -73,16 +88,17 @@ const handleDelete = (index, row) => {
 
 
 
-const tableData = [
-    {
-        date:'2022-12-12',
-        descrition: '3桶怡宝押金',
-        money: '120',
-        num: '3',
-        depositState:'0',
-        remark:'',
-    },
-]
+
+
+const getDesposits = function(){
+    request.post(api.getDesposits).then(res =>{
+        tableData.value = res.data.data.data;
+    })
+}
+
+onMounted(()=>{
+    getDesposits();
+})
 
 </script>
   

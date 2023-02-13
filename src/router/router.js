@@ -105,9 +105,9 @@ const routes = [
             },
             {
                 name:"类别库",
-                path:'/index/catHouse',
+                path:'/index/catMgr',
                 components:{
-                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/catHouse/CatHouse.vue')
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/catHouse/CatMgr.vue')
                 }
             },
             {

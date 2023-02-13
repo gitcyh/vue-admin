@@ -40,10 +40,11 @@ CREATE TABLE IF NOT EXISTS `staff`(
     `name` varchar(30) NOT NULL COMMENT '员工姓名',
     `sex` tinyint NOT NULL DEFAULT 0 COMMENT '性别',
     `age` tinyint  COMMENT '年龄',
-    `phone` varchar(16) NOT NULL COMMENT '手机号',
-    `idCard` varchar(20) COMMENT '身份证号',
-    `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '入职日期',
+    `phone` varchar(16)  COMMENT '手机号',
+    `id_card` varchar(20) COMMENT '身份证号',
+    `entry_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '入职日期',
     `address` varchar(255)  COMMENT '住址',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效 -1:无效',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -55,10 +56,12 @@ CREATE TABLE IF NOT EXISTS `customer`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
     `shop_id` varchar(64) NOT NULL  COMMENT '所属店铺id',
     `name` varchar(255) NOT NULL COMMENT '客户名称',
-    `address` varchar(255)  COMMENT '地址',
-    `settlement` tinyint DEFAULT 0  COMMENT '结算方式0水票1月结2及时支付3其他',
-    `phone` varchar(16) NOT NULL COMMENT '手机号',
-    `remark` varchar(255) NOT NULL COMMENT '备注',
+    `address` varchar(255) NOT NULL  COMMENT '地址',
+    `settlement` tinyint(4) NOT NULL DEFAULT 1  COMMENT '结算方式0水票,1及时支付,2月结',
+    `wechat` varchar(64) DEFAULT NULL COMMENT '微信号',
+    `phone` varchar(16) DEFAULT NULL COMMENT '手机号',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效 -1:无效',
+    `remark` varchar(255) DEFAULT NULL  COMMENT '备注',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -69,9 +72,12 @@ CREATE TABLE IF NOT EXISTS `customer`(
 CREATE TABLE IF NOT EXISTS `desposit`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
     `customer_id` varchar(64) NOT NULL COMMENT '所属客户id,一个客户可能有多张押金单',
+    `description` varchar(255) NOT NULL COMMENT '押金描述',
     `money` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '押金金额',
     `num` int NOT NULL DEFAULT 0  COMMENT '押桶数量',
     `file_id` varchar(64) DEFAULT NULL COMMENT '押金文件id',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效 -1:无效',
+    `state` tinyint(4) NOT NULL DEFAULT -1 COMMENT '1:已押 -1:未押 0:已退',
     `remark` varchar(255) NOT NULL COMMENT '备注',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
@@ -309,24 +315,25 @@ CREATE TABLE IF NOT EXISTS `expense_category`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
     `name`  varchar(255) NOT NULL COMMENT '类别名称',
     `description` varchar(255) NOT NULL COMMENT '描述',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:删除',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
 
 INSERT INTO `expense_category` (`id`,`name`,`description`) VALUES
-('1','住房支出','房租、物业费、装修、家具家电等')
-('2','交通支出','公共交通费用、汽车费用、燃油费,爱车养车用等')
-('3','食品支出','食品材料费、餐饮费、水果蔬菜费用等')
-('4','衣物支出','服装、鞋帽、饰品等')
-('5','日常开支','美容美发、日用品、家居用品、洗漱用品等')
-('6','娱乐支出','娱乐场所、游乐园、电影院等')
-('7','医疗支出','药品费、住院费、挂号费等')
-('8','教育支出','学费、书籍费用、补习费用等')
-('9','慈善支出','慈善捐款、公益活动等')
-('10','税费支出','个人所得税、营业税等')
-('11','充值缴费','水费、电费、燃气费、话费、宽带费等')
-('11','其他','其他不便分类的费用')
-('12','工资支出','工资,奖金等')
-('13','经营支出','进货,运费等')
+('1','住房支出','房租、物业费、装修、家具家电等'),
+('2','交通支出','公共交通费用、汽车费用、燃油费,爱车养车用等'),
+('3','食品支出','食品材料费、餐饮费、水果蔬菜费用等'),
+('4','衣物支出','服装、鞋帽、饰品等'),
+('5','日常开支','美容美发、日用品、家居用品、洗漱用品等'),
+('6','娱乐支出','娱乐场所、游乐园、电影院等'),
+('7','医疗支出','药品费、住院费、挂号费等'),
+('8','教育支出','学费、书籍费用、补习费用等'),
+('9','慈善支出','慈善捐款、公益活动等'),
+('10','税费支出','个人所得税、营业税等'),
+('11','充值缴费','水费、电费、燃气费、话费、宽带费等'),
+('12','工资支出','工资,奖金等'),
+('13','经营支出','进货,运费等'),
+('14','其他','其他不便分类的费用')
 
 

@@ -9,9 +9,9 @@
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useCustomerCheck.rules" label-width="100px">
-                    <el-form-item label="押金描述" prop="descrition">
-                        <el-input type="textarea" v-model="ruleForm.descrition" clearable />
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useCustomer.despositRules" label-width="100px">
+                    <el-form-item label="押金描述" prop="description">
+                        <el-input type="text" v-model="ruleForm.description" clearable />
                     </el-form-item>
                     <el-form-item label="押金金额" prop="money">
                         <el-input v-model="ruleForm.money" type="number" style="width:214px" />
@@ -19,9 +19,9 @@
                     <el-form-item label="押桶数量" prop="num">
                         <el-input v-model="ruleForm.num" type="number" style="width:214px" />
                     </el-form-item>
-                    <DepositState />
+                    <DepositState :state="ruleForm.state" :changeState="changeState" />
                     <el-form-item label="押金单据">
-                        <Upload :fileList="fileList"/>
+                        <Upload ref="uploadDesposit" />
                     </el-form-item>
                     <el-form-item label="备注" prop="remark">
                         <el-input type="textarea" v-model="ruleForm.remark" clearable />
@@ -43,45 +43,75 @@
 import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
-import UseCustomerCheck from './useCustomerCheck'
+import useCustomer from './useCustomer'
 import Upload from '../../../../common/components/Upload.vue';
 import DepositState from './DepositState.vue';
+import request from '../../../../request/request';
+import api from '../../../../request/api';
+import operation from '../../../../common/util/operation';
 
-let useCustomerCheck = UseCustomerCheck();
+const props = defineProps({
+    customerId: String
+})
 
-const fileList = ref([
-  {
-    name: 'food.jpeg',
-    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-  }
-])
-
+const uploadDesposit = ref();
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
     money: '',
     num: 0,
-    descrition: '',
-    remark:'',
+    description: '',
+    remark: '',
+    state: null,
+    fileId:'',
 })
 
+const changeState = function (value) {
+    ruleForm.state = value;
+}
+
+const close = function () {
+    visible.value = false;
+}
+
+const addDesposit = function () {
+    request.post(api.addDesposit, {
+        money: ruleForm.money,
+        num: ruleForm.num,
+        description: ruleForm.description,
+        remark: ruleForm.remark,
+        state: ruleForm.state,
+        customerId: props.customerId,
+        fileId: ruleForm.fileId,
+    }).then(res => {
+        if (res.data.code === 200) {
+            operation.success();
+        } else {
+            operation.warning();
+        }
+        close();
+    })
+}
+
 const submitForm = async (formEl) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-        operation.warning("校验失败");
-    }
-  })
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            uploadDesposit.value.submitUpload().then(res => {
+                const fileId = res.data.data.fileId;
+                ruleForm.fileId = fileId;
+                addDesposit();
+            })
+        } else {
+            operation.warning("校验失败");
+        }
+    })
 }
 
 
 </script>
   
 <style scoped>
-
-
 
 </style>
 

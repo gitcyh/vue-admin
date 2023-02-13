@@ -26,7 +26,7 @@ const handleDelete = (callback) => {
 const warning = (message) => {
     ElNotification({
         title: 'Warning',
-        message: message,
+        message: message || "操作失败",
         type: 'warning',
         duration:3000
     })
@@ -35,7 +35,7 @@ const warning = (message) => {
 const success = (message) => {
     ElNotification({
         title: 'Success',
-        message: message,
+        message: message || "操作成功",
         type: 'success',
         duration:3000
     })

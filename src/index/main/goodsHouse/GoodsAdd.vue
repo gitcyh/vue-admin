@@ -5,7 +5,7 @@
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">添加商品</h6>
-                    <el-button @click="visible = false" :icon="CloseBold" circle />
+                    <el-button @click="close" :icon="CloseBold" circle />
                 </div>
             </template>
             <div>
@@ -28,7 +28,7 @@
             </div>
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="visible = false">取消</el-button>
+                    <el-button @click="close">取消</el-button>
                     <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
                 </span>
             </template>
@@ -62,6 +62,10 @@ const ruleForm = reactive({
     description: '',
 })
 
+const close = function(){
+    visible.value = false;
+}
+
 const nodeClick = function (id,deep) {
     ruleForm.categoryId = id;
 }
@@ -91,7 +95,8 @@ const addSysGoods = function () {
         goodsDesc: ruleForm.description,
     }).then(res => {
         if (res.data.code === 200) {
-            operation.success("添加成功")
+            operation.success("添加成功");
+            close();
         } else {
             operation.warning(res.data.msg)
         }

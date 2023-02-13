@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="visible" :show-close="false" draggable title="查看商品" top="2vh">
+    <el-dialog v-model="visible" :show-close="false" draggable title="查看商品" top="4vh">
            <template #header="{ close, titleId, titleClass }">
                <div>
                    <h6 :id="titleId" :class="titleClass">查看商品</h6>
@@ -24,7 +24,7 @@
                        <el-input type="text" :value="data.specs" readonly />
                    </el-form-item>
                    <el-form-item label="商品描述">
-                       <div style="overflow: auto;height: 500px;width: 100%;" v-html="data.goodsDesc"></div>
+                       <div style="overflow: auto;height: 400px;width: 100%;" v-html="data.goodsDesc"></div>
                     </el-form-item>
                </el-form>
            </div>

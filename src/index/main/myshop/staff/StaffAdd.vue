@@ -5,11 +5,11 @@
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">添加员工</h6>
-                    <el-button @click="visible = false" :icon="CloseBold" circle />
+                    <el-button @click="close" :icon="CloseBold" circle />
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useStaffCheck.rules" label-width="100px" class="demo-ruleForm">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useStaff.rules" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="姓名" prop="name">
                         <el-input v-model="ruleForm.name" clearable />
                     </el-form-item>
@@ -20,28 +20,25 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="年龄" prop="age">
-                        <el-input v-model.number="ruleForm.age" clearable />
+                        <el-input type="text" v-model.number="ruleForm.age" clearable />
+                    </el-form-item>
+                    <el-form-item label="入职日期" prop="entryDate">
+                        <el-date-picker v-model="ruleForm.entryDate" type="datetime" value-format="YYYY-MM-DD HH:mm:ss"  placeholder="请选择日期" clearable style="width: 100%"/>
                     </el-form-item>
                     <el-form-item label="手机号" prop="phone">
                         <el-input type="text" v-model="ruleForm.phone" clearable />
                     </el-form-item>
-                    <el-form-item label="身份证" prop="IDCard">
-                        <el-input type="text" v-model="ruleForm.IDCard" clearable />
-                    </el-form-item>
-                    <el-form-item label="入职日期">
-                        <el-date-picker v-model="ruleForm.date" type="date"  label="请选择日期"  placeholder="请选择日期" clearable style="width: 100%"/>
+                    <el-form-item label="身份证" prop="idCard">
+                        <el-input type="text" v-model="ruleForm.idCard" clearable />
                     </el-form-item>
                     <el-form-item label="住址" prop="address">
                         <el-input v-model="ruleForm.address" type="textarea" clearable />
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button @click="useStaffCheck.resetForm(ruleFormRef)">重置</el-button>
                     </el-form-item>
                 </el-form>
             </div>
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="visible = false">取消</el-button>
+                    <el-button @click="close">取消</el-button>
                     <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
                 </span>
             </template>
@@ -54,8 +51,11 @@
 import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
-import UseStaffCheck from './useStaffCheck'
-let useStaffCheck = UseStaffCheck();
+import useStaff from './useStaff'
+import request from '../../../../request/request';
+import api from '../../../../request/api';
+import operation from '../../../../common/util/operation';
+
 
 const ruleFormRef = ref();
 const visible = ref(false);
@@ -64,16 +64,40 @@ const ruleForm = reactive({
     age: '',
     sex: '0',
     phone: '',
-    IDCard: '',
-    date:'',
+    idCard: '',
+    entryDate:'',
     address: '',
 })
+
+const close = function(){
+    visible.value = false;
+}
+
+
+const addStaff = function(){
+    request.post(api.addStaff,{
+        name: ruleForm.name,
+        age: ruleForm.age,
+        sex: ruleForm.sex,
+        phone: ruleForm.phone,
+        idCard: ruleForm.idCard,
+        entryDate:ruleForm.entryDate,
+        address: ruleForm.address,
+    }).then(res =>{
+        if(res.data.code === 200){
+            operation.success("添加成功");
+        }else{
+            operation.success("操作失败");
+        }
+        close();
+    })
+}
 
 const submitForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!')
+      addStaff();
     } else {
         operation.warning("校验失败");
     }

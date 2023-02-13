@@ -1,6 +1,21 @@
 
 
 const api = {
+    addDesposit:"addDesposit",
+    getDesposit:"getDesposit",
+    updateDesposit:"updateDesposit",
+    getDesposits:"getDesposits",
+    deleteDesposit:"deleteDesposit",
+    addStaff:"addStaff",
+    getStaff:"getStaff",
+    updateStaff:"updateStaff",
+    getStaffs:"getStaffs",
+    deleteStaff:"deleteStaff",
+    addCustomer:"addCustomer",
+    getCustomer:"getCustomer",
+    updateCustomer:"updateCustomer",
+    getCustomers:"getCustomers",
+    deleteCustomer:"deleteCustomer",
     logout:"/logout",
     deleteFile:"/deleteFile",
     sysAddBrand:"/sys/addBrand",
@@ -17,6 +32,11 @@ const api = {
     sysGetCategory:"/sys/getCategory",
     sysUpdateCategory:"/sys/updateCategory",
     sysDeleteCategory:"/sys/deleteCategory",
+    sysGetExpenseCategorys:"/sys/getExpenseCategorys",
+    sysAddExpenseCategory:"/sys/addExpenseCategory",
+    sysGetExpenseCategory:"/sys/getExpenseCategory",
+    sysUpdateExpenseCategory:"/sys/updateExpenseCategory",
+    sysDeleteExpenseCategory:"/sys/deleteExpenseCategory",
 }
 
 export default api;

@@ -35,17 +35,28 @@ const dialogVisible = ref(false)
 const submitUpload = () => {
     //upload.value.submit();
     return new Promise((resolve, reject) => {
-        let formData = new FormData();
-        formData.append("file", props.fileList[0].raw);//拿到存在fileList的文件存放到formData中
-        request.post("/upload", formData, {
-            "Content-Type": "multipart/form-data;charset=utf-8"
-        }).then(res => {
-            if (res.data.code === 200) {
-                resolve(res);
-            }else{
-                reject(res)
-            }
-        })
+        if (props.fileList[0]) {
+            let formData = new FormData();
+            formData.append("file", props.fileList[0].raw);//拿到存在fileList的文件存放到formData中
+            request.post("/upload", formData, {
+                "Content-Type": "multipart/form-data;charset=utf-8"
+            }).then(res => {
+                if (res.data.code === 200) {
+                    resolve(res);
+                } else {
+                    reject(res)
+                }
+            })
+        }else{
+            resolve({
+                data:{
+                    data:{
+                        fileId:"",
+                    }
+                }
+            });
+        }
+
     })
 }
 defineExpose({

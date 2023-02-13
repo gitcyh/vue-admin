@@ -3,24 +3,31 @@
         <div class="search-item">
             <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入客户信息" />
         </div>
-        <div class="search-item">
-            <CustomerAddVue></CustomerAddVue>
-        </div>
+        <CustomerAddVue></CustomerAddVue>
     </div>
     
     <el-table :data="filterTableData" border  style="width: 100%">
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="客户名称" prop="name" />
-        <el-table-column label="地址" prop="address" min-width="300"/>
-        <el-table-column label="结算方式" prop="settlement" />
-        <el-table-column label="手机号" prop="phone" />
-        <el-table-column label="押金状态" prop="depositState" sortable />
-        <el-table-column label="押金管理" width="100">
+        <el-table-column label="日期" prop="createTime" width="120" >
             <template #default="scope">
-                <DepositMgr></DepositMgr>
+                {{ scope.row.createTime.split(" ")[0] }}
             </template>
         </el-table-column>
-        <el-table-column label="备注" prop="remark" sortable min-width="200" />
+        <el-table-column label="客户名称" prop="name" />
+        <el-table-column label="地址" prop="address" min-width="300"/>
+        <el-table-column label="手机号" prop="phone" />
+        <el-table-column label="微信号" prop="wechat" />
+        <el-table-column label="结算方式" prop="settlement">
+            <template #default="scope">
+                {{ useCustomer.getSettlement(scope.row.settlement) }}
+            </template>
+        </el-table-column>
+        <el-table-column label="押金管理" width="100">
+            <template #default="scope">
+                <DepositMgr :customerId="scope.row.id"></DepositMgr>
+            </template>
+        </el-table-column>
+        <el-table-column label="备注" prop="remark" min-width="180" />
         <el-table-column align="right"  label="操作" width="220">
             <template #default="scope">
                 <el-button-group>
@@ -31,35 +38,46 @@
             </template>
         </el-table-column>
     </el-table>
-    <CustomerEditVue ref="editChild" :data="data"></CustomerEditVue>
+    <CustomerEditVue ref="editChild" :id="id"></CustomerEditVue>
     <CustomerViewVue ref="viewChild" :data="data"></CustomerViewVue>
 </template>
   
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { Delete,  Edit,View,Search} from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import CustomerAddVue from './CustomerAdd.vue';
 import CustomerEditVue from './CustomerEdit.vue';
 import CustomerViewVue from './CustomerView.vue';
 import DepositMgr from './DepositMgr.vue';
+import request from '../../../../request/request';
+import api from '../../../../request/api';
+import operation from '../../../../common/util/operation';
+import useCustomer from './useCustomer';
 
-
+const tableData = ref([]);
 const search = ref('')
 const filterTableData = computed(() =>
-    tableData.filter(
-        (data) => !search.value || data.name.toLowerCase().includes(search.value.toLowerCase())
+    tableData.value.filter(
+        (data) => {
+            let value = search.value;
+            if(!value){
+                return true;
+            }else{
+                return data.name.toLowerCase().includes(value) || data.address.toLowerCase().includes(value) || data.phone.toLowerCase().includes(value)
+                || data.wechat.toLowerCase().includes(value)
+            }
+        }
     )
 )
 
 const editChild = ref('');
 const viewChild = ref('');
-const data = ref('');
-
-
+const data = ref({});
+const id = ref("");
 const handleEdit = (index, row) => {
-    data.value = row;
     editChild.value.visible = true;
+    id.value = row.id;
 }
 
 const handleView = (index, row) => {
@@ -69,44 +87,30 @@ const handleView = (index, row) => {
 
 const handleDelete = (index, row) => {
     Operation.handleDelete(function(){
-        console.log(index, row);
+        request.get(api.deleteCustomer,{
+            params:{
+                id:row.id,
+            }
+        }).then(res =>{
+            if(res.data.code === 200){
+                operation.success();
+            }else{
+                operation.warning();
+            }
+        })
     })
 }
 
-const tableData = [
-    {
-        name: '陈先生',
-        address: '新围仔几巷几号',
-        settlement:"水票",
-        phone: '13712345678',
-        depositState:'已押',
-        remark:'',
-    },
-    {
-        name: '陈先生',
-        address: '新围仔几巷几号',
-        settlement:"月结",
-        phone: '13712345678',
-        depositState:'已押',
-        remark:'',
-    },
-    {
-        name: '陈先生',
-        address: '新围仔几巷几号',
-        settlement:"及时支付",
-        phone: '13712345678',
-        depositState:'已押',
-        remark:'',
-    },
-    {
-        name: '陈先生',
-        address: '新围仔几巷几号',
-        settlement:"其他",
-        phone: '13712345678',
-        depositState:'已押',
-        remark:'',
-    },
-]
+
+const getCustomers = function(){
+    request.post(api.getCustomers).then(res =>{
+        tableData.value = res.data.data.data;
+    })
+}
+
+onMounted(()=>{
+    getCustomers();
+})
 </script>
   
 

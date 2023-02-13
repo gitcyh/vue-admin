@@ -57,7 +57,7 @@ const ruleForm = reactive({
 
 const fileList = [
     {
-        name: 'food.jpeg',
+        name: 'picture.jpeg',
         url: jwtUtil.getPictureId(),
     },
 ]

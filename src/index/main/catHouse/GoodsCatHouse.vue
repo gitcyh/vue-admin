@@ -39,8 +39,8 @@
 import { computed, ref, onMounted } from 'vue'
 import { Delete, Edit, Search } from "@element-plus/icons-vue";
 import Operation from '../../../common/util/operation';
-import CatAdd from './CatAdd.vue'
-import CatEdit from './CatEdit.vue';
+import CatAdd from './GoodsCatAdd.vue'
+import CatEdit from './GoodsCatEdit.vue';
 import request from '../../../request/request';
 import api from '../../../request/api';
 
@@ -48,16 +48,29 @@ const search = ref('')
 const editChild = ref(null);
 const tableData = ref([]);
 
+const finNode = function(data, value) {
+    for(let i=0;i<data.length;i++){
+        let item = data[i];
+        if (item.name.includes(value) || item.subTitle?.includes(value)){
+            return true;
+        } 
+        if (item.children) {
+            return finNode(item.children, value);
+        }
+        return false
+    }
+}
+
 const filterTableData = computed(() =>
     tableData.value.filter(data =>{
         if(!search.value){
             return true;
         }else{
-            return data.name.includes(search.value) || data.subTitle.includes(search.value)
+            return  finNode([data],search.value);//data.name.includes(search.value) || data.subTitle?.includes(search.value)
         }
     })
 )
-const data = ref({});
+
 const id = ref("");
 const handleEdit = (index, row) => {
     id.value = row.id;

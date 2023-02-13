@@ -27,7 +27,7 @@
         </div>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="visible = false">取消</el-button>
+                <el-button @click="close">取消</el-button>
                 <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
             </span>
         </template>
@@ -64,6 +64,10 @@ const visible = ref(false);
 defineExpose({
     visible
 })
+
+const close = function(){
+    visible.value = false;
+}
 
 const nodeClick = function (id,deep) {
     ruleForm.categoryId = id;
@@ -110,7 +114,8 @@ const updateSysGoods = function () {
         goodsDesc: ruleForm.description,
     }).then(res => {
         if (res.data.code === 200) {
-            operation.success("添加成功")
+            operation.success("修改成功");
+            close();
         } else {
             operation.warning(res.data.msg)
         }

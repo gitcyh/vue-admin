@@ -78,9 +78,9 @@ export const menuStore = defineStore('menu',{
                     icon:markRaw(House),
                 },
                 {
-                    value:"catHouse",
+                    value:"catMgr",
                     name:"类别库",
-                    path:'/index/catHouse',
+                    path:'/index/catMgr',
                     icon:markRaw(List),
                 },
                 {   

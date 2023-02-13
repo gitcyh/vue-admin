@@ -1,34 +1,41 @@
 <template>
     <el-dialog v-model="visible" :show-close="false" draggable title="查看客户">
-          <template #header="{ close, titleId, titleClass }">
-              <div>
-                  <h6 :id="titleId" :class="titleClass">查看客户</h6>
-                  <el-button @click="close" :icon="CloseBold" circle />
-              </div>
-          </template>
-          <div>
-              <el-form ref="ruleFormRef" :model="data"  label-width="100px" class="demo-ruleForm">
+        <template #header="{ close, titleId, titleClass }">
+            <div>
+                <h6 :id="titleId" :class="titleClass">查看客户</h6>
+                <el-button @click="close" :icon="CloseBold" circle />
+            </div>
+        </template>
+        <div>
+            <el-form ref="ruleFormRef" :model="data" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="创建日期" prop="createTime">
+                    <el-input :value="data.createTime" readonly />
+                </el-form-item>
                 <el-form-item label="客户名称" prop="name">
-                        <el-input :value="data.name" readonly />
-                    </el-form-item>
-                    <el-form-item label="手机号" prop="phone">
-                        <el-input type="text" :value="data.phone" readonly />
-                    </el-form-item>
-                    <el-form-item label="地址" prop="address">
-                        <el-input :value="data.address" type="text" readonly />
-                    </el-form-item>
-                    <el-form-item label="备注" prop="remark">
-                        <el-input type="text" :value="data.remark" readonly />
-                    </el-form-item>
+                    <el-input :value="data.name" readonly />
+                </el-form-item>
+                <el-form-item label="地址" prop="address">
+                    <el-input :value="data.address" type="text" readonly />
+                </el-form-item>
+                <el-form-item label="手机号" prop="phone">
+                    <el-input type="text" :value="data.phone" readonly />
+                </el-form-item>
+                <el-form-item label="微信号" prop="phone">
+                    <el-input type="text" :value="data.wechat" readonly />
+                </el-form-item>
+                <Settlement :settlement="data.settlement" :changeSettlement="function () { }"></Settlement>
+                <el-form-item label="备注" prop="remark">
+                    <el-input type="text" :value="data.remark" readonly />
+                </el-form-item>
 
-              </el-form>
-          </div>
-          <template #footer>
-              <span class="dialog-footer">
-                  <el-button @click="close">关闭</el-button>
-              </span>
-          </template>
-      </el-dialog>
+            </el-form>
+        </div>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="close">关闭</el-button>
+            </span>
+        </template>
+    </el-dialog>
 
 </template>
 
@@ -36,9 +43,10 @@
 import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
+import Settlement from './Settlement.vue';
 
 const props = defineProps({
-  data:Object,
+    data: Object,
 })
 
 
@@ -46,27 +54,27 @@ const ruleFormRef = ref();
 const visible = ref(false);
 
 defineExpose({
-  visible
+    visible
 })
 const ruleForm = reactive({
     name: '',
     phone: '',
     address: '',
-    remark:'',
+    remark: '',
 })
 
-const close = function(){
-  visible.value = false;
+const close = function () {
+    visible.value = false;
 }
 
 </script>
 
 <style scoped>
 .my-header {
-  height: 30px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 </style>
 

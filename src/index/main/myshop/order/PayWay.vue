@@ -30,14 +30,22 @@ const options = [
     },
     {
         value: '4',
-        label: '现金',
+        label: '按季度',
     },
     {
         value: '5',
-        label: '未支付',
+        label: '按年',
     },
     {
         value: '6',
+        label: '现金',
+    },
+    {
+        value: '7',
+        label: '未支付',
+    },
+    {
+        value: '8',
         label: '其他',
     },
 ]
