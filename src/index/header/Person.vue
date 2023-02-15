@@ -41,7 +41,7 @@ onMounted(() => {
 const logout = function () {
   request.post(api.logout, {
       username: userName.value,
-      id: localStorage.getItem("userid"),
+      id: jwtUtil.getValue("userid"),
     })
     .then((res) => {
       if (res.data.code === 200) {

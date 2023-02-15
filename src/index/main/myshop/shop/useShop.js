@@ -2,10 +2,11 @@ import { reactive } from 'vue'
 import useCheck from '../../../../common/check/useCheck'
 
 
+
 const rules = reactive({
-    shopname: [{ required: true, message: '请输入店铺名称', trigger: 'blur' }],
-    shop_address: [{ required: true, message: '请输入店铺地址', trigger: 'blur' }],
-    shop_tel: [{ required: true, message: '请输入店铺电话', trigger: 'blur' }],
+    shopName: [{ required: true, message: '请输入店铺名称', trigger: 'blur' }],
+    shopAddress: [{ required: true, message: '请输入店铺地址', trigger: 'blur' }],
+    shopTel: [{ required: true, message: '请输入店铺电话', trigger: 'blur' }],
     shopkeeper: [{ required: true, message: '请输入店主姓名', trigger: 'blur' }],
     idCard: [
         { required: true, message: '请输入店主身份证', trigger: 'blur' },
@@ -16,8 +17,8 @@ const rules = reactive({
         { validator: useCheck.checkPhone, trigger: 'blur' }
     ],
     shopCompany: [{ required: true, message: '请输入公司名称', trigger: 'blur' }],
-    serviceStartTime: [{ required: true, message: '请输入开始营业时间', trigger: 'blur' }],
-    serviceEndTime: [{ required: true, message: '请输入结束营业时间', trigger: 'blur' }],
+    startTime: [{ required: true, message: '请输入开始营业时间', trigger: 'blur' }],
+    endTime: [{ required: true, message: '请输入结束营业时间', trigger: 'blur' }],
 })
 
 const getPosition = function (ruleForm) {

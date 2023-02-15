@@ -33,7 +33,9 @@ import { Edit, View, Search } from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import ExpensesAdd from './ExpensesAdd.vue';
 import ExpensesEdit from './ExpensesEdit.vue';
-import ExpensesCat from './ExpensesCat.vue'
+import ExpenseCatSelect from '../../../../common/components/ExpenseCatSelect.vue';
+
+
 
 
 const search = ref('')

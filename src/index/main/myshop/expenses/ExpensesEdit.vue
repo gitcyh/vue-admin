@@ -15,9 +15,7 @@
                     <el-form-item label="费用名称" prop="name">
                         <el-input type="text" v-model="ruleForm.name" clearable  />
                     </el-form-item>
-                    <el-form-item label="支出类别" prop="name">
-                        <ExpensesCat :category="ruleForm.category"></ExpensesCat>
-                    </el-form-item>
+                    <ExpenseCatSelect></ExpenseCatSelect>
                     <el-form-item label="费用描述" prop="description">
                         <el-input v-model="ruleForm.description" type="text"  />
                     </el-form-item>
@@ -44,8 +42,9 @@
 import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
+import ExpenseCatSelect from '../../../../common/components/ExpenseCatSelect.vue';
 
-import ExpensesCat from './ExpensesCat.vue';
+
 
 
 

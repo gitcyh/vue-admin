@@ -28,13 +28,13 @@
                     <el-form-item label="店主手机号" prop="telephone">
                         <el-input type="text" v-model="ruleForm.telephone" placeholder="请输入店主手机号" />
                     </el-form-item>
-                    <el-form-item label="店铺图片" prop="shop_img" required>
+                    <el-form-item label="店铺图片" prop="shopImg" required>
                         <UploadVue ref="upload_img" :fileList="fileList"></UploadVue>
                     </el-form-item>
                     <el-form-item label="公司名称" prop="shopCompany">
                         <el-input type="text" v-model="ruleForm.shopCompany" placeholder="请输入公司名称" />
                     </el-form-item>
-                    <el-form-item label="营业执照" prop="shop_license" required>
+                    <el-form-item label="营业执照" prop="shopLicense" required>
                         <UploadVue ref="upload_license" :fileList="fileList"></UploadVue>
                     </el-form-item>
                     <el-form-item label="开始营业时间" prop="serviceStartTime">

@@ -12,13 +12,30 @@
 
 <script setup>
 import { ref,onMounted } from "vue";
+import api from "../../../../request/api";
+import request from "../../../../request/request";
 import ShopAddVue from "./ShopAdd.vue";
 import ShopViewVue from "./ShopView.vue";
+import jwtUtil from "../../../../common/util/jwtUtil";
 
-const hasShop = ref(true);
+const hasShop = ref(false);
+
+const getShopByuserId = function(){
+    request.get(api.getShop,{
+        params:{
+            userId:jwtUtil.getValue("userid"),
+        }
+    }).then(res =>{
+        if(res.data.code === 200){
+            hasShop.value = true;
+        }else{
+            hasShop.value = false;
+        }
+    })
+}
 
 onMounted(()=>{
-    console.log('请求店铺信息')
+    getShopByuserId();
 })
 
 </script>

@@ -12,7 +12,7 @@
         <el-table-column label="序号" align="center" type="index" width="80" />
         <el-table-column label="日期" align="center" prop="createTime" sortable width="120">
             <template #default="scope">
-                {{ scope.row.createTime.split(" ")[0] }}
+                {{ scope.row.createTime.split("T")[0] }}
             </template>
         </el-table-column>
         <el-table-column label="商品名称" align="center" prop="goodsName" />

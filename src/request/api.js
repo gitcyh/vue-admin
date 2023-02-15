@@ -1,6 +1,8 @@
 
 
 const api = {
+    getShop:"getShop",
+    addShop:"addShop",
     addDesposit:"addDesposit",
     getDesposit:"getDesposit",
     updateDesposit:"updateDesposit",
