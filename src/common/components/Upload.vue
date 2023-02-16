@@ -35,7 +35,7 @@ const dialogVisible = ref(false)
 const submitUpload = () => {
     //upload.value.submit();
     return new Promise((resolve, reject) => {
-        if (props.fileList[0]) {
+        if (props.fileList[0] && props.fileList[0].raw) {
             let formData = new FormData();
             formData.append("file", props.fileList[0].raw);//拿到存在fileList的文件存放到formData中
             request.post("/upload", formData, {

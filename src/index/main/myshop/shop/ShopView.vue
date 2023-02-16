@@ -4,44 +4,59 @@
             我的店铺信息
         </div>
         <el-form ref="ruleFormRef" :model="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="店铺名称" prop="shopname">
-                <el-input :value="ruleForm.shopname" readonly />
+            <el-form-item label="店铺名称">
+                <el-input :value="ruleForm.shopName" readonly />
             </el-form-item>
-            <el-form-item label="店铺地址" prop="shop_address">
-                <el-input type="text" :value="ruleForm.shop_address" readonly />
+            <el-form-item label="店铺地址">
+                <el-input type="text" :value="ruleForm.shopAddress" readonly />
             </el-form-item>
-            <el-form-item label="店铺电话" prop="shop_tel">
-                <el-input type="text" :value="ruleForm.shop_tel" readonly />
+            <el-form-item label="店铺电话">
+                <el-input type="text" :value="ruleForm.shopTel" readonly />
             </el-form-item>
-            <el-form-item label="店主姓名" prop="shopkeeper">
-                <el-input type="text" :value="ruleForm.shopkeeper" readonly />
+            <el-form-item label="店主姓名">
+                <el-input type="text" :value="ruleForm.shopKeeper" readonly />
             </el-form-item>
-            <el-form-item label="店主身份证" prop="idCard">
+            <el-form-item label="店主身份证">
                 <el-input type="text" :value="ruleForm.idCard" readonly />
             </el-form-item>
-            <el-form-item label="店主手机号" prop="telephone">
+            <el-form-item label="店主手机号">
                 <el-input type="text" :value="ruleForm.telephone" readonly/>
             </el-form-item>
-            <el-form-item label="公司名称" prop="shopCompany">
+            <el-form-item label="公司名称">
                 <el-input type="text" :value="ruleForm.shopCompany" readonly/>
             </el-form-item>
-            <el-form-item label="店铺经纬度" prop="longitude" style="display:flex;justify-content: space-between;">
+            <el-form-item label="店铺经纬度" style="display:flex;justify-content: space-between;">
                 <el-input type="text" :value="ruleForm.longitude"  readonly/>
             </el-form-item>
-            <el-form-item label="起止营业时间" prop="serviceStartTime">
-                <el-time-picker :value="ruleForm.serviceStartTime" readonly/>&nbsp;~&nbsp;<el-time-picker :value="ruleForm.serviceEndTime" readonly/>
+            <el-form-item label="营业时间">
+                <el-col :span="10">
+                    <el-form-item prop="startTime">
+                        <el-input value-format="HH:mm:ss" :value="ruleForm.startTime" />
+                    </el-form-item>
+                </el-col>
+                <el-col style="text-align:center;" :span="4">
+                    <span>-</span>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item prop="endTime">
+                        <el-input value-format="HH:mm:ss" :value="ruleForm.endTime" />
+                    </el-form-item>
+                </el-col>
             </el-form-item>
-            <el-form-item label="审核状态" prop="apply_status">
-                <el-input type="text" :value="ruleForm.apply_status" style="width:100px;margin-right: 10px;" readonly/>
-                <span style="color:red;font-size: 12px;">审核失败原因</span>
+            <el-form-item label="营业状态">
+                <el-input type="text" :value="getShopActive()" style="width:100px;" readonly />
             </el-form-item>
-            <el-form-item label="店铺文件" prop="shop_img">
+            <el-form-item label="审核状态">
+                <el-input type="text" :value="getApplyState()" style="width:100px;margin-right: 10px;" readonly/>
+                <span style="color:red;font-size: 12px;">{{ getReason() }}</span>
+            </el-form-item>
+            <el-form-item label="店铺文件">
                 <div class="shop-img">
                     <div>
-                        <span>店铺图片:</span><el-image style="width: 100px; height: 100px" src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg" fit="fill" :preview-src-list="['https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg']" />
+                        <span>店铺图片:</span><el-image style="width: 100px; height: 100px" :src="getImgSrc()" fit="fill" :preview-src-list="[getImgSrc()]" />
                     </div>
                     <div>
-                        <span>营业执照:</span><el-image style="width: 100px; height: 100px" src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg" fit="fill" :preview-src-list="['https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg']" />
+                        <span>营业执照:</span><el-image style="width: 100px; height: 100px" :src="getLicenseSrc()" fit="fill" :preview-src-list="[getLicenseSrc()]" />
                     </div>
                 </div>
             </el-form-item>
@@ -55,9 +70,9 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,onMounted } from 'vue'
 import ShopEditVue from './ShopEdit.vue';
-
+import useShop from './useShop';
 
 
 const props = defineProps({
@@ -70,20 +85,65 @@ defineExpose({
     visible
 })
 const ruleForm = reactive({
-    shopname: '',
-    shop_address: '',
-    shop_tel: '',
-    shopkeeper: '',
-    idCard:'',
+    shopName: '',
+    shopAddress: '',
+    shopTel: '',
+    shopKeeper: '',
+    idCard: '',
     telephone: '',
-    shop_img: '',
+    imgId: '',
     shopCompany: '',
-    shop_license: '',
-    serviceStartTime: '',
-    serviceEndTime: '',
+    licenseId: '',
+    startTime: '09:00:00',
+    endTime: '22:30:00',
     longitude: '',
     latitude: '',
-    apply_status:''
+    applyStatus:0,
+    applyDesc:"",
+    shopActive:0,
+})
+
+const getApplyState = function(){
+    if(ruleForm.applyStatus === 0){
+        return "待审核"
+    }else if(ruleForm.applyStatus === -1){
+        return "审核不通过"
+    }else if(ruleForm.applyStatus === 1){
+        return "审核通过"
+    }else{
+        return "待审核"
+    }
+}
+
+const getReason = function(){
+    if(ruleForm.applyStatus === -1){
+        return ruleForm.applyDesc
+    }else {
+        return ""
+    }
+}
+
+const getShopActive = function(){
+    if(ruleForm.shopActive === 1){
+        return "营业中"
+    }else {
+        return "休息中"
+    }
+}
+
+const getImgSrc = function(){
+    const token = localStorage.getItem("token");
+    return "/api/download?id=" + ruleForm.imgId + "&token=" + token;
+}
+
+const getLicenseSrc = function(){
+    const token = localStorage.getItem("token");
+    return "/api/download?id=" + ruleForm.licenseId + "&token=" + token;
+}
+
+
+onMounted(()=>{
+    useShop.getShop(ruleForm);
 })
 
 </script>

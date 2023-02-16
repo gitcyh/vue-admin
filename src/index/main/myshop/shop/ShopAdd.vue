@@ -5,7 +5,7 @@
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">申请开店</h6>
-                    <el-button @click="visible = false" :icon="CloseBold" circle />
+                    <el-button @click="close" :icon="CloseBold" circle />
                 </div>
             </template>
             <div>
@@ -29,29 +29,35 @@
                     <el-form-item label="店主手机号" prop="telephone">
                         <el-input type="text" v-model="ruleForm.telephone" placeholder="请输入店主手机号" />
                     </el-form-item>
-                    <el-form-item label="店铺图片" prop="shopImg">
+                    <el-form-item label="店铺图片" prop="imgId">
                         <UploadVue ref="upload_img"></UploadVue>
                     </el-form-item>
                     <el-form-item label="公司名称" prop="shopCompany">
                         <el-input type="text" v-model="ruleForm.shopCompany" placeholder="请输入公司名称" />
                     </el-form-item>
-                    <el-form-item label="营业执照" prop="shopLicense">
+                    <el-form-item label="营业执照" prop="licenseId">
                         <UploadVue ref="upload_license"></UploadVue>
                     </el-form-item>
                     <el-form-item label="营业时间" required>
-                        <el-col :span="11">
+                        <el-col :span="10">
                             <el-form-item prop="startTime">
-                                <el-time-picker value-format="HH:mm:ss" v-model="ruleForm.startTime" @change="change" placeholder="请选择开始营业时间" />
+                                <el-time-picker style="width:100%" value-format="HH:mm:ss" v-model="ruleForm.startTime" placeholder="请选择开始营业时间" />
                             </el-form-item>
                         </el-col>
-                        <el-col class="text-center" :span="2">
-                            <span class="text-gray-500">-</span>
+                        <el-col style="text-align:center" :span="4">
+                            <span>-</span>
                         </el-col>
-                        <el-col :span="11">
+                        <el-col :span="10">
                             <el-form-item prop="endTime">
-                                <el-time-picker value-format="HH:mm:ss" v-model="ruleForm.endTime" placeholder="请选择结束营业时间" />
+                                <el-time-picker style="width:100%" value-format="HH:mm:ss" v-model="ruleForm.endTime" placeholder="请选择结束营业时间" />
                             </el-form-item>
                         </el-col>
+                    </el-form-item>
+                    <el-form-item label="营业状态" prop="licenseId">
+                        <el-radio-group v-model="ruleForm.shopActive">
+                            <el-radio :label="1" size="large">营业中</el-radio>
+                            <el-radio :label="0" size="large">休息中</el-radio>
+                        </el-radio-group>
                     </el-form-item>
                     <el-form-item label="店铺经纬度" prop="longitude" style="display:flex;justify-content: space-between;">
                         <el-button type="success" size="small" style="width:20%;"
@@ -64,7 +70,7 @@
             </div>
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="visible = false">取消</el-button>
+                    <el-button @click="close">取消</el-button>
                     <el-button type="primary" @click="submitForm(ruleFormRef)">提交申请</el-button>
                 </span>
             </template>
@@ -83,6 +89,7 @@ import useShop from './useShop';
 import request from '../../../../request/request';
 import api from '../../../../request/api';
 import jwtUtil from '../../../../common/util/jwtUtil';
+import dateUtil from '../../../../common/util/dateUtil';
 
 
 const upload_img = ref();
@@ -93,23 +100,24 @@ const ruleForm = reactive({
     shopName: '',
     shopAddress: '',
     shopTel: '',
-    shopKeeper: '',
+    shopkeeper: '',
     idCard: '',
     telephone: '',
-    shopImg: '',
+    imgId: '',
     shopCompany: '',
-    shopLicense: '',
-    startTime: '9:00:00',
+    licenseId: '',
+    startTime: '09:00:00',
     endTime: '22:30:00',
     longitude: '',
     latitude: '',
+    shopActive:0,
 })
 
 
-
-const change = function(value){
-    console.log(value);
+const close = function(){
+    visible.value = false;
 }
+
 
 const addShop = function () {
     request.post(api.addShop, {
@@ -117,22 +125,25 @@ const addShop = function () {
         shopName: ruleForm.shopName,
         shopAddress: ruleForm.shopAddress,
         shopTel: ruleForm.shopTel,
-        shopKeeper: ruleForm.shopkeeper,
+        shopkeeper: ruleForm.shopkeeper,
         idCard: ruleForm.idCard,
         telephone: ruleForm.telephone,
-        shopImg: ruleForm.shopImg,
+        imgId: ruleForm.imgId,
         shopCompany: ruleForm.shopCompany,
-        shopLicense: ruleForm.shopLicense,
+        licenseId: ruleForm.licenseId,
         startTime: ruleForm.startTime,
         endTime: ruleForm.endTime,
         longitude: ruleForm.longitude,
         latitude: ruleForm.latitude,
+        applyTime: dateUtil.getYMDHMS(new Date()),
+        shopActive:ruleForm.shopActive,
     }).then(res => {
         if (res.data.code === 200) {
             operation.success("提交成功");
         } else {
             operation.warning("操作失败");
         }
+        close();
     })
 }
 
@@ -145,14 +156,13 @@ const getPosition = function () {
 
 const submit = async function () {
     await upload_img.value.submitUpload().then(res =>{
-        const shopImg = res.data.data.fileId;
-        ruleForm.shopImg = shopImg;
+        const imgId = res.data.data.fileId;
+        ruleForm.imgId = imgId;
     });
     await upload_license.value.submitUpload().then(res =>{
-        const shopLicense = res.data.data.fileId;
-        ruleForm.shopLicense = shopLicense;
+        const licenseId = res.data.data.fileId;
+        ruleForm.licenseId = licenseId;
     });
-
     addShop();
 }
 

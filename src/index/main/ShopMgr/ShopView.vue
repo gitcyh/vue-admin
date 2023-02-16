@@ -1,138 +1,153 @@
 <template>
-    <el-dialog v-model="visible" :show-close="false" draggable title="查看订单">
+    <el-dialog top="2vh" v-model="visible" :show-close="false" draggable title="店铺信息">
         <template #header="{ close, titleId, titleClass }">
             <div>
-                <h6 :id="titleId" :class="titleClass">查看订单</h6>
-                <el-button @click="visible = false" :icon="CloseBold" circle />
+                <h6 :id="titleId" :class="titleClass">店铺信息</h6>
+                <el-button @click="close" :icon="CloseBold" circle />
             </div>
         </template>
-        <div class="shop-title">
-            店铺信息
-        </div>
-        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="店铺名称" prop="shopname">
-                <el-input :value="ruleForm.shopname" readonly />
+        <el-form :model="data" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="店铺名称">
+                <el-input :value="data.shopName" readonly />
             </el-form-item>
-            <el-form-item label="店铺地址" prop="shop_address">
-                <el-input type="text" :value="ruleForm.shop_address" readonly />
+            <el-form-item label="店铺地址">
+                <el-input type="text" :value="data.shopAddress" readonly />
             </el-form-item>
-            <el-form-item label="店铺电话" prop="shop_tel">
-                <el-input type="text" :value="ruleForm.shop_tel" readonly />
+            <el-form-item label="店铺电话">
+                <el-input type="text" :value="data.shopTel" readonly />
             </el-form-item>
-            <el-form-item label="店主姓名" prop="shopkeeper">
-                <el-input type="text" :value="ruleForm.shopkeeper" readonly />
+            <el-form-item label="店主姓名">
+                <el-input type="text" :value="data.shopKeeper" readonly />
             </el-form-item>
-            <el-form-item label="店主身份证" prop="idCard">
-                <el-input type="text" :value="ruleForm.idCard" readonly />
+            <el-form-item label="店主身份证">
+                <el-input type="text" :value="data.idCard" readonly />
             </el-form-item>
-            <el-form-item label="店主手机号" prop="telephone">
-                <el-input type="text" :value="ruleForm.telephone" readonly />
+            <el-form-item label="店主手机号">
+                <el-input type="text" :value="data.telephone" readonly />
             </el-form-item>
-            <el-form-item label="公司名称" prop="shopCompany">
-                <el-input type="text" :value="ruleForm.shopCompany" readonly />
+            <el-form-item label="公司名称">
+                <el-input type="text" :value="data.shopCompany" readonly />
             </el-form-item>
-            <el-form-item label="店铺经纬度" prop="longitude" style="display:flex;justify-content: space-between;">
-                <el-input type="text" :value="ruleForm.longitude" readonly />
+            <el-form-item label="店铺经纬度" style="display:flex;justify-content: space-between;">
+                <el-input type="text" :value="data.longitude" readonly />
             </el-form-item>
-            <el-form-item label="起止营业时间" prop="serviceStartTime">
-                <el-time-picker :value="ruleForm.serviceStartTime" readonly />&nbsp;~&nbsp;<el-time-picker
-                    :value="ruleForm.serviceEndTime" readonly />
+            <el-form-item label="营业时间">
+                <el-col :span="10">
+                    <el-form-item prop="startTime">
+                        <el-input value-format="HH:mm:ss" :value="data.startTime" />
+                    </el-form-item>
+                </el-col>
+                <el-col style="text-align:center;" :span="4">
+                    <span>-</span>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item prop="endTime">
+                        <el-input value-format="HH:mm:ss" :value="data.endTime" />
+                    </el-form-item>
+                </el-col>
             </el-form-item>
-            <el-form-item label="审核状态" prop="apply_status">
-                <el-input type="text" :value="ruleForm.apply_status" style="width:100px;margin-right: 10px;" readonly />
-                <span style="color:red;font-size: 12px;">审核失败原因</span>
+            <el-form-item label="营业状态">
+                <el-input type="text" :value="getShopActive()" style="width:100px;" readonly />
             </el-form-item>
-            <el-form-item label="店铺文件" prop="shop_img">
+            <el-form-item label="审核状态">
+                <el-input type="text" :value="getApplyState()" style="width:100px;margin-right: 10px;" readonly />
+                <span style="color:red;font-size: 12px;">{{ getReason() }}</span>
+            </el-form-item>
+            <el-form-item label="店铺文件">
                 <div class="shop-img">
                     <div>
-                        <span>店铺图片:</span><el-image style="width: 100px; height: 100px"
-                            src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg" fit="fill"
-                            :preview-src-list="['https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg']" />
+                        <span>店铺图片:</span><el-image style="width: 100px; height: 100px" :src="getImgSrc()" fit="fill"
+                            :preview-src-list="[getImgSrc()]" />
                     </div>
                     <div>
-                        <span>营业执照:</span><el-image style="width: 100px; height: 100px"
-                            src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg" fit="fill"
-                            :preview-src-list="['https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg']" />
+                        <span>营业执照:</span><el-image style="width: 100px; height: 100px" :src="getLicenseSrc()"
+                            fit="fill" :preview-src-list="[getLicenseSrc()]" />
                     </div>
                 </div>
             </el-form-item>
         </el-form>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="close">关闭</el-button>
+            </span>
+        </template>
     </el-dialog>
+
+
 </template>
   
 <script setup>
-import { ref, reactive, defineExpose } from 'vue'
-import { CloseBold} from "@element-plus/icons-vue";
-
-
+import { ref } from 'vue'
+import {CloseBold} from "@element-plus/icons-vue";
 
 const props = defineProps({
     data: Object,
 })
 
-const ruleFormRef = ref();
 const visible = ref(false);
 defineExpose({
     visible
 })
-const ruleForm = reactive({
-    shopname: '',
-    shop_address: '',
-    shop_tel: '',
-    shopkeeper: '',
-    idCard: '',
-    telephone: '',
-    shop_img: '',
-    shopCompany: '',
-    shop_license: '',
-    serviceStartTime: '',
-    serviceEndTime: '',
-    longitude: '',
-    latitude: '',
-    apply_status: ''
-})
+
+const getApplyState = function () {
+    if (props.data.applyStatus === 0) {
+        return "待审核"
+    } else if (props.data.applyStatus === -1) {
+        return "审核不通过"
+    } else if (props.data.applyStatus === 1) {
+        return "审核通过"
+    } else {
+        return "待审核"
+    }
+}
+
+const getReason = function () {
+    if (props.data.applyStatus === -1) {
+        return props.data.applyDesc
+    } else {
+        return ""
+    }
+}
+
+const getShopActive = function () {
+    if (props.data.shopActive === 1) {
+        return "营业中"
+    } else {
+        return "休息中"
+    }
+}
+
+const getImgSrc = function () {
+    const token = localStorage.getItem("token");
+    return "/api/download?id=" + props.data.imgId + "&token=" + token;
+}
+
+const getLicenseSrc = function () {
+    const token = localStorage.getItem("token");
+    return "/api/download?id=" + props.data.licenseId + "&token=" + token;
+}
+
 
 </script>
   
 <style scoped>
-.shop-view {
-    margin-top: 20px;
-    width: 50vw;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-}
-
-.shop-title {
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    font-size: 20px;
-}
-
-.shop-btn {
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.shop-img {
-    display: flex;
+.shop-img{
+    display:flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-
-.shop-img div {
+.shop-img div{
     width: 200px;
-    display: flex;
+    display:flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-
-.shop-img div span {
+.shop-img div span{
     margin-right: 10px;
 }
+
 </style>
 
 

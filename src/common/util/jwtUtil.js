@@ -18,9 +18,15 @@ const getPictureId = function(){
     return "/api/download?id=" + pictureId + "&token=" + token;
 }
 
+const getImgUrl = function(id){
+    const token = localStorage.getItem("token");
+    return "/api/download?id=" + id + "&token=" + token;
+}
+
 
 export default {
     getValue,
     getDowloadId,
-    getPictureId
+    getPictureId,
+    getImgUrl
 }
