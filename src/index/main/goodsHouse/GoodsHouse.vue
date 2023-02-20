@@ -59,9 +59,9 @@ const editChild = ref(null);
 const viewChild = ref(null);
 const tableData = ref([]);
 
-const filterTableData = computed(() =>
-    tableData.value.filter(data =>{
-        let value = search.value;
+const filterTableData = computed(() =>{
+    let value = search.value;
+    return tableData.value.filter(data =>{
         if(!value){
             return true;
         }else{
@@ -70,7 +70,7 @@ const filterTableData = computed(() =>
              || data.categoryName.includes(value)
         }
     })
-)
+})
 const data = ref({});
 const id = ref("");
 const handleEdit = (index, row) => {

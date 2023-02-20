@@ -9,19 +9,18 @@
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm"  label-width="100px">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useExpense.rules" label-width="100px">
                     <el-form-item label="日期" prop="date">
-                        <el-date-picker v-model="ruleForm.date" type="datetime" placeholder="请选择费用发生时间" style="width:100%" />
+                        <el-date-picker v-model="ruleForm.date" :value-formate="yyyy-MM-dd" type="date"
+                            placeholder="请选择费用发生时间" style="width:100%" />
                     </el-form-item>
                     <el-form-item label="费用名称" prop="name">
-                        <el-input type="text" v-model="ruleForm.name" clearable  />
+                        <el-input type="text" v-model="ruleForm.name" placeholder="请输入费用名称" clearable />
                     </el-form-item>
-                    <ExpenseCatSelect :expenseCat="ruleForm.categoryId" :changeValue="changeValue"></ExpenseCatSelect>
-                    <el-form-item label="费用描述" prop="description">
-                        <el-input v-model="ruleForm.description" type="text"  />
-                    </el-form-item>
+                    <ExpenseCatSelect :expenseCat="ruleForm.categoryId" :changeValue="changeValue" required>
+                    </ExpenseCatSelect>
                     <el-form-item label="金额" prop="amount">
-                        <el-input v-model="ruleForm.amount" type="number"  />
+                        <el-input v-model.number="ruleForm.amount" type="number" />
                     </el-form-item>
                     <el-form-item label="备注" prop="remark">
                         <el-input type="textarea" v-model="ruleForm.remark" clearable />
@@ -36,14 +35,18 @@
             </template>
         </el-dialog>
     </div>
-
 </template>
   
 <script setup>
 import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
-import { CloseBold,Plus } from '@element-plus/icons-vue'
+import { CloseBold, Plus } from '@element-plus/icons-vue'
 import ExpenseCatSelect from '../../../../common/components/ExpenseCatSelect.vue';
+import useExpense from './useExpense';
+import request from '../../../../request/request';
+import api from '../../../../request/api';
+import dateUtil from '../../../../common/util/dateUtil'
+import operation from '../../../../common/util/operation';
 
 
 
@@ -51,37 +54,53 @@ import ExpenseCatSelect from '../../../../common/components/ExpenseCatSelect.vue
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
-    date: '',
+    date: new Date(),
     categoryId: null,
     name: '',
-    description: '',
     amount: 0,
     remark: '',
 })
 
+const close = function(){
+    visible.value = false;
+}
 
-const changeValue = function(value){
+const changeValue = function (value) {
     ruleForm.categoryId = value;
-    console.log(value)
+}
+
+const addPayout = function () {
+    request.post(api.addPayout, {
+        shopId:localStorage.getItem("shopId"),
+        date: dateUtil.getYMDHMS(ruleForm.date),
+        categoryId: ruleForm.categoryId,
+        name: ruleForm.name,
+        amount: ruleForm.amount,
+        remark: ruleForm.remark,
+    }).then(res =>{
+        if(res.data.code === 200){
+            operation.success();
+        }else{
+            operation.warning();
+        }
+        close();
+    })
 }
 const submitForm = async (formEl) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-        operation.warning("校验失败");
-    }
-  })
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+        if (valid && ruleForm.categoryId) {
+            addPayout();
+        } else {
+            operation.warning("校验失败");
+        }
+    })
 }
 
 
 </script>
   
 <style scoped>
-
-
-
 </style>
 
 

@@ -27,6 +27,8 @@ const getShopByuserId = function(){
         }
     }).then(res =>{
         if(res.data.code === 200){
+            let shopId = res.data.data.data.id;
+            localStorage.setItem("shopId",shopId);
             hasShop.value = true;
         }else{
             hasShop.value = false;

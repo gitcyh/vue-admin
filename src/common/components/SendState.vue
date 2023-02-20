@@ -1,6 +1,6 @@
 <template>
     <el-form-item label="配送状态" prop="sendState">
-        <el-select v-model="sendState" placeholder="请选择配送状态" clearable>
+        <el-select v-model="sendState" placeholder="请选择配送状态" clearable style="width: 100%" @change="changeSendState">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
     </el-form-item>
@@ -8,28 +8,29 @@
   
 <script setup>
 defineProps({
-    sendState:String
+    sendState:String,
+    changeSendState:Function,
 })
 
 const options = [
     {
-        value: '0',
+        value: 0,
         label: '未配送',
     },
     {
-        value: '1',
+        value: 1,
         label: '配送中',
     },
     {
-        value: '2',
+        value: 2,
         label: '已配送',
     },
     {
-        value: '3',
+        value: 3,
         label: '客户自提',
     },
     {
-        value: '4',
+        value: 4,
         label: '其他',
     },
 ]

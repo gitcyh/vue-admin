@@ -139,6 +139,8 @@ const addShop = function () {
         shopActive:ruleForm.shopActive,
     }).then(res => {
         if (res.data.code === 200) {
+            let shopId = res.data.data.shopId;
+            localStorage.setItem("shopId",shopId);
             operation.success("提交成功");
         } else {
             operation.warning("操作失败");

@@ -11,10 +11,6 @@ const handleDelete = (callback) => {
         }).then(() => {
             //执行删除操作
             callback();
-            ElMessage({
-                type: 'success',
-                message: '删除成功',
-            })
         }).catch(() => {
             ElMessage({
                 type: 'info',

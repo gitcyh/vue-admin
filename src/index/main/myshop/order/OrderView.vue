@@ -60,8 +60,7 @@
 import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
-import UseOrderCheck from './useOrderCheck'
-let useOrderCheck = UseOrderCheck();
+import useOrder from './useOrder'
 
 const props = defineProps({
     data:Object,

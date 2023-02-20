@@ -156,12 +156,29 @@ INSERT INTO `category` (`id`,`parent_id`,`name`,`sub_title`,`level`) VALUES
 ('8','4','饰品','饰品类',2),
 ('9','5','饮用水','饮用水类',3),
 
+-- --
+-- --店铺品牌表
+-- --
+-- CREATE TABLE IF NOT EXISTS `brand`(
+--     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT 'id',
+--     `brand` varchar(255) NOT NULL COMMENT '品牌名称',
+--     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+--     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
+-- )
+
 --
---店铺品牌表
+--系统商品表
 --
-CREATE TABLE IF NOT EXISTS `brand`(
-    `id` varchar(64) NOT NULL PRIMARY KEY COMMENT 'id',
-    `brand` varchar(255) NOT NULL COMMENT '品牌名称',
+CREATE TABLE IF NOT EXISTS `goods_sys`(
+    `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '商品id',
+    `category_id` varchar(64) DEFAULT NULL COMMENT '商品分类id',
+    `brand_name` varchar(255) NOT NULL COMMENT '品牌名称',
+    `goods_num` varchar(32)  DEFAULT NULL COMMENT '商品编号',
+    `goods_name` varchar(255) NOT NULL COMMENT '商品名称',
+    `specs` varchar(255) NOT NULL COMMENT '商品规格',
+    `img_id` varchar(64) DEFAULT NULL  COMMENT '商品图片id',
+    `goods_desc` TEXT  COMMENT '商品描述',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:无效',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -177,17 +194,15 @@ CREATE TABLE IF NOT EXISTS `goods`(
     `goods_name` varchar(255) NOT NULL COMMENT '商品名称',
     `brand_name` varchar(255) NOT NULL COMMENT '品牌名称',
     `specs` varchar(255) NOT NULL COMMENT '商品规格',
-    `goodsimg_id` varchar(64) DEFAULT NULL  COMMENT '商品图片id',
+    `img_id` varchar(64) DEFAULT NULL  COMMENT '商品图片id',
     `goods_desc` TEXT  COMMENT '商品描述',
     `allowance` int NOT NULL DEFAULT 0 COMMENT '库存余量',
     `goods_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '商品状态-1:违规 0:未审核 1:已审核',
-    `applyDesc` varchar(255)  COMMENT '申请失败原因',
-    `costPrice` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '成本价',
-    `deliveryPrice` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '配送价',
-    `selfPrice` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '自提价',
-    `waterPrice` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '水票价',
-    `MonthlyPrice` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '月结价',
-    `is_sale` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否上架0:不上架 1:上架',
+    `apply_desc` varchar(255)  COMMENT '申请失败原因',
+    `cost_price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '成本价',
+    `delivery_price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '配送价',
+    `self_price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '自提价',
+    `is_sale` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否上架-1已下架0待上架1已上架',
     `is_best` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否精品0:否 1:是',
     `is_hot` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否热销产品0:否 1:是',
     `is_new` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否新品0:否 1:是',
@@ -210,22 +225,26 @@ CREATE TABLE IF NOT EXISTS `brand_sys`(
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
 
---
---系统商品表
---
-CREATE TABLE IF NOT EXISTS `goods_sys`(
-    `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '商品id',
-    `category_id` varchar(64) DEFAULT NULL COMMENT '商品分类id',
-    `brand_name` varchar(255) NOT NULL COMMENT '品牌名称',
-    `goods_num` varchar(32)  DEFAULT NULL COMMENT '商品编号',
-    `goods_name` varchar(255) NOT NULL COMMENT '商品名称',
-    `specs` varchar(255) NOT NULL COMMENT '商品规格',
-    `img_id` varchar(64) DEFAULT NULL  COMMENT '商品图片id',
-    `goods_desc` TEXT  COMMENT '商品描述',
-    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:无效',
-    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
-)
+
+INSERT INTO `brand_sys` (`id`,`brand`) VALUES
+('1','农夫山泉'),
+('2','景田'),
+('3','怡宝'),
+('4','王老吉'),
+('5','梧桐山'),
+('6','益力'),
+('7','百岁山')
+('8','吾尔康')
+('9','恒大'),
+('10','冰露'),
+('11','屈臣氏'),
+('12','雀巢'),
+('13','统一'),
+('14','康师傅'),
+('15','乐百氏'),
+('16','哇哈哈')
+
+
 
 
 --
@@ -233,10 +252,12 @@ CREATE TABLE IF NOT EXISTS `goods_sys`(
 --
 CREATE TABLE IF NOT EXISTS `order_list`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '订单明细id',
+    `order_id` varchar(64) NOT NULL PRIMARY KEY COMMENT '订单明细id',
     `shop_id` varchar(64) NOT NULL COMMENT '店铺id',
     `goods_id` varchar(64) NOT NULL COMMENT '商品id',
     `price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '成交价',
     `num` int NOT NULL DEFAULT 0 COMMENT '成交数量',
+    `palou_money` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '爬楼费',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -244,21 +265,25 @@ CREATE TABLE IF NOT EXISTS `order_list`(
 --
 --订单表
 --
-CREATE TABLE IF NOT EXISTS `order`(
+CREATE TABLE IF NOT EXISTS `order_sys`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '订单id',
+    `order_num` varchar(64) NOT NULL COMMENT '订单编号',
     `user_id` varchar(64) NOT NULL  COMMENT '下单的用户id',
-    `order_from` tinyint(4) NOT NULL DEFAULT 1 COMMENT '订单来源1:用户下单,2:平台录入',
-    `order_list_id` varchar(64)  COMMENT '订单明细id',
-    `shop_id` int NOT NULL COMMENT '店铺id',
+    `shop_id` varchar(64) NOT NULL COMMENT '店铺id',
+    `goods_id` varchar(64) NOT NULL COMMENT '商品id',
+    `customer_id` varchar(64) NOT NULL COMMENT '客户id',
     `address` varchar(255)  COMMENT '客户地址',
     `customer_name` varchar(255)  COMMENT '客户名称',
-    `customer_phone` varchar(20) NOT NULL COMMENT '客户手机号',
-    `sum_price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '总成交价',
-    `sum_num` int NOT NULL DEFAULT 0 COMMENT '总成交数量',
+    `customer_phone` varchar(20) COMMENT '客户手机号',
+    `price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '成交价',
+    `num` int NOT NULL DEFAULT 0 COMMENT '成交数量',
     `send_state` tinyint(4) NOT NULL DEFAULT 1 COMMENT '配送状态0:未配送,1:配送中,2:已配送,3:客户自提,4:其他',
     `payway` tinyint(4) NOT NULL DEFAULT 0 COMMENT '支付方式0:微信支付,1:支付宝,2:水票,3:月结,4:现金,5:其他',
-    `sender` varchar(64) NOT NULL COMMENT '配送员一般是员工id或客户自提',
+    `sender_id` varchar(64) COMMENT '配送员一般是员工id或客户自提',
     `remark` varchar(255)  COMMENT '备注',
+    `bgcolor` varchar(32) DEFAULT 'rgba(255,255,255,1)'  COMMENT '背景颜色',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:无效',
+    `order_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '订单创建日期可修改',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -304,6 +329,7 @@ CREATE TABLE IF NOT EXISTS `payout`(
     `name`  varchar(255) NOT NULL COMMENT '费用名称',
     `amount` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '支出金额',
     `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+    `date`  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '费用发生时间',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )

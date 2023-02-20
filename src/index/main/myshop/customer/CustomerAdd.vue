@@ -64,6 +64,7 @@ const changeSettlement = function(value){
 }
 const addCustomer = function(){
     request.post(api.addCustomer,{
+        shopId:localStorage.getItem("shopId"),
         name: ruleForm.name,
         phone: ruleForm.phone,
         address: ruleForm.address,

@@ -1,6 +1,23 @@
 
 
 const api = {
+    sysAddOrder:"/sys/addOrder",
+    sysDeleteOrder:"/sys/deleteOrder",
+    sysUpdateOrder:"/sys/updateOrder",
+    sysGetOrder:"/sys/getOrder",
+    sysGetOrders:"/sys/getOrders",
+    sysUpdateInfo:"/sys/updateInfo",
+    addPayout:"/addPayout",
+    deletePayout:"/deletePayout",
+    updatePayout:"/updatePayout",
+    getPayout:"/getPayout",
+    getPayouts:"/getPayouts",
+    handleShelf:"/handleShelf",
+    addGoods:"/addGoods",
+    getGoodsList:"/getGoodsList",
+    getGoods:"/getGoods",
+    updateGoods:"/updateGoods",
+    deleteGoods:"/deleteGoods",
     getShop:"/getShop",
     getShops:"/sys/getShops",
     addShop:"/addShop",

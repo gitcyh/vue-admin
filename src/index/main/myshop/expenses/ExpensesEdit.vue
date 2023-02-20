@@ -8,19 +8,16 @@
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm"  label-width="100px">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useExpense.rules"  label-width="100px">
                     <el-form-item label="日期" prop="date">
-                        <el-date-picker v-model="date" type="datetime" placeholder="请选择费用发生时间" style="width:100%" />
+                        <el-date-picker v-model="ruleForm.date" type="date" placeholder="请选择费用发生时间" style="width:100%" />
                     </el-form-item>
                     <el-form-item label="费用名称" prop="name">
                         <el-input type="text" v-model="ruleForm.name" clearable  />
                     </el-form-item>
-                    <ExpenseCatSelect></ExpenseCatSelect>
-                    <el-form-item label="费用描述" prop="description">
-                        <el-input v-model="ruleForm.description" type="text"  />
-                    </el-form-item>
+                    <ExpenseCatSelect :expenseCat="ruleForm.categoryId" :changeValue="changeValue" required />
                     <el-form-item label="金额" prop="amount">
-                        <el-input v-model="ruleForm.amount" type="number"  />
+                        <el-input v-model.number="ruleForm.amount" type="number"  />
                     </el-form-item>
                     <el-form-item label="备注" prop="remark">
                         <el-input type="textarea" v-model="ruleForm.remark" clearable />
@@ -39,18 +36,19 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import ExpenseCatSelect from '../../../../common/components/ExpenseCatSelect.vue';
-
-
-
-
+import request from '../../../../request/request';
+import api from '../../../../request/api';
+import operation from '../../../../common/util/operation';
+import useExpense from './useExpense';
+import dateUtil from '../../../../common/util/dateUtil';
 
 
 const props = defineProps({
-    data:Object,
+    id:String
 })
 
 
@@ -60,19 +58,67 @@ defineExpose({
     visible
 })
 const ruleForm = reactive({
-    date: '2016-05-03',
-    category: '0',
-    name: '农夫山泉纯净水',
-    description: '18L/桶',
-    amount: 200,
-    remark: '无',
+    id:'',
+    date: '',
+    categoryId: null,
+    name: '',
+    amount: 0,
+    remark: '',
 })
+const changeValue = function (value) {
+    ruleForm.categoryId = value;
+}
+
+
+watch(visible,(newValue,oldValue)=>{
+    if(newValue){
+        request.get(api.getPayout,{
+            params:{
+                id:props.id,
+            }
+        }).then(res =>{
+            if(res.data.code === 200){
+                const {id,date,categoryId,name,amount,remark} = res.data.data.data;
+                ruleForm.id = id;  
+                ruleForm.date = date;
+                ruleForm.categoryId = categoryId;
+                ruleForm.name = name;
+                ruleForm.amount = amount;
+                ruleForm.remark = remark;
+            }else{
+                operation.warning("获取数据失败")
+            }
+        })
+    }
+})
+
+const close = function(){
+    visible.value = false;
+}
+
+const updateExpense = function(){
+    request.post(api.updatePayout, {
+        id:ruleForm.id,
+        date: dateUtil.getYMDHMS(ruleForm.date),
+        categoryId: ruleForm.categoryId,
+        name: ruleForm.name,
+        amount: ruleForm.amount,
+        remark: ruleForm.remark,
+    }).then(res =>{
+        if(res.data.code === 200){
+            operation.success();
+        }else{
+            operation.warning();
+        }
+        close();
+    })
+}
 
 const submitForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
+    if (valid && ruleForm.categoryId) {
+        updateExpense();
     } else {
         operation.warning("校验失败");
     }

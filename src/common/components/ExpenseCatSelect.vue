@@ -1,5 +1,5 @@
 <template>
-    <el-form-item label="支出类别" prop="brand">
+    <el-form-item label="支出类别">
         <el-select v-model="expenseCat" placeholder="请选择费用支出类别" @change="changeValue" clearable style="width:100%">
             <el-option v-for="item in options" :key="item.key" :label="item.label" :value="item.value">
                 <span style="float:left">{{item.index + '.' + item.label }}</span>

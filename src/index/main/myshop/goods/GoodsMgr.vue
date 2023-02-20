@@ -4,59 +4,96 @@
             <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入商品属性" />
         </div>
         <div class="search-item">
-            <GoodsAdd></GoodsAdd>&nbsp;
-            <BrandMgrVue></BrandMgrVue>
+            <GoodsAdd></GoodsAdd>
         </div>
     </div>
     <el-table :data="filterTableData" border>
         <el-table-column label="序号" type="index" width="60" />
-        <el-table-column label="日期" prop="date" sortable />
-        <el-table-column label="品牌" prop="brand" />
-        <el-table-column label="商品名称" prop="name"  min-width="200"/>
-        <el-table-column label="规格" prop="specs"/>
-        <el-table-column label="成本价" prop="costPrice" sortable />
-        <el-table-column label="配送价" prop="deliveryPrice" sortable />
-        <el-table-column label="自提价" prop="selfPrice" sortable  />
-        <el-table-column label="水票价" prop="waterPrice" sortable />
-        <el-table-column label="月结价" prop="MonthlyPrice" sortable />
-        <el-table-column label="状态" prop="state" sortable />
+        <el-table-column label="日期" prop="createTime" sortable>
+            <template #default="scope">
+                {{ scope.row.createTime.split("T")[0] }}
+            </template>
+        </el-table-column>
+        <el-table-column label="商品名称" prop="goodsName" min-width="200" />
+        <el-table-column label="品牌名称" prop="brandName" />
+        <el-table-column label="分类名称" prop="categoryName" />
+        <el-table-column label="规格" prop="specs" />
+        <el-table-column label="成本价" prop="costPrice" />
+        <el-table-column label="配送价" prop="deliveryPrice" />
+        <el-table-column label="自提价" prop="selfPrice" />
+        <el-table-column label="审核状态" prop="goodStatus" sortable>
+            <template #default="scope">
+                {{ useGoods.getapplyState(scope.row.goodsStatus) }}
+            </template>
+        </el-table-column>
+        <el-table-column label="是否上架" prop="isSale" sortable>
+            <template #default="scope">
+                {{ useGoods.getSaleState(scope.row.isSale) }}
+            </template>
+        </el-table-column>
+        <el-table-column align="center" label="商品描述" prop="goodsdesc" width="100">
+            <template #default="scope">
+                <EditorView :data="scope.row.goodsDesc"></EditorView>
+            </template>
+        </el-table-column>
         <el-table-column fixed="right" align="center" label="操作" width="220">
             <template #default="scope">
                 <el-button-group>
-                    <el-button :icon="View" size="small" type="success" @click="handleView(scope.$index, scope.row)">查看</el-button>
-                    <el-button :icon="Edit" type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button :icon="Top" type="warning" size="small" @click="handleShelf(scope.$index, scope.row)">上架</el-button>
+                    <el-button :icon="View" size="small" type="success"
+                        @click="handleView(scope.$index, scope.row)">查看</el-button>
+                    <el-button :icon="Edit" type="primary" size="small"
+                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button :icon="Top" type="warning" size="small"
+                        @click="handleShelf(scope.$index, scope.row)">{{ useGoods.getSaleOperation(scope.row.isSale) }}</el-button>
                 </el-button-group>
             </template>
         </el-table-column>
     </el-table>
-    <GoodsEditVue :data="data" ref="editChild"></GoodsEditVue>
+    <GoodsEditVue :id="id" ref="editChild"></GoodsEditVue>
     <GoodsViewVue :data="data" ref="viewChild"></GoodsViewVue>
+    <ShelfState :id="id" :isSale="isSale" ref="shelfChild"></ShelfState>
 </template>
   
 <script setup>
-import { computed, ref } from 'vue'
-import { Top,  Edit,View,Search} from "@element-plus/icons-vue";
-import Operation from '../../../../common/util/operation';
+import { computed, ref, onMounted } from 'vue'
+import { Top, Edit, View, Search } from "@element-plus/icons-vue";
 import GoodsAdd from './GoodsAdd.vue'
 import GoodsEditVue from './GoodsEdit.vue';
 import GoodsViewVue from './GoodsView.vue';
-import BrandMgrVue from './BrandMgr.vue';
+import EditorView from '../../../../common/components/EditorView.vue';
+import request from '../../../../request/request';
+import api from '../../../../request/api';
+import useGoods from './useGoods';
+import ShelfState from './ShelfState.vue';
 
+
+
+const tableData = ref([])
 const search = ref('')
 const editChild = ref(null);
 const viewChild = ref(null);
+const shelfChild = ref();
 
-const filterTableData = computed(() =>
-    tableData.filter(
-        (data) => !search.value || data.name.toLowerCase().includes(search.value.toLowerCase())
-    )
-)
-const data = ref('');
+const filterTableData = computed(() => {
+    let value = search.value;
+    return tableData.value.filter((data) => {
+        if (!value) {
+            return true;
+        } else {
+            return data.goodsName.includes(value)
+        }
+    })
+})
+
+
+
+const id = ref('');
+const data = ref({});
+const isSale = ref(0);
 
 const handleEdit = (index, row) => {
+    id.value = row.id;
     editChild.value.visible = true;
-    data.value = row;
 }
 
 const handleView = (index, row) => {
@@ -64,70 +101,32 @@ const handleView = (index, row) => {
     data.value = row;
 }
 
+
 const handleShelf = (index, row) => {
-    // Operation.handleShelf(function(){
-    //     console.log(index, row);
-    // })
+    id.value = row.id;
+    isSale.value = row.isSale;
+    shelfChild.value.visible = true;
 }
 
-const tableData = [
-    {
-        date: '2016-05-03',
-        brand:'农夫山泉',
-        name: '农夫山泉纯净水',
-        specs:'18L/桶',
-        costPrice:'15',
-        deliveryPrice:'28',
-        selfPrice:'26',
-        waterPrice:'25',
-        MonthlyPrice:'26',
-        state:'1',
-    },
-    {
-        date: '2016-05-02',
-        brand:'农夫山泉',
-        name: '农夫山泉纯净水',
-        specs:'18L/桶',
-        costPrice:'15',
-        deliveryPrice:'28',
-        selfPrice:'26',
-        waterPrice:'25',
-        MonthlyPrice:'26',
-        state:'1',
-    },
-    {
-        date: '2016-05-04',
-        brand:'农夫山泉',
-        name: '农夫山泉纯净水',
-        specs:'18L/桶',
-        costPrice:'15',
-        deliveryPrice:'28',
-        selfPrice:'26',
-        waterPrice:'25',
-        MonthlyPrice:'26',
-        state:'1',
-    },
-    {
-        date: '2016-05-01',
-        brand:'农夫山泉',
-        name: '农夫山泉纯净水',
-        specs:'18L/桶',
-        costPrice:'15',
-        deliveryPrice:'28',
-        selfPrice:'26',
-        waterPrice:'25',
-        MonthlyPrice:'26',
-        state:'1',
-    },
-]
+
+const getGoodsList = function () {
+    request.post(api.getGoodsList,{
+        shopId:localStorage.getItem("shopId")
+    }).then(res => {
+        tableData.value = res.data.data.data;
+    })
+}
+
+onMounted(() => {
+    getGoodsList();
+})
+
 
 
 
 </script>
   
 
-<style scoped>
-
-</style>
+<style scoped></style>
 
 

@@ -19,7 +19,16 @@ const getHMS = function(date){
 		
 }
 
+const getYMD = function(date){
+    var year = date.getFullYear();
+    var mon = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
+    var day = date.getDate()  < 10 ? "0"+(date.getDate()) : date.getDate();
+    var newdatee = year +"-"+ mon +"-"+ day;
+    return newdatee;
+}
+
 export default{
     getHMS,
-    getYMDHMS
+    getYMDHMS,
+    getYMD
 }

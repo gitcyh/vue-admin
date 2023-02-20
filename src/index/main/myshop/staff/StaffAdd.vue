@@ -76,6 +76,7 @@ const close = function(){
 
 const addStaff = function(){
     request.post(api.addStaff,{
+        shopId:localStorage.getItem("shopId"),
         name: ruleForm.name,
         age: ruleForm.age,
         sex: ruleForm.sex,

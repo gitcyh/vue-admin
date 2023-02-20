@@ -73,6 +73,7 @@
 import { ref, reactive,onMounted } from 'vue'
 import ShopEditVue from './ShopEdit.vue';
 import useShop from './useShop';
+import jwtUtil from '../../../../common/util/jwtUtil';
 
 
 const props = defineProps({
@@ -132,13 +133,11 @@ const getShopActive = function(){
 }
 
 const getImgSrc = function(){
-    const token = localStorage.getItem("token");
-    return "/api/download?id=" + ruleForm.imgId + "&token=" + token;
+    return jwtUtil.getImgUrl(ruleForm.imgId)
 }
 
 const getLicenseSrc = function(){
-    const token = localStorage.getItem("token");
-    return "/api/download?id=" + ruleForm.licenseId + "&token=" + token;
+    return jwtUtil.getImgUrl(ruleForm.licenseId)
 }
 
 

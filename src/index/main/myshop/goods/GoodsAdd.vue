@@ -1,42 +1,40 @@
 <template>
     <div>
         <el-button :icon="Plus" type="primary" size="small" @click="visible = true">添加商品</el-button>
-        <el-dialog v-model="visible" :show-close="false" draggable title="添加商品">
+        <el-dialog v-model="visible" :show-close="false" draggable title="添加商品" top="2vh">
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">添加商品</h6>
                     <el-button @click="visible = false" :icon="CloseBold" circle />
                 </div>
             </template>
-            <div>
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useGoodsCheck.rules" label-width="100px" class="demo-ruleForm">
+            <div style="overflow-y: auto;height: 80vh;">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useGoods.rules" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="商品名称" prop="name">
-                        <el-input v-model="ruleForm.name" clearable />
+                        <el-input v-model="ruleForm.name" placeholder="请输入商品名称" clearable />
                     </el-form-item>
-                    <BrandVue :brand="ruleForm.brand"></BrandVue>
+                    <Brand :brand="ruleForm.brand" :changeValue="changeValue"></Brand>
+                    <el-form-item label="商品分类" prop="categoryId">
+                        <TreeSelect :value="ruleForm.categoryId" :nodeClick="nodeClick" style="width:100%"></TreeSelect>
+                    </el-form-item>
                     <el-form-item label="规格" prop="specs">
-                        <el-input type="text" v-model="ruleForm.specs" clearable />
+                        <el-input type="text" v-model="ruleForm.specs" placeholder="请输入商品规格例如：18.9L/桶" clearable />
                     </el-form-item>
-                    <el-form-item label="成本价" prop="price">
+                    <el-form-item label="成本价" prop="costPrice">
                         <el-input v-model.number="ruleForm.costPrice" clearable />
                     </el-form-item>
-                    <el-form-item label="配送价" prop="price">
+                    <el-form-item label="配送价" prop="deliveryPrice">
                         <el-input v-model.number="ruleForm.deliveryPrice" clearable />
                     </el-form-item>
-                    <el-form-item label="自提价" prop="price">
+                    <el-form-item label="自提价" prop="selfPrice">
                         <el-input v-model.number="ruleForm.selfPrice" clearable />
                     </el-form-item>
-                    <el-form-item label="水票价" prop="price">
-                        <el-input v-model.number="ruleForm.waterPrice" clearable />
+                    <el-form-item label="商品图片" prop="imgId">
+                        <Upload ref="upload_imgId"></Upload>
                     </el-form-item>
-                    <el-form-item label="月结价" prop="price">
-                        <el-input v-model.number="ruleForm.MonthlyPrice" clearable />
-                    </el-form-item>
-                    <el-form-item label="状态" prop="state">
-                        <el-input type="text" v-model="ruleForm.state" clearable />
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button @click="useGoodsCheck.resetForm(ruleFormRef)">重置</el-button>
+                    <el-form-item label="商品描述" prop="goodsDesc">
+                        <EditorVue ref="editorRef" :pushImageList="pushImageList" :valueHtml="ruleForm.goodsDesc"
+                            :changeValue="changeEditor"></EditorVue>
                     </el-form-item>
                 </el-form>
             </div>
@@ -55,41 +53,108 @@
 import { ref,reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
-import BrandVue from './Brand.vue'
-import UseGoodsCheck from './useGoodsCheck'
+import Brand from '../../goodsHouse/Brand.vue';
+import useGoods from './useGoods'
+import TreeSelect from '../../../../common/components/TreeSelect.vue'
+import Upload from '../../../../common/components/Upload.vue';
+import EditorVue from '../../../../common/components/Editor.vue';
+import operation from '../../../../common/util/operation';
+import sysUseGoods from '../../goodsHouse/useGoods'
+import request from '../../../../request/request';
+import api from '../../../../request/api';
 
-let useGoodsCheck =  UseGoodsCheck();
 
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
     name: '',
     brand: '',
-    price: '',
+    categoryId: '',
     specs: '',
+    costPrice:0,
+    deliveryPrice:0,
+    selfPrice:0,
+    goodsDesc: '',
+    imgId: '',
+    goodsDesc:'',
 })
+
+const close = function () {
+    visible.value = false;
+}
+
+const nodeClick = function (id, deep) {
+    ruleForm.categoryId = id;
+}
+
+const changeValue = function (value) {
+    ruleForm.brand = value;
+}
+
+const changeEditor = function (value) {
+    ruleForm.goodsDesc = value;
+}
+// 所有上传图片的集合
+const imageList1 = [];
+
+const pushImageList = function (src) {
+    imageList1.push(getId(src));
+}
+
+const editorRef = ref();
+
+const upload_imgId = ref();
+
+
+const addSysGoods = function () {
+    sysUseGoods.beforeAdd(imageList1, editorRef);
+    upload_imgId.value.submitUpload().then(res => {
+        const imgId = res.data.data.fileId;
+        ruleForm.imgId = imgId;
+        request.post(api.addGoods, {
+            shopId:localStorage.getItem("shopId"),
+            costPrice:ruleForm.costPrice,
+            deliveryPrice:ruleForm.deliveryPrice,
+            selfPrice:ruleForm.selfPrice,
+            goodsName: ruleForm.name,
+            brandName: ruleForm.brand,
+            categoryId: ruleForm.categoryId,
+            specs: ruleForm.specs,
+            goodsDesc: ruleForm.goodsDesc,
+            imgId:ruleForm.imgId,
+        }).then(res => {
+            if (res.data.code === 200) {
+                operation.success("添加成功");
+            } else {
+                operation.warning(res.data.msg)
+            }
+            close();
+        })
+    });
+
+}
 
 
 const submitForm = async (formEl) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-        operation.warning("校验失败");
-    }
-  })
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            addSysGoods();
+        } else {
+            operation.warning("商品信息有误");
+        }
+    })
 }
 
 </script>
   
 <style scoped>
-.goods-add  .el-dialog__header {
+/* .goods-add  .el-dialog__header {
     height: 30px;
     padding-left: 4px;
     padding-top: 4px;
     padding-right: 10px;
-}
+} */
 
 
 </style>

@@ -1,51 +1,53 @@
 <template>
     <el-form-item label="付款方式" prop="payway">
-        <el-select v-model="payway" placeholder="请选择付款方式" clearable>
+        <el-select v-model="payway" placeholder="请选择付款方式" clearable style="width: 100%" @change="changePayway">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
     </el-form-item>
 </template>
   
 <script setup>
+
 defineProps({
-    payway:String
+    payway:String,
+    changePayway:Function
 })
 
 const options = [
     {
-        value: '0',
+        value: 0,
         label: '微信支付',
     },
     {
-        value: '1',
+        value: 1,
         label: '支付宝',
     },
     {
-        value: '2',
+        value: 2,
         label: '水票',
     },
     {
-        value: '3',
+        value: 3,
         label: '月结',
     },
     {
-        value: '4',
+        value: 4,
         label: '按季度',
     },
     {
-        value: '5',
+        value: 5,
         label: '按年',
     },
     {
-        value: '6',
+        value: 6,
         label: '现金',
     },
     {
-        value: '7',
+        value: 7,
         label: '未支付',
     },
     {
-        value: '8',
+        value: 8,
         label: '其他',
     },
 ]

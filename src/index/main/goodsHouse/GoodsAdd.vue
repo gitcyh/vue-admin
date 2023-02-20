@@ -16,13 +16,17 @@
                     </el-form-item>
                     <BrandVue :brand="ruleForm.brand" :changeValue="changeValue"></BrandVue>
                     <el-form-item label="商品分类" prop="categoryId">
-                        <TreeSelect :value="ruleForm.categoryId" :nodeClick="nodeClick"  style="width:100%"></TreeSelect>
+                        <TreeSelect :value="ruleForm.categoryId" :nodeClick="nodeClick" style="width:100%"></TreeSelect>
                     </el-form-item>
                     <el-form-item label="规格" prop="specs">
                         <el-input type="text" v-model="ruleForm.specs" clearable />
                     </el-form-item>
+                    <el-form-item label="商品图片" prop="imgId">
+                        <Upload ref="upload_imgId"></Upload>
+                    </el-form-item>
                     <el-form-item label="商品描述" prop="description">
-                        <EditorVue ref="editorRef" :pushImageList="pushImageList" :valueHtml="ruleForm.description" :changeValue="changeEditor"></EditorVue>
+                        <EditorVue ref="editorRef" :pushImageList="pushImageList" :valueHtml="ruleForm.description"
+                            :changeValue="changeEditor"></EditorVue>
                     </el-form-item>
                 </el-form>
             </div>
@@ -33,8 +37,7 @@
                 </span>
             </template>
         </el-dialog>
-    </div>
-
+</div>
 </template>
   
 <script setup>
@@ -48,25 +51,27 @@ import EditorVue from '../../../common/components/Editor.vue'
 import TreeSelect from '../../../common/components/TreeSelect.vue'
 import request from '../../../request/request'
 import api from '../../../request/api'
+import Upload from '../../../common/components/Upload.vue'
 
 
 const editorRef = ref();
-
+const upload_imgId = ref();
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
     name: '',
     brand: '',
-    categoryId:'',
+    categoryId: '',
     specs: '',
     description: '',
+    imgId: '',
 })
 
-const close = function(){
+const close = function () {
     visible.value = false;
 }
 
-const nodeClick = function (id,deep) {
+const nodeClick = function (id, deep) {
     ruleForm.categoryId = id;
 }
 
@@ -74,33 +79,40 @@ const changeValue = function (value) {
     ruleForm.brand = value;
 }
 
-const changeEditor = function(value){
+const changeEditor = function (value) {
     ruleForm.description = value;
 }
 // 所有上传图片的集合
 const imageList1 = [];
 
-const pushImageList = function(src){
+const pushImageList = function (src) {
     imageList1.push(getId(src));
 }
 
 
+
 const addSysGoods = function () {
-    useGoods.beforeAdd(imageList1,editorRef);
-    request.post(api.sysAddGoods, {
-        goodsName: ruleForm.name,
-        brandName: ruleForm.brand,
-        categoryId: ruleForm.categoryId,
-        specs: ruleForm.specs,
-        goodsDesc: ruleForm.description,
-    }).then(res => {
-        if (res.data.code === 200) {
-            operation.success("添加成功");
-            close();
-        } else {
-            operation.warning(res.data.msg)
-        }
-    })
+    useGoods.beforeAdd(imageList1, editorRef);
+    upload_imgId.value.submitUpload().then(res => {
+        const imgId = res.data.data.fileId;
+        ruleForm.imgId = imgId;
+        request.post(api.sysAddGoods, {
+            goodsName: ruleForm.name,
+            brandName: ruleForm.brand,
+            categoryId: ruleForm.categoryId,
+            specs: ruleForm.specs,
+            goodsDesc: ruleForm.description,
+            imgId:ruleForm.imgId,
+        }).then(res => {
+            if (res.data.code === 200) {
+                operation.success("添加成功");
+                close();
+            } else {
+                operation.warning(res.data.msg)
+            }
+        })
+    });
+
 }
 
 
@@ -117,8 +129,6 @@ const submitForm = async (formEl) => {
 
 </script>
   
-<style scoped>
-
-</style>
+<style scoped></style>
 
 
