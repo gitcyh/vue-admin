@@ -18,11 +18,11 @@ const handleClose = (tag) => {
   if(tag.name === "首页"){
     return
   }
-  let index = tags.indexOf(tag);
+  let index = tags.value.indexOf(tag);
   menuStore().splice(index);
   router.push({
       name:"",
-      path:tags[index-1].path,
+      path:tags.value[index-1].path,
   })
 }
 
@@ -32,9 +32,9 @@ const navto = (tag)=>{
         path:tag.path,
     })
 }
-const currentPath = ref('')
+const currentPath = computed( ()=> menuStore().getCurrentMenu)
 router.afterEach((to, from) => {
-  currentPath.value = to.path;
+  menuStore().changeCurrentMenu(to.path);
 })
 
 

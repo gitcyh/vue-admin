@@ -7,13 +7,14 @@ import router from './router/router'
 import axios from 'axios'
 import { createPinia } from 'pinia'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import piniaPluginPersist from 'pinia-plugin-persist'
 
 
 
 const app = createApp(App)
 app.config.globalProperties.axios = axios
 app.use(router)
-app.use(createPinia())
+app.use(createPinia().use(piniaPluginPersist))
 app.use(Elementplus, {locale: zhCn})
 app.mount('#app')
 

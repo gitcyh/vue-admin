@@ -90,52 +90,58 @@ const adminMenu = [
         icon: markRaw(List),
     },
 ];
-const userSelctedMenu = [
-    {
-        name: '首页',
-        path: "/index/myindex"
-    }
-];
-const adminSelectedMenu = [
-    {
-        name: '首页',
-        path: "/index/myindex"
-    }
-]
 
 
 
 //仓库
- const menuStore = defineStore('menu', {
+const menuStore = defineStore('menu', {
+    persist: {
+        enabled: true,
+        strategies: [
+            {
+                key: 'menu',
+                storage: localStorage,
+            }
+        ]
+    },
     state() {
         return {
             menuList: [],
-            selectedMenu: []
+            selectedMenu: [
+                {
+                    name: '首页',
+                    path: "/index/myindex"
+                }
+            ],
+            currentMenu:"/index/myindex",
         }
     },
-    actions:{
-        changeState(menuList,selectedMenu){
+    actions: {
+        changeState(menuList) {
             this.menuList = menuList;
-            this.selectedMenu = selectedMenu;
         },
-        pushMenu(menu){
+        pushMenu(menu) {
             this.selectedMenu.push(menu);
         },
-        splice(index){
+        splice(index) {
             this.selectedMenu.splice(index, 1);
+        },
+        changeCurrentMenu(path){
+            this.currentMenu = path;
         }
     },
-    getters:{
-        getSelectedMenu(){
+    getters: {
+        getSelectedMenu() {
             return this.selectedMenu;
+        },
+        getCurrentMenu(){
+            return this.currentMenu;
         }
     }
 })
 
-export{
+export {
     userMenu,
     adminMenu,
-    userSelctedMenu,
-    adminSelectedMenu,
     menuStore
 }

@@ -1,6 +1,6 @@
 <template>
   <el-menu active-text-color="#ffd04b" background-color="rgba(8, 49, 84, 0.9)" class="myMenu"
-    default-active="/index/myindex" text-color="#fff" :collapse="isCollapse" @open="handleOpen" @close="handleClose">
+    :default-active="defaultActive" text-color="#fff" :collapse="isCollapse" @open="handleOpen" @close="handleClose">
     <template v-for="item in menuList" :key="item.value">
       <el-menu-item v-if="!item.children" :index="item.path" @click="goto(item)">
         <el-icon>
@@ -27,14 +27,15 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted, ref } from 'vue'
+import { defineProps, onMounted, ref, computed } from 'vue'
 import { useRouter } from "vue-router";
 import jwtUtil from '../../common/util/jwtUtil';
-import { menuStore, userMenu, adminMenu, userSelctedMenu, adminSelectedMenu } from '../../store/menuStore';
+import { menuStore, userMenu, adminMenu } from '../../store/menuStore';
 
 const router = useRouter();
 const menuList = ref([]);
 
+const defaultActive = computed(() => menuStore().getCurrentMenu);
 
 defineProps({
   isCollapse: Boolean,
@@ -58,10 +59,10 @@ onMounted(() => {
   const store = menuStore();
   let role = jwtUtil.getValue('role');
   if (role === 1111) {
-    store.changeState(userMenu, userSelctedMenu);
+    store.changeState(userMenu);
     menuList.value = store.$state.menuList;
   } else if (role === 9999) {
-    store.changeState(adminMenu, adminSelectedMenu);
+    store.changeState(adminMenu);
     menuList.value = store.$state.menuList;
   }
 
