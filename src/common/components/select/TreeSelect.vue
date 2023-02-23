@@ -4,8 +4,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import request from '../../request/request';
-import api from '../../request/api';
+import request from '../../../request/request';
+import api from '../../../request/api';
 
 const props = defineProps({
     value: String,

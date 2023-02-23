@@ -27,8 +27,22 @@ const getYMD = function(date){
     return newdatee;
 }
 
+const getYM = function(date){
+    var year = date.getFullYear();
+    var mon = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
+    var newdatee = year +"-"+ mon;
+    return newdatee;
+}
+
+const getY = function(date){
+    var year = date.getFullYear();
+    return year;
+}
+
 export default{
     getHMS,
     getYMDHMS,
-    getYMD
+    getYMD,
+    getYM,
+    getY
 }

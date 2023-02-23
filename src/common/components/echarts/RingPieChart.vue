@@ -1,5 +1,5 @@
 <template>
-    <div id="mbarchart" ref="chartDom">
+    <div id="ringPieChart" ref="chartDom">
 
     </div>
 </template>
@@ -7,21 +7,22 @@
 
 
 <script setup>
-import { onMounted, ref, watch, defineProps } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import * as echarts from 'echarts/core';
-import { ToolboxComponent, TooltipComponent, GridComponent, LegendComponent } from 'echarts/components';
-import { BarChart } from 'echarts/charts';
+import { TooltipComponent, LegendComponent } from 'echarts/components';
+import { PieChart } from 'echarts/charts';
+import { LabelLayout } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 
-
 echarts.use([
-    ToolboxComponent,
-    TooltipComponent,
-    GridComponent,
-    LegendComponent,
-    BarChart,
-    CanvasRenderer
+  TooltipComponent,
+  LegendComponent,
+  PieChart,
+  CanvasRenderer,
+  LabelLayout
 ]);
+
+
 
 const chartDom = ref(null)
 const myChart = ref(null);
@@ -53,8 +54,8 @@ watch(() => props.options, (newOptions) => {
 
 
 <style scoped>
-#mbarchart {
-    width: 1000px;
+#ringPieChart {
+    width: 600px;
     height: 600px;
 }
 </style>

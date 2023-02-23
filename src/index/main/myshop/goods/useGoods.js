@@ -2,32 +2,26 @@ import { ref, reactive } from 'vue'
 import { ElNotification } from 'element-plus'
 import request from '../../../../request/request'
 import api from '../../../../request/api'
+import useCheck from '../../../../common/check/useCheck'
 
 
-const checkPrice = function (rlue, value, callback) {
-    if (value < 0) {
-        callback(new Error('价格输入有误'))
-    } else {
-        callback();
-    }
-}
 const rules = reactive({
     name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
     brand: [{ required: true, message: '请选择品牌名称', trigger: 'blur' }],
     costPrice: [
         { required: true, message: '请输入成本价', trigger: 'blur' },
         { type: 'number', message: '价格必须是一个数字', trigger: 'blur' },
-        { validator: checkPrice, trigger: 'blur' },
+        { validator: useCheck.checkPrice, trigger: 'blur' },
     ],
     deliveryPrice: [
         { required: true, message: '请输入配送价', trigger: 'blur' },
         { type: 'number', message: '价格必须是一个数字', trigger: 'blur' },
-        { validator: checkPrice, trigger: 'blur' },
+        { validator:  useCheck.checkPrice, trigger: 'blur' },
     ],
     selfPrice: [
         { required: true, message: '请输入自提价', trigger: 'blur' },
         { type: 'number', message: '价格必须是一个数字', trigger: 'blur' },
-        { validator: checkPrice, trigger: 'blur' },
+        { validator:  useCheck.checkPrice, trigger: 'blur' },
     ],
     categoryId: [{ required: true, message: '请选择分类', trigger: 'blur' }],
     specs: [{ required: true, message: '请输入规格', trigger: 'blur' }],

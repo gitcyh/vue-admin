@@ -41,7 +41,7 @@
                     <el-form-item label="营业时间" required>
                         <el-col :span="10">
                             <el-form-item prop="startTime">
-                                <el-time-picker style="width:100%" value-format="HH:mm:ss" v-model="ruleForm.startTime" placeholder="请选择开始营业时间" />
+                                <el-time-picker style="width:100%" :value-format="'HH:mm:ss'" v-model="ruleForm.startTime" placeholder="请选择开始营业时间" />
                             </el-form-item>
                         </el-col>
                         <el-col style="text-align:center" :span="4">
@@ -49,7 +49,7 @@
                         </el-col>
                         <el-col :span="10">
                             <el-form-item prop="endTime">
-                                <el-time-picker style="width:100%" value-format="HH:mm:ss" v-model="ruleForm.endTime" placeholder="请选择结束营业时间" />
+                                <el-time-picker style="width:100%" :value-format="'HH:mm:ss'" v-model="ruleForm.endTime" placeholder="请选择结束营业时间" />
                             </el-form-item>
                         </el-col>
                     </el-form-item>

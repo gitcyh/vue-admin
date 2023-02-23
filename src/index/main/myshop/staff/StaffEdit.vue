@@ -21,7 +21,7 @@
                         <el-input type="text" v-model.number="ruleForm.age" clearable />
                     </el-form-item>
                     <el-form-item label="入职日期">
-                        <el-date-picker v-model="ruleForm.entryDate" type="date"  value-format="YYYY-MM-DD HH:mm:ss"  placeholder="请选择日期" clearable style="width: 100%"/>
+                        <el-date-picker v-model="ruleForm.entryDate" type="date" format="YYYY-MM-DD"  :value-format="'YYYY-MM-DD HH:mm:ss'"  placeholder="请选择日期" clearable style="width: 100%"/>
                     </el-form-item>
                     <el-form-item label="手机号" prop="phone">
                         <el-input type="text" v-model="ruleForm.phone" clearable />

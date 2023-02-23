@@ -22,6 +22,10 @@
   text-align: left !important;
 }
 
+.el-tabs--border-card>.el-tabs__content{
+  padding: 8px !important;
+}
+
 
 .search-header{
   display: flex;

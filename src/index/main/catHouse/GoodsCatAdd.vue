@@ -46,7 +46,7 @@ import useCat from './useCat'
 import operation from '../../../common/util/operation'
 import request from '../../../request/request'
 import api from '../../../request/api'
-import TreeSelect from '../../../common/components/TreeSelect.vue'
+import TreeSelect from '../../../common/components/select/TreeSelect.vue'
 
 
 const ruleFormRef = ref();

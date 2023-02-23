@@ -1,19 +1,6 @@
 import { createRouter,createWebHistory } from 'vue-router'
-import Login from '../user/login/Login.vue'
-import Register from '../user/register/Register.vue'
-import Index from '../index/Index.vue'
-import Myshop from '../index/main/myshop/shop/Myshop.vue'
-import Myindex from '../index/main/myindex/Myindex.vue'
 import {menuStore} from "../store/menuStore"
-import StaffMgr from '../index/main/myshop/staff/StaffMgr.vue'
-import Forget from '../user/forget/Forget.vue'
-import Error_404 from '../common/components/Error_404.vue'
-import CustomerMgr from '../index/main/myshop/customer/CustomerMgr.vue'
-import OrderMgr from '../index/main/myshop/order/OrderMgr.vue'
-import GoodsMgr from '../index/main/myshop/goods/GoodsMgr.vue'
-import ShopList from '../index/main/ShopMgr/ShopList.vue'
-import StockMgr from '../index/main/myshop/stock/StockMgr.vue'
-import ExpensesMgr from '../index/main/myshop/expenses/ExpensesMgr.vue'
+
 
 const routes = [
     {
@@ -23,77 +10,77 @@ const routes = [
     {
         path:"/login",
         name:"登录",
-        component:Login
+        component:()=> import(/* webpackChunkName: mycomp*/ '../user/login/Login.vue')
     },
     {
         path:"/register",
         name:"注册",
-        component:Register
+        component:()=> import(/* webpackChunkName: mycomp*/ '../user/register/Register.vue')
     },
     {
         path:"/forget",
         name:"找回密码",
-        component:Forget
+        component:()=> import(/* webpackChunkName: mycomp*/ '../user/forget/Forget.vue')
     },
     {
         path:"/index",
         name:"主页",
-        component:Index,
+        component:()=> import(/* webpackChunkName: mycomp*/ '../index/Index.vue'),
         children:[
             {
                 path:'/index/myindex',
                 name:"首页",
                 components:{
-                    main:Myindex
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myindex/Myindex.vue')
                 }
             },
             {
                 name:"我的店铺",
                 path:'/index/myshop',
                 components:{
-                    main:Myindex
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myindex/Myindex.vue')
                 }
             },
             {
                 path:'/index/shopseting',
                 name:"店铺设置",
                 components:{
-                    main:Myshop
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myshop/shop/Myshop.vue')
                 }
             },
             {
                 path:'/index/order',
                 name:"订单管理",
                 components:{
-                    main:OrderMgr
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myshop/order/OrderMgr.vue')
                 }
             },
             {
                 path:'/index/stock',
                 name:"库存管理",
                 components:{
-                    main:StockMgr
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myshop/stock/StockMgr.vue')
                 }
             },
             {
                 name:"客户管理",
                 path:'/index/customer',
                 components:{
-                    main:CustomerMgr
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myshop/customer/CustomerMgr.vue')
                 }
             },
             {
                 name:"员工管理",
                 path:'/index/mystaff',
                 components:{
-                    main:StaffMgr
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myshop/staff/StaffMgr.vue')
                 }
             },
             {
                 name:"商品管理",
                 path:'/index/goods',
                 components:{
-                    main:GoodsMgr
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myshop/goods/GoodsMgr.vue')
                 }
             },
             {
@@ -114,14 +101,14 @@ const routes = [
                 name:"店铺管理",
                 path:'/index/shopmgr',
                 components:{
-                    main:ShopList
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/ShopMgr/ShopList.vue')
                 }
             },
             {
                 name:"收支管理",
                 path:'/index/expenses',
                 components:{
-                    main:ExpensesMgr
+                    main:()=> import(/* webpackChunkName: mycomp*/ '../index/main/myshop/expenses/ExpensesMgr.vue')
                 }
             },
             
@@ -129,7 +116,7 @@ const routes = [
     },
     {
         path: '/404',
-        component: Error_404
+        component: ()=> import(/* webpackChunkName: mycomp*/ '../common/components/Error_404.vue')
     },
     {
         path: '/:pathMatch(.*)*',

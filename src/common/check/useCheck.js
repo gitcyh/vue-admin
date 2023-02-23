@@ -16,6 +16,14 @@ const checkIDCard = function (rlue, value, callback) {
   }
 }
 
+const checkPrice = function (rlue, value, callback) {
+  if (value < 0) {
+      callback(new Error('输入不能小于0'))
+  } else {
+      callback();
+  }
+}
+
 
 const resetForm = (formEl) => {
   if (!formEl) return
@@ -25,6 +33,7 @@ const resetForm = (formEl) => {
 export default {
   resetForm,
   checkPhone,
-  checkIDCard
+  checkIDCard,
+  checkPrice
 }
 

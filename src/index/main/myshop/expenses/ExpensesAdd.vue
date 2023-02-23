@@ -11,7 +11,7 @@
             <div>
                 <el-form ref="ruleFormRef" :model="ruleForm" :rules="useExpense.rules" label-width="100px">
                     <el-form-item label="日期" prop="date">
-                        <el-date-picker v-model="ruleForm.date" :value-formate="yyyy-MM-dd" type="date"
+                        <el-date-picker v-model="ruleForm.date" :value-formate="YYYY-MM-DD" type="date"
                             placeholder="请选择费用发生时间" style="width:100%" />
                     </el-form-item>
                     <el-form-item label="费用名称" prop="name">
@@ -41,7 +41,7 @@
 import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold, Plus } from '@element-plus/icons-vue'
-import ExpenseCatSelect from '../../../../common/components/ExpenseCatSelect.vue';
+import ExpenseCatSelect from '../../../../common/components/select/ExpenseCatSelect.vue';
 import useExpense from './useExpense';
 import request from '../../../../request/request';
 import api from '../../../../request/api';

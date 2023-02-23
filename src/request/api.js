@@ -1,6 +1,13 @@
 
 
 const api = {
+    getInstockList:"getInstockList",
+    getStockQuantity:"getStockQuantity",
+    addInstock:"/addInstock",
+    deleteInstock:"/deleteInstock",
+    updateInstock:"/updateInstock",
+    getInstock:"/getInstock",
+    getInstocks:"/getInstocks",
     sysAddOrder:"/sys/addOrder",
     sysDeleteOrder:"/sys/deleteOrder",
     sysUpdateOrder:"/sys/updateOrder",
@@ -12,6 +19,7 @@ const api = {
     updatePayout:"/updatePayout",
     getPayout:"/getPayout",
     getPayouts:"/getPayouts",
+    getPayoutChart:"/getPayoutChart",
     handleShelf:"/handleShelf",
     addGoods:"/addGoods",
     getGoodsList:"/getGoodsList",

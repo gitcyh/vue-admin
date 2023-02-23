@@ -39,7 +39,7 @@
 import { ref, reactive, watch } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
-import ExpenseCatSelect from '../../../../common/components/ExpenseCatSelect.vue';
+import ExpenseCatSelect from '../../../../common/components/select/ExpenseCatSelect.vue';
 import request from '../../../../request/request';
 import api from '../../../../request/api';
 import operation from '../../../../common/util/operation';

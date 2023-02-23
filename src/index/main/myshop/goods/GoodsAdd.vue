@@ -55,7 +55,7 @@ import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import Brand from '../../goodsHouse/Brand.vue';
 import useGoods from './useGoods'
-import TreeSelect from '../../../../common/components/TreeSelect.vue'
+import TreeSelect from '../../../../common/components/select/TreeSelect.vue'
 import Upload from '../../../../common/components/Upload.vue';
 import EditorVue from '../../../../common/components/Editor.vue';
 import operation from '../../../../common/util/operation';

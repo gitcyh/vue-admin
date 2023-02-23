@@ -281,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `order_sys`(
     `payway` tinyint(4) NOT NULL DEFAULT 0 COMMENT '支付方式0:微信支付,1:支付宝,2:水票,3:月结,4:现金,5:其他',
     `sender_id` varchar(64) COMMENT '配送员一般是员工id或客户自提',
     `remark` varchar(255)  COMMENT '备注',
-    `bgcolor` varchar(32) DEFAULT 'rgba(255,255,255,1)'  COMMENT '背景颜色',
+    `style` text  COMMENT '背景颜色',
     `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:无效',
     `order_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '订单创建日期可修改',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -310,11 +310,14 @@ CREATE TABLE IF NOT EXISTS `instock`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
     `shop_id` varchar(64) NOT NULL COMMENT '店铺id',
     `goods_id` varchar(64) NOT NULL COMMENT '商品id',
+    `img_id` varchar(64) NOT NULL COMMENT '进货凭证',
     `price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '单价',
     `num` int NOT NULL DEFAULT 0 COMMENT '进货数量',
-    `bucket` int NOT NULL DEFAULT 0 COMMENT '回桶数量'
+    `bucket` int NOT NULL DEFAULT 0 COMMENT '回桶数量',
     `money` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '进货金额',
     `remark` varchar(255)  COMMENT '备注',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:入库-1退库',
+    `instock_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '进货日期',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )

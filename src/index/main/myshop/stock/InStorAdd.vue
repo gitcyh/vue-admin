@@ -5,31 +5,32 @@
             <template #header="{ close, titleId, titleClass }">
                 <div>
                     <h6 :id="titleId" :class="titleClass">添加入库</h6>
-                    <el-button @click="visible = false" :icon="CloseBold" circle />
+                    <el-button @click="close" :icon="CloseBold" circle />
                 </div>
             </template>
             <div>
-                <el-form ref="ruleFormRef" :model="ruleForm"  label-width="100px">
-                    <el-form-item label="入库日期" prop="date">
-                        <el-date-picker v-model="date" type="datetime" placeholder="请选择入库时间" style="width:100%" />
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useStock.rules" label-width="100px">
+                    <el-form-item label="入库日期" prop="instockTime">
+                        <el-date-picker v-model="ruleForm.instockTime" :value-format="'YYYY-MM-DD HH:mm:ss'" type="datetime" placeholder="请选择入库时间"
+                            style="width:100%" />
                     </el-form-item>
-                    <el-form-item label="商品名称" prop="goodsName">
-                        <el-input type="text" v-model="ruleForm.goodsName" clearable  />
+                    <el-form-item label="商品名称" prop="goodsId" required>
+                        <GoodsSelect :goodsId="ruleForm.goodsId" :changeGoods="changeGoods"></GoodsSelect>
                     </el-form-item>
-                    <el-form-item label="单价" prop="price">
-                        <el-input v-model="ruleForm.price" type="number"  />
+                    <el-form-item label="进货单价" prop="price">
+                        <el-input v-model.number="ruleForm.price" type="number" />
                     </el-form-item>
                     <el-form-item label="进货数量" prop="num">
-                        <el-input v-model="ruleForm.num" type="number"  />
+                        <el-input v-model.number="ruleForm.num" type="number" />
+                    </el-form-item>
+                    <el-form-item label="进货金额" prop="money">
+                        <el-input v-model.number="ruleForm.money" type="number" />
                     </el-form-item>
                     <el-form-item label="回桶数量" prop="bucket">
-                        <el-input v-model="ruleForm.bucket" type="number"  />
-                    </el-form-item>
-                    <el-form-item label="金额" prop="money">
-                        <el-input v-model="ruleForm.money" type="number"  />
+                        <el-input v-model.number="ruleForm.bucket" type="number" />
                     </el-form-item>
                     <el-form-item label="进货单据">
-                        <Upload :fileList="fileList"/>
+                        <Upload ref="upload_img" />
                     </el-form-item>
                     <el-form-item label="备注" prop="remark">
                         <el-input type="textarea" v-model="ruleForm.remark" clearable />
@@ -38,63 +39,92 @@
             </div>
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="visible = false">取消</el-button>
+                    <el-button @click="close">取消</el-button>
                     <el-button type="primary" @click="submitForm(ruleFormRef)">提交</el-button>
                 </span>
             </template>
         </el-dialog>
     </div>
-
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import Upload from '../../../../common/components/Upload.vue';
+import request from '../../../../request/request';
+import api from '../../../../request/api';
+import useStock from './useStock'
+import GoodsSelect from '../../../../common/components/select/GoodsSelect.vue';
+import operation from '../../../../common/util/operation';
 
 
-
-
-const fileList = ref([
-  {
-    name: 'food.jpeg',
-    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-  }
-])
-
+const upload_img = ref();
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
-    date: '2016-05-03',
-    brand: '农夫山泉',
-    name: '农夫山泉纯净水',
-    specs: '18L/桶',
-    price: '15',
-    num: '20',
-    bucket:20,
-    money: '300',
-    remark: '无',
+    instockTime: new Date(),
+    goodsId: null,
+    shopId: localStorage.getItem("shopId"),
+    imgId: '',
+    price: 0,
+    num: 0,
+    bucket: 0,
+    money: 0,
+    remark: '',
 })
+watch([()=>ruleForm.price,()=>ruleForm.num],(newValue, oldValue) => {
+    ruleForm.money = newValue[0] * newValue[1];
+  }
+);
+
+const changeGoods = function (data) {
+    ruleForm.goodsId = data.value;
+}
+
+const close = function(){
+    visible.value = false;
+}
+
+const addInstock = function () {
+    upload_img.value.submitUpload().then(res => {
+        const imgId = res.data.data.fileId;
+        ruleForm.imgId = imgId;
+        request.post(api.addInstock, {
+            instockTime: ruleForm.instockTime,
+            goodsId: ruleForm.goodsId,
+            shopId: ruleForm.shopId,
+            imgId: ruleForm.imgId,
+            price: ruleForm.price,
+            num: ruleForm.num,
+            bucket: ruleForm.bucket,
+            money: ruleForm.money,
+            remark: ruleForm.remark,
+        }).then(res =>{
+            if(res.data.code === 200){
+                operation.success();
+            }else{
+                operation.warning();
+            }
+            close();
+        })
+    });
+}
 
 const submitForm = async (formEl) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-        operation.warning("校验失败");
-    }
-  })
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            addInstock();
+        } else {
+            operation.warning("校验失败");
+        }
+    })
 }
 
 
 </script>
   
-<style scoped>
-
-
-
-</style>
+<style scoped></style>
 
 

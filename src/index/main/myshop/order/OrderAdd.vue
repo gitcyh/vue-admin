@@ -61,17 +61,17 @@
   
 <script setup>
 import { ref, reactive } from 'vue'
-import SendStateVue from '../../../../common/components/SendState.vue'
-import PayWayVue from '../../../../common/components/PayWay.vue'
-import SenderSelect from '../../../../common/components/SenderSelect.vue'
+import SendStateVue from '../../../../common/components/select/SendState.vue'
+import PayWayVue from '../../../../common/components/select/PayWay.vue'
+import SenderSelect from '../../../../common/components/select/SenderSelect.vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import request from '../../../../request/request'
 import api from '../../../../request/api'
 import useOrder from './useOrder'
 import operation from '../../../../common/util/operation'
-import CustomerSelectVue from '../../../../common/components/CustomerSelect.vue'
-import GoodsSelect from '../../../../common/components/GoodsSelect.vue'
+import CustomerSelectVue from '../../../../common/components/select/CustomerSelect.vue'
+import GoodsSelect from '../../../../common/components/select/GoodsSelect.vue'
 import jwtUtil from '../../../../common/util/jwtUtil'
 import dateUtil from '../../../../common/util/dateUtil'
 
@@ -94,9 +94,10 @@ const ruleForm = reactive({
     price: 0,
     num: 0,
     payway: null,
-    sendState: '0',
+    sendState: 0,
     senderId: '',
     remark: '',
+    style: '{"background-color":"rgba(255,255,255,1)"}'
 })
 
 const close = function () {
@@ -141,6 +142,7 @@ const addOrder = function () {
         sendState: ruleForm.sendState,
         senderId: ruleForm.senderId,
         remark: ruleForm.remark,
+        style:ruleForm.style,
     }).then(res => {
         if (res.data.code === 200) {
             operation.success();

@@ -16,3 +16,7 @@ app.use(router)
 app.use(createPinia())
 app.use(Elementplus, {locale: zhCn})
 app.mount('#app')
+
+document.oncontextmenu = function(e){
+    e.preventDefault();
+}

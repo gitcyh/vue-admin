@@ -44,7 +44,7 @@
 import { ref } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
-import TreeSelect from '../../../common/components/TreeSelect.vue';
+import TreeSelect from '../../../common/components/select/TreeSelect.vue';
 import jwtUtil from '../../../common/util/jwtUtil';
 
 const props = defineProps({

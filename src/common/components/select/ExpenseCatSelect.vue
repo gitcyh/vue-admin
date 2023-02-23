@@ -11,8 +11,8 @@
   
 <script setup>
 import { onMounted,ref } from 'vue';
-import request from '../../request/request';
-import api from '../../request/api';
+import request from '../../../request/request';
+import api from '../../../request/api';
 
 defineProps({
     expenseCat: String,

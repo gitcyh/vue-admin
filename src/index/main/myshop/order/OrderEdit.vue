@@ -63,17 +63,17 @@
   
 <script setup>
 import { ref, reactive, watch, defineExpose, defineProps } from 'vue'
-import SendStateVue from '../../../../common/components/SendState.vue'
-import PayWayVue from '../../../../common/components/PayWay.vue'
-import SenderSelect from '../../../../common/components/SenderSelect.vue'
+import SendStateVue from '../../../../common/components/select/SendState.vue'
+import PayWayVue from '../../../../common/components/select/PayWay.vue'
+import SenderSelect from '../../../../common/components/select/SenderSelect.vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import request from '../../../../request/request'
 import api from '../../../../request/api'
 import useOrder from './useOrder'
 import operation from '../../../../common/util/operation'
-import CustomerSelectVue from '../../../../common/components/CustomerSelect.vue'
-import GoodsSelect from '../../../../common/components/GoodsSelect.vue'
+import CustomerSelectVue from '../../../../common/components/select/CustomerSelect.vue'
+import GoodsSelect from '../../../../common/components/select/GoodsSelect.vue'
 import jwtUtil from '../../../../common/util/jwtUtil'
 import dateUtil from '../../../../common/util/dateUtil'
 
@@ -100,7 +100,7 @@ const ruleForm = reactive({
     price: 0,
     num: 0,
     payway: null,
-    sendState: '0',
+    sendState: 0,
     senderId: '',
     remark: '',
 })

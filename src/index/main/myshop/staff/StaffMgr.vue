@@ -95,7 +95,9 @@ const handleDelete = (index, row) => {
 }
 
 const getStaffs = function () {
-    request.post(api.getStaffs).then(res => {
+    request.post(api.getStaffs,{
+        shopId:localStorage.getItem("shopId"),
+    }).then(res => {
         tableData.value = res.data.data.data;
     })
 }

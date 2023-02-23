@@ -83,12 +83,6 @@ export const menuStore = defineStore('menu',{
                     path:'/index/catMgr',
                     icon:markRaw(List),
                 },
-                {   
-                    value:"system",
-                    name:"系统设置",
-                    path:"/index/system",
-                    icon:markRaw(Setting),
-                },
             ],
             selectedMenu:[
                 {

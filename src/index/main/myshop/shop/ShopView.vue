@@ -31,7 +31,7 @@
             <el-form-item label="营业时间">
                 <el-col :span="10">
                     <el-form-item prop="startTime">
-                        <el-input value-format="HH:mm:ss" :value="ruleForm.startTime" />
+                        <el-input :value-format="'HH:mm:ss'" :value="ruleForm.startTime" />
                     </el-form-item>
                 </el-col>
                 <el-col style="text-align:center;" :span="4">
@@ -39,7 +39,7 @@
                 </el-col>
                 <el-col :span="10">
                     <el-form-item prop="endTime">
-                        <el-input value-format="HH:mm:ss" :value="ruleForm.endTime" />
+                        <el-input :value-format="'HH:mm:ss'" :value="ruleForm.endTime" />
                     </el-form-item>
                 </el-col>
             </el-form-item>

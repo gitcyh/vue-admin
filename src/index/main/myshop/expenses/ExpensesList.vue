@@ -45,7 +45,7 @@ import ExpensesEdit from './ExpensesEdit.vue';
 import request from '../../../../request/request';
 import api from '../../../../request/api';
 import operation from '../../../../common/util/operation';
-import ExpenseCatSelect from '../../../../common/components/ExpenseCatSelect.vue';
+import ExpenseCatSelect from '../../../../common/components/select/ExpenseCatSelect.vue';
 
 
 const tableData = ref([]);
