@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入类别名称" />
+            <SearchInput v-model="search"></SearchInput>
         </div>
         <div class="search-item">
             <ExpenseCatAdd></ExpenseCatAdd>
@@ -31,14 +31,15 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, watch, computed } from "vue";
-import { ElButton, ElDialog } from "element-plus";
-import { Search, Delete, Edit } from "@element-plus/icons-vue";
+import { ref, onMounted, computed } from "vue";
+import { ElButton } from "element-plus";
+import { Delete, Edit } from "@element-plus/icons-vue";
 import operation from "../../../common/util/operation";
 import requset from "../../../request/request";
 import api from "../../../request/api";
 import ExpenseCatAdd from './ExpenseCatAdd.vue'
 import ExpenseCatEdit from "./ExpenseCatEdit.vue";
+import SearchInput from "../../../common/components/search/SearchInput.vue";
 
 
 const search = ref('')
@@ -48,12 +49,7 @@ const editChild = ref();
 
 const filterTableData = computed(() =>
     tableData.value.filter(data =>{
-        let value = search.value;
-        if(!value){
-            return true;
-        }else{
-            return data.name.includes(value) || data.description?.includes(value)
-        }
+        return !search.value || data.name.includes(search.value) || data.description?.includes(search.value)
     })
 )
 

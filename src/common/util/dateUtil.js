@@ -1,42 +1,38 @@
-function getYMDHMS(date){
-    //获取年月日，时间
-    var year = date.getFullYear();
-    var mon = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
-    var day = date.getDate()  < 10 ? "0"+(date.getDate()) : date.getDate();
-    var hour = date.getHours()  < 10 ? "0"+(date.getHours()) : date.getHours();
-    var min =  date.getMinutes()  < 10 ? "0"+(date.getMinutes()) : date.getMinutes();
-    var seon = date.getSeconds() < 10 ? "0"+(date.getSeconds()) : date.getSeconds();
-				
-    var newdatee = year +"-"+ mon +"-"+ day +" "+ hour +":"+ min +":"+ seon;
-    return newdatee;
+function getYMDHMS(date){		
+    return getYMD(date) +" "+ getHMS(date);
 }
 
 const getHMS = function(date){
-    var hour = date.getHours()  < 10 ? "0"+date.getHours() : date.getHours();
-    var min =  date.getMinutes()  < 10 ? "0"+date.getMinutes() : date.getMinutes();
-    var second = date.getSeconds() < 10 ? "0"+date.getSeconds() : date.getSeconds();
+    var hour = date.getHours()  < 10 ? "0" + date.getHours() : date.getHours();
+    var min =  date.getMinutes()  < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    var second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
     return `${hour}:${min}:${second}`
-		
 }
 
 const getYMD = function(date){
-    var year = date.getFullYear();
-    var mon = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
-    var day = date.getDate()  < 10 ? "0"+(date.getDate()) : date.getDate();
-    var newdatee = year +"-"+ mon +"-"+ day;
-    return newdatee;
+    return getY(date) + "-" + getM(date) + "-" + getD(date);
 }
 
 const getYM = function(date){
-    var year = date.getFullYear();
-    var mon = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
-    var newdatee = year +"-"+ mon;
-    return newdatee;
+    return getY(date) + "-" + getM(date);
+}
+
+const getWeek = function(date){
+    let weekday = date.getDay();
+    let weekArr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+    return weekArr[weekday];
+}
+
+const getD = function(date){
+    return date.getDate()  < 10 ? "0" + date.getDate() : date.getDate();
+}
+
+const getM = function(date){
+    return (date.getMonth()+1) < 10 ? "0" + (date.getMonth()+1) : date.getMonth()+1;
 }
 
 const getY = function(date){
-    var year = date.getFullYear();
-    return year;
+    return date.getFullYear();
 }
 
 export default{
@@ -44,5 +40,6 @@ export default{
     getYMDHMS,
     getYMD,
     getYM,
-    getY
+    getY,
+    getWeek
 }

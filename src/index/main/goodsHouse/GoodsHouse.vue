@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入商品属性" />
+            <SearchInputVue v-model="search"></SearchInputVue>
         </div>
         <div class="search-item">
             <GoodsAdd></GoodsAdd>&nbsp;
@@ -43,7 +43,7 @@
   
 <script setup>
 import { computed, ref, onMounted } from 'vue'
-import { Delete, Edit, View, Search } from "@element-plus/icons-vue";
+import { Delete, Edit, View } from "@element-plus/icons-vue";
 import Operation from '../../../common/util/operation';
 import GoodsAdd from './GoodsAdd.vue'
 import GoodsEditVue from './GoodsEdit.vue';
@@ -53,6 +53,7 @@ import EditorView from '../../../common/components/EditorView.vue';
 import request from '../../../request/request';
 import api from '../../../request/api';
 import useGoods from './useGoods';
+import SearchInputVue from '../../../common/components/search/SearchInput.vue';
 
 const search = ref('')
 const editChild = ref(null);
@@ -62,13 +63,8 @@ const tableData = ref([]);
 const filterTableData = computed(() =>{
     let value = search.value;
     return tableData.value.filter(data =>{
-        if(!value){
-            return true;
-        }else{
-            return data.goodsName.includes(value) || data.brandName.includes(value)
-             || data.specs.includes(value) || data.goodsDesc.includes(value)
-             || data.categoryName.includes(value)
-        }
+        return !value || data.goodsName.includes(value) || data.brandName.includes(value)|| data.specs.includes(value) 
+        || data.goodsDesc.includes(value) || data.categoryName.includes(value)
     })
 })
 const data = ref({});

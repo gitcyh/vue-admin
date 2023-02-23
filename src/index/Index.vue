@@ -49,7 +49,7 @@ function changeCollapse(value) {
 .index-left {
   width: auto;
   height: 100%;
-  background-color: #545c64;
+  background-color:  rgba(8, 49, 84, 1);
 }
 
 .index-right {

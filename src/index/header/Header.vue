@@ -6,16 +6,15 @@
         <Expand v-else />
       </el-icon>
     </div>
+    <Weather></Weather>
     <div class="header-name">
       店铺后台管理系统
     </div>
-    <!-- 消息通知 -->
+    <Clock></Clock>
     <MessageVue></MessageVue>
-    <!-- 个人中心 -->
     <PersonVue></PersonVue>
     <div class="header-img">
        <el-image style="width: 40px; height: 40px" :src="src[0]" :zoom-rate="1.2" :preview-src-list="src" :initial-index="0" fit="cover"/>
-      <!-- <el-avatar :size="40" :src="src"/> -->
     </div>
   </div>
 </template>
@@ -25,6 +24,8 @@ import { Fold, Expand } from "@element-plus/icons-vue";
 import PersonVue from "./Person.vue";
 import MessageVue from './Message.vue';
 import jwtUtil from "../../common/util/jwtUtil";
+import Weather from "../../common/components/tool/Weather.vue";
+import Clock from "../../common/components/tool/Clock.vue";
 
 defineProps({
   isCollapse: Boolean,
@@ -47,8 +48,7 @@ function change(value) {
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* justify-content: space-between; */
-  background-color: #2e8bee;
+  background-color:  rgba(8, 49, 84, 0.9);
   color: #fff;
 }
 .header-collapse {
@@ -58,7 +58,7 @@ function change(value) {
 }
 .header-name {
   font-size: 22px;
-  width: calc(100% - 200px);
+  width: calc(100% - 800px);
   cursor: default;
   display: flex;
   justify-content: center;

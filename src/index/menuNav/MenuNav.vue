@@ -6,11 +6,12 @@
 
 
 <script setup>  
-import {ref} from 'vue';
+import {ref,computed} from 'vue';
 import {useRouter} from 'vue-router';
 import {menuStore} from "../../store/menuStore"
+
 const router = useRouter();
-const tags = menuStore().$state.selectedMenu
+const tags = computed(() => menuStore().getSelectedMenu)
 
 
 const handleClose = (tag) => {
@@ -18,7 +19,7 @@ const handleClose = (tag) => {
     return
   }
   let index = tags.indexOf(tag);
-  tags.splice(index, 1);
+  menuStore().splice(index);
   router.push({
       name:"",
       path:tags[index-1].path,

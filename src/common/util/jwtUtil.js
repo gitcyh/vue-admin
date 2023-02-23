@@ -3,8 +3,11 @@
 
 const getValue = function(key){
     let token = localStorage.getItem("token");
-    let obj = JSON.parse(decodeURIComponent(window.atob(token.split('.')[1])));
-    return obj[key];
+    if(token){
+        let obj = JSON.parse(decodeURIComponent(window.atob(token.split('.')[1])));
+        return obj[key];
+    }
+    return null;
 }
 
 const getDowloadId = function(id){

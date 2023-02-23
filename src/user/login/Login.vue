@@ -44,7 +44,7 @@ import operation from '../../common/util/operation'
 
 const ruleFormRef = ref();
 const ruleForm = reactive({
-    userName: 'admin',
+    userName: 'gao',
     passWord: '123456cyhZ',
 
 })
@@ -64,11 +64,12 @@ const login = async function (formEl) {
                 password:ruleForm.passWord,
             }).then(res => {
                 if(res.data.code === 200){
-                    const {token,username,pictureId,userid} = res.data.data;
+                    const {token,username,pictureId,userid,role} = res.data.data;
                     localStorage.setItem("token",token);
                     localStorage.setItem("username",username);
                     localStorage.setItem("pictureId",pictureId);
                     localStorage.setItem("userid",userid);
+                    localStorage.setItem("role",role);
                     router.push({
                         name: "首页",
                         path: "/index/myindex"

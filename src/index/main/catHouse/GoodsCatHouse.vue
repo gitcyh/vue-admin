@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入类别名称" />
+            <SearchInputVue v-model="search"></SearchInputVue>
         </div>
         <div class="search-item">
             <CatAdd></CatAdd>
@@ -37,12 +37,13 @@
   
 <script setup>
 import { computed, ref, onMounted } from 'vue'
-import { Delete, Edit, Search } from "@element-plus/icons-vue";
+import { Delete, Edit } from "@element-plus/icons-vue";
 import Operation from '../../../common/util/operation';
 import CatAdd from './GoodsCatAdd.vue'
 import CatEdit from './GoodsCatEdit.vue';
 import request from '../../../request/request';
 import api from '../../../request/api';
+import SearchInputVue from '../../../common/components/search/SearchInput.vue';
 
 const search = ref('')
 const editChild = ref(null);
@@ -63,11 +64,7 @@ const finNode = function(data, value) {
 
 const filterTableData = computed(() =>
     tableData.value.filter(data =>{
-        if(!search.value){
-            return true;
-        }else{
-            return  finNode([data],search.value);//data.name.includes(search.value) || data.subTitle?.includes(search.value)
-        }
+        return  !search.value || finNode([data],search.value);
     })
 )
 

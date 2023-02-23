@@ -9,13 +9,13 @@ CREATE TABLE IF NOT EXISTS `user`(
     `phone` varchar(20) NOT NULL COMMENT '手机号',
     `email` varchar(60) NOT NULL COMMENT '邮箱用于找回密码',
     `picture_id`  varchar(64)  COMMENT '头像id',
-    `role` int(4) unsigned NOT NULL DEFAULT 0 COMMENT '角色',
+    `role` int(4) unsigned NOT NULL DEFAULT 1111 COMMENT '角色,1111:普通用户,6666:店铺管理员,9999超级管理员',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
 
 INSERT INTO `user` (`id`, `username`, `password`, `phone`,`email`, `picture_id`, `role`) VALUES
-('asd23123123fsdfsdf2w4234234', 'admin', '123456cyhZ', '13576004423','1643017650@qq.com', '', '9999')
+('1', 'admin', '123456cyhZ', '13576004423','1643017650@qq.com', '', '9999')
 
 --
 --第三方用户信息表

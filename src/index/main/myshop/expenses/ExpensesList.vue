@@ -1,12 +1,11 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索</label>
-            <el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入费用属性" />&nbsp;      
+            <SearchInputVue v-model="search"></SearchInputVue>
+            <SearchDate v-model="searchDate"></SearchDate>
+            <SearchMonth v-model="searchMonth"></SearchMonth>
+            <SearchYearVue v-model="searchYear"></SearchYearVue> 
         </div>
-        <!-- <div class="search-item">
-            <el-date-picker v-model="date" type="date" label="请选择日期" placeholder="请选择日期" clearable />
-        </div> -->
         <div class="search-item">
             <ExpensesAdd></ExpensesAdd>
         </div>
@@ -38,22 +37,27 @@
 </template>
   
 <script setup>
-import { computed, ref, onMounted } from 'vue'
-import { Edit, Delete, Search } from "@element-plus/icons-vue";
+import { computed, ref, onMounted,watch } from 'vue'
+import { Edit, Delete } from "@element-plus/icons-vue";
 import ExpensesAdd from './ExpensesAdd.vue';
 import ExpensesEdit from './ExpensesEdit.vue';
 import request from '../../../../request/request';
 import api from '../../../../request/api';
 import operation from '../../../../common/util/operation';
-import ExpenseCatSelect from '../../../../common/components/select/ExpenseCatSelect.vue';
-
+import SearchInputVue from '../../../../common/components/search/SearchInput.vue';
+import dateUtil from '../../../../common/util/dateUtil';
+import SearchDate  from '../../../../common/components/search/SearchDate.vue'
+import SearchMonth from '../../../../common/components/search/SearchMonth.vue';
+import SearchYearVue from '../../../../common/components/search/SearchYear.vue';
 
 const tableData = ref([]);
 
 const search = ref('')
 const editChild = ref(null);
 
-const date = ref(new Date())
+const searchDate = ref(dateUtil.getYMD(new Date()))
+const searchMonth = ref(dateUtil.getYM(new Date()))
+const searchYear = ref(dateUtil.getY(new Date()))
 
 const filterTableData = computed(() => {
     let value = search.value;
@@ -88,13 +92,37 @@ const handleDelete = (index, row) => {
 
 }
 
-const getPayouts = function () {
-    request.post(api.getPayouts).then(res => {
+const getPayouts = function (type="month",date=searchMonth.value) {
+    request.post(api.getPayouts,{
+        shopId:localStorage.getItem("shopId"),
+        type:type,
+        date:date,
+    }).then(res => {
         if (res.data.code === 200) {
             tableData.value = res.data.data.data;
+        }else{
+            tableData.value = [];
         }
     })
 }
+watch(searchDate,(newValue,oldValue)=>{
+    if(newValue){
+        getPayouts("date",newValue);
+    }
+    
+})
+watch(searchMonth,(newValue,oldValue)=>{
+    if(newValue){
+        getPayouts("month",newValue);
+    }
+   
+})
+watch(searchYear,(newValue,oldValue)=>{
+    if(newValue){
+        getPayouts("year",newValue);
+    }
+    
+})
 
 onMounted(() => {
     getPayouts();

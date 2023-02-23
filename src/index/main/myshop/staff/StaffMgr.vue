@@ -1,7 +1,7 @@
 <template>
     <div class="search-header">
         <div class="search-item">
-            <label>搜索:</label><el-input :prefix-icon="Search" v-model="search" size="small" placeholder="请输入员工姓名" />
+            <SearchInputVue v-model="search"></SearchInputVue>
         </div>
         <div class="search-item">
             <StaffAdd></StaffAdd>
@@ -44,20 +44,22 @@
   
 <script setup>
 import { computed, ref, onMounted } from 'vue'
-import { Delete, Edit, View, Search } from "@element-plus/icons-vue";
+import { Delete, Edit, View } from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import StaffAdd from './StaffAdd.vue'
 import StaffEditVue from './StaffEdit.vue';
 import StaffViewVue from './StaffView.vue';
 import request from '../../../../request/request';
 import api from '../../../../request/api';
+import SearchInputVue from '../../../../common/components/search/SearchInput.vue';
 
 
 const tableData = ref([]);
 const search = ref('')
 const filterTableData = computed(() =>
     tableData.value.filter(
-        (data) => !search.value || data.name.toLowerCase().includes(search.value.toLowerCase())
+        (data) => !search.value || data.name.includes(search.value) || data.phone.includes(search.value)
+        || data.idCard.includes(search.value) || data.address.includes(search.value)
     )
 )
 

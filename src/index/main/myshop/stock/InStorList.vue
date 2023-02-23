@@ -118,13 +118,22 @@ const getInstocks = function (type="month",date=searchMonth.value) {
 }
 
 watch(searchDate,(newValue,oldValue)=>{
-    getInstocks("date",newValue);
+    if(newValue){
+        getInstocks("date",newValue);
+    }
+
 })
 watch(searchMonth,(newValue,oldValue)=>{
-    getInstocks("month",newValue);
+    if(newValue){
+        getInstocks("month",newValue);
+    }
+
 })
 watch(searchYear,(newValue,oldValue)=>{
-    getInstocks("year",newValue);
+    if(newValue){
+        getInstocks("year",newValue);
+    }
+
 })
 
 const getSummaries = (param) => {

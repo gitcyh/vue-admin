@@ -65,7 +65,7 @@ const fileList = [
 
 onMounted(() => {
     request.post("/getUserInfo", {
-        username: localStorage.getItem("username")
+        userid: jwtUtil.getValue('userid')
     }).then(res => {
         if (res.data.code === 200) {
             const { username, phone, email, userid } = res.data.data;

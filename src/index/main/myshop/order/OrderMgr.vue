@@ -170,11 +170,17 @@ const getOrders = function (type="date",date=searchDate.value) {
 }
 
 watch(searchDate,(newValue,oldValue)=>{
-    getOrders("date",newValue);
+    if(newValue){
+        getOrders("date",newValue);
+    }
+
 })
 
 watch(searchMonth,(newValue,oldValue)=>{
-    getOrders("month",newValue);
+    if(newValue){
+        getOrders("month",newValue);
+    }
+
 })
 
 onMounted(() => {
