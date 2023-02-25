@@ -15,7 +15,7 @@
                         <el-date-picker v-model="ruleForm.orderTime" 
                          type="datetime" placeholder="请选择日期" clearable  style="width: 100%" />
                     </el-form-item>
-                    <el-form-item label="选择客户" prop="customerName">
+                    <el-form-item label="选择客户" prop="customerName" required>
                         <CustomerSelectVue :customerId="ruleForm.customerId" :changeCustomer="changeCustomer"></CustomerSelectVue>
                     </el-form-item>
                     <el-form-item label="客户名称" prop="customerName" v-show="ruleForm.customerId" >
@@ -27,7 +27,7 @@
                     <el-form-item label="手机号" prop="customerPhone" v-show="ruleForm.customerId" >
                         <el-input type="text" v-model="ruleForm.customerPhone" readonly />
                     </el-form-item>
-                    <el-form-item label="选择商品" prop="goodsName">
+                    <el-form-item label="选择商品" prop="goodsName" required>
                         <GoodsSelect :goodsId="ruleForm.goodsId" :changeGoods="changeGoods"></GoodsSelect>
                     </el-form-item>
                     <el-form-item label="规格" prop="specs" v-show="ruleForm.goodsId">
@@ -39,11 +39,11 @@
                     <el-form-item label="数量" prop="num">
                         <el-input-number v-model="ruleForm.num" :min="0" size="small" :controls="false" style="width: 100%" />
                     </el-form-item>
-                    <el-form-item label="选择配送员">
-                        <SenderSelect :sender="ruleForm.senderId" :changeSender="changeSender"></SenderSelect>
+                    <el-form-item label="选择配送员" required>
+                        <SenderSelect v-model="ruleForm.senderId"></SenderSelect>
                     </el-form-item>
-                    <PayWayVue :payway="ruleForm.payway" :changePayway="changePayway"></PayWayVue>
-                    <SendStateVue :sendState="ruleForm.sendState" :changeSendState="changeSendState"></SendStateVue>
+                    <PayWayVue v-model="ruleForm.payway" required></PayWayVue>
+                    <SendStateVue v-model="ruleForm.sendState" required></SendStateVue>
                     <el-form-item label="备注" prop="remark">
                         <el-input type="text" v-model="ruleForm.remark" clearable />
                     </el-form-item>
@@ -118,9 +118,7 @@ const changeGoods = function(data){
     ruleForm.specs = data.specs;
     ruleForm.price = data.deliveryPrice;
 }
-const changePayway = function(value){
-    ruleForm.payway = value;
-}
+
 const changeSendState = function(value){
     ruleForm.sendState = value;
 }

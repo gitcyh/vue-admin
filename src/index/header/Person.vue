@@ -46,6 +46,8 @@ const logout = function () {
     .then((res) => {
       if (res.data.code === 200) {
         operation.success("退出成功!");
+        localStorage.removeItem("role");
+        localStorage.removeItem("shopId");
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("pictureId");

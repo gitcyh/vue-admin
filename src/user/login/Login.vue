@@ -14,11 +14,11 @@
                         clearable></el-input>
                 </el-form-item>
                 <el-form-item class="login-item valiCode" label="" prop="valiCode">
-                    <el-input style="width:130px" type="text" v-model="valiCode" placeholder="请输入验证码"
-                        :prefix-icon="Lock" @input="valiCodeInput"></el-input>
+                    <el-input style="width:130px" type="text" v-model="valiCode" placeholder="请输入验证码" :prefix-icon="Lock"
+                        @input="valiCodeInput"></el-input>
                     <span :class="valiClass">{{ valiResult }}</span>
-                    <VerifyCode :contentWidth="80" :contentHeight="32" :identifyCode="identifyCode"
-                        @click="makeCode(4)"></VerifyCode>
+                    <VerifyCode :contentWidth="80" :contentHeight="32" :identifyCode="identifyCode" @click="makeCode(4)">
+                    </VerifyCode>
                 </el-form-item>
 
                 <el-form-item class="login-item">
@@ -41,6 +41,7 @@ import request from '../../request/request'
 import { useRouter } from 'vue-router'
 import VerifyCode from './VerifyCode.vue'
 import operation from '../../common/util/operation'
+import { menuStore, userMenu, adminMenu,userSelectedMenu,adminSelectedMenu } from '../../store/menuStore'
 
 const ruleFormRef = ref();
 const ruleForm = reactive({
@@ -55,30 +56,40 @@ const rules = reactive({
     passWord: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 })
 
+const setMenu = function (role) {
+    const store = menuStore();
+    if (role === 1111) {
+        store.changeState(userMenu,userSelectedMenu);
+    } else if (role === 9999) {
+        store.changeState(adminMenu,adminSelectedMenu);
+    }
+}
+
 const login = async function (formEl) {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {//&& checkCode()
-            request.post('/login',{
-                username:ruleForm.userName,
-                password:ruleForm.passWord,
+            request.post('/login', {
+                username: ruleForm.userName,
+                password: ruleForm.passWord,
             }).then(res => {
-                if(res.data.code === 200){
-                    const {token,username,pictureId,userid,role} = res.data.data;
-                    localStorage.setItem("token",token);
-                    localStorage.setItem("username",username);
-                    localStorage.setItem("pictureId",pictureId);
-                    localStorage.setItem("userid",userid);
-                    localStorage.setItem("role",role);
+                if (res.data.code === 200) {
+                    const { token, username, pictureId, userid, role } = res.data.data;
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("username", username);
+                    localStorage.setItem("pictureId", pictureId);
+                    localStorage.setItem("userid", userid);
+                    localStorage.setItem("role", role);
+                    setMenu(role);
                     router.push({
                         name: "首页",
                         path: "/index/myindex"
                     })
-                    operation.success("欢迎"+username+"进入系统!")
-                }else{
+                    operation.success("欢迎" + username + "进入系统!")
+                } else {
                     operation.warning(res.data.msg)
                 }
-            }); 
+            });
         } else {
             fail();
         }

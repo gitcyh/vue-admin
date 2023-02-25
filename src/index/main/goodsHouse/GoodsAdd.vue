@@ -14,7 +14,9 @@
                     <el-form-item label="商品名称" prop="name">
                         <el-input v-model="ruleForm.name" clearable />
                     </el-form-item>
-                    <BrandVue :brand="ruleForm.brand" :changeValue="changeValue"></BrandVue>
+                    <el-form-item label="品牌名称" prop="brand">
+                        <BrandVue v-model="ruleForm.brand"></BrandVue>
+                    </el-form-item>
                     <el-form-item label="商品分类" prop="categoryId">
                         <TreeSelect :value="ruleForm.categoryId" :nodeClick="nodeClick" style="width:100%"></TreeSelect>
                     </el-form-item>
@@ -46,12 +48,13 @@ import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import useGoods from './useGoods'
 import operation from '../../../common/util/operation'
-import BrandVue from './Brand.vue'
+import BrandVue from '../../../common/components/select/Brand.vue'
 import EditorVue from '../../../common/components/Editor.vue'
 import TreeSelect from '../../../common/components/select/TreeSelect.vue'
 import request from '../../../request/request'
 import api from '../../../request/api'
 import Upload from '../../../common/components/Upload.vue'
+
 
 
 const editorRef = ref();
@@ -67,6 +70,7 @@ const ruleForm = reactive({
     imgId: '',
 })
 
+
 const close = function () {
     visible.value = false;
 }
@@ -75,9 +79,6 @@ const nodeClick = function (id, deep) {
     ruleForm.categoryId = id;
 }
 
-const changeValue = function (value) {
-    ruleForm.brand = value;
-}
 
 const changeEditor = function (value) {
     ruleForm.description = value;

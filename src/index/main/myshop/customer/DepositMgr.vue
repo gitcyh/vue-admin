@@ -91,7 +91,9 @@ const handleDelete = (index, row) => {
 
 
 const getDesposits = function(){
-    request.post(api.getDesposits).then(res =>{
+    request.post(api.getDesposits,{
+        customerId:props.customerId
+    }).then(res =>{
         tableData.value = res.data.data.data;
     })
 }

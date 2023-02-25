@@ -10,7 +10,6 @@ const rules = reactive({
     shopName: [{ required: true, message: '请输入店铺名称', trigger: 'blur' }],
     shopAddress: [{ required: true, message: '请输入店铺地址', trigger: 'blur' }],
     shopTel: [{ required: true, message: '请输入店铺电话', trigger: 'blur' }],
-    shopKeeper: [{ required: true, message: '请输入店主姓名', trigger: 'blur' }],
     idCard: [
         { required: true, message: '请输入店主身份证', trigger: 'blur' },
         { validator: useCheck.checkIDCard, trigger: 'blur' }
@@ -22,6 +21,7 @@ const rules = reactive({
     shopCompany: [{ required: true, message: '请输入公司名称', trigger: 'blur' }],
     startTime: [{ required: true, message: '请输入开始营业时间', trigger: 'blur' }],
     endTime: [{ required: true, message: '请输入结束营业时间', trigger: 'blur' }],
+    shopKeeper: [{ required: true, message: '请输入店主姓名', trigger: 'blur' }],
 })
 
 const getPosition = function (ruleForm) {
@@ -67,7 +67,6 @@ const getShop = function (ruleForm) {
 }
 export default {
     rules,
-    resetForm: useCheck.resetForm,
     getPosition,
     getShop
 }

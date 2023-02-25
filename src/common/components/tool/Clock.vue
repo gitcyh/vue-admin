@@ -49,4 +49,7 @@ onMounted(() => {
 .time {
     margin-right: 20px;
 }
+.week{
+    min-width: 50px;
+}
 </style>

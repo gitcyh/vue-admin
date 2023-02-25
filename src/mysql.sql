@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `desposit`(
     `num` int NOT NULL DEFAULT 0  COMMENT '押桶数量',
     `file_id` varchar(64) DEFAULT NULL COMMENT '押金文件id',
     `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效 -1:无效',
-    `state` tinyint(4) NOT NULL DEFAULT -1 COMMENT '1:已押 -1:未押 0:已退',
+    `state` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:已押 -1:未押 0:已退',
     `remark` varchar(255) NOT NULL COMMENT '备注',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'

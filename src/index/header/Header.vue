@@ -63,6 +63,7 @@ function change(value) {
   display: flex;
   justify-content: center;
   margin-bottom: 5px;
+  min-width: 100px;
 }
 .header-img {
   cursor: pointer;

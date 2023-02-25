@@ -11,14 +11,13 @@
             <div>
                 <el-form ref="ruleFormRef" :model="ruleForm" :rules="useExpense.rules" label-width="100px">
                     <el-form-item label="日期" prop="date">
-                        <el-date-picker v-model="ruleForm.date" :value-formate="YYYY-MM-DD" type="date"
+                        <el-date-picker v-model="ruleForm.date" value-formate="YYYY-MM-DD" type="date"
                             placeholder="请选择费用发生时间" style="width:100%" />
                     </el-form-item>
                     <el-form-item label="费用名称" prop="name">
                         <el-input type="text" v-model="ruleForm.name" placeholder="请输入费用名称" clearable />
                     </el-form-item>
-                    <ExpenseCatSelect :expenseCat="ruleForm.categoryId" :changeValue="changeValue" required>
-                    </ExpenseCatSelect>
+                    <ExpenseCatSelect v-model="ruleForm.categoryId" required></ExpenseCatSelect>
                     <el-form-item label="金额" prop="amount">
                         <el-input v-model.number="ruleForm.amount" type="number" />
                     </el-form-item>
@@ -63,10 +62,6 @@ const ruleForm = reactive({
 
 const close = function(){
     visible.value = false;
-}
-
-const changeValue = function (value) {
-    ruleForm.categoryId = value;
 }
 
 const addPayout = function () {

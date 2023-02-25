@@ -1,7 +1,4 @@
 import { defineStore } from "pinia";
-import { List, Menu as IconMenu, Location, Setting, User, HomeFilled, House, Avatar, Memo, Files, GoodsFilled, Shop } from "@element-plus/icons-vue";
-import { markRaw } from 'vue'
-
 
 
 const userMenu = [
@@ -9,56 +6,56 @@ const userMenu = [
         name: "首页",
         value: "index",
         path: "/index/myindex",
-        icon: markRaw(HomeFilled),
+        icon: 'HomeFilled',
     },
     {
         name: "我的店铺",
         value: "myshop",
         path: "/index/myshop",
-        icon: markRaw(Location),
+        icon:'Location',
         children: [
             {
                 name: "店铺设置",
                 value: "shopseting",
                 path: "/index/shopseting",
-                icon: markRaw(Setting),
+                icon:'Setting',
             },
             {
                 name: "订单管理",
                 value: "order",
                 path: "/index/order",
-                icon: markRaw(Memo),
+                icon:'Memo',
             },
             {
                 name: "库存管理",
                 value: "stock",
                 path: "/index/stock",
                 icon: 'icon-menu',
-                icon: markRaw(Files),
+                icon:'Files',
             },
             {
                 name: "客户管理",
                 value: "customer",
                 path: "/index/customer",
-                icon: markRaw(Avatar),
+                icon:'Avatar',
             },
             {
                 name: "员工管理",
                 value: "mystaff",
                 path: "/index/mystaff",
-                icon: markRaw(User),
+                icon:'User',
             },
             {
                 name: "商品管理",
                 value: "goods",
                 path: "/index/goods",
-                icon: markRaw(GoodsFilled),
+                icon:'GoodsFilled',
             },
             {
                 name: "收支管理",
                 value: "goods",
                 path: "/index/expenses",
-                icon: markRaw(Shop),
+                icon:'Shop',
             },
         ]
     },
@@ -69,27 +66,42 @@ const adminMenu = [
         name: "首页",
         value: "index",
         path: "/index/myindex",
-        icon: markRaw(HomeFilled),
+        icon:'HomeFilled',
     },
     {
         value: "shopmgr",
         name: "店铺管理",
         path: "/index/shopmgr",
-        icon: markRaw(IconMenu),
+        icon:'IconMenu',
     },
     {
         value: "goodsHouse",
         name: "商品库",
         path: "/index/goodsHouse",
-        icon: markRaw(House),
+        icon:'House',
     },
     {
         value: "catMgr",
         name: "类别库",
         path: '/index/catMgr',
-        icon: markRaw(List),
+        icon:'List',
     },
 ];
+
+const userSelectedMenu = [
+    {
+        name: '首页',
+        path: "/index/myindex"
+    }
+]
+
+const adminSelectedMenu = [
+    {
+        name: '首页',
+        path: "/index/myindex"
+    }
+]
+
 
 
 
@@ -107,18 +119,14 @@ const menuStore = defineStore('menu', {
     state() {
         return {
             menuList: [],
-            selectedMenu: [
-                {
-                    name: '首页',
-                    path: "/index/myindex"
-                }
-            ],
+            selectedMenu: [],
             currentMenu:"/index/myindex",
         }
     },
     actions: {
-        changeState(menuList) {
+        changeState(menuList,selectedMenu) {
             this.menuList = menuList;
+            this.selectedMenu = selectedMenu;
         },
         pushMenu(menu) {
             this.selectedMenu.push(menu);
@@ -143,5 +151,7 @@ const menuStore = defineStore('menu', {
 export {
     userMenu,
     adminMenu,
-    menuStore
+    menuStore,
+    userSelectedMenu,
+    adminSelectedMenu,
 }

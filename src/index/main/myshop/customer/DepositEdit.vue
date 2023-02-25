@@ -13,12 +13,14 @@
                         <el-input type="text" v-model="ruleForm.description" clearable />
                     </el-form-item>
                     <el-form-item label="押金金额" prop="money">
-                        <el-input v-model="ruleForm.money" type="number" style="width:214px" />
+                        <el-input v-model="ruleForm.money" type="number" />
                     </el-form-item>
                     <el-form-item label="押桶数量" prop="num">
-                        <el-input v-model="ruleForm.num" type="number" style="width:214px" />
+                        <el-input v-model="ruleForm.num" type="number" />
                     </el-form-item>
-                    <DepositState  :state="ruleForm.state" :changeState="changeState" />
+                    <el-form-item label="押金状态" prop="state">
+                        <DepositState v-model="ruleForm.state" />
+                    </el-form-item>
                     <el-form-item label="押金单据">
                         <Upload ref="uploadDesposit" :fileList="fileList" />
                     </el-form-item>
@@ -72,13 +74,11 @@ const ruleForm = reactive({
     num: 0,
     description: '',
     remark: '',
-    state: null,
+    state: 1,
     fileId: '',
+    customerId:'',
 })
 
-const changeState = function(value){
-    ruleForm.state = value;
-}
 
 const close = function(){
     visible.value = false;
@@ -93,7 +93,7 @@ const updateDesposit = function () {
         remark: ruleForm.remark,
         state: ruleForm.state,
         fileId: ruleForm.fileId,
-        customerId:props.id,
+        customerId:ruleForm.customerId,
     }).then(res =>{
         if (res.data.code == 200) {
             operation.success("修改成功");
@@ -111,13 +111,14 @@ const getDesposit = function () {
         }
     }).then(res => {
         if (res.data.code === 200) {
-            const { money, num, description, remark, state, fileId } = res.data.data.data;
+            const { money, num, description, remark, state, fileId,customerId } = res.data.data.data;
             ruleForm.money = money;
             ruleForm.num = num;
             ruleForm.description = description;
             ruleForm.remark = remark;
             ruleForm.state = state;
             ruleForm.fileId = fileId;
+            ruleForm.customerId = customerId;
             fileList.value[0].url = "/api/download?id=" + fileId + "&token=" + localStorage.getItem("token");
         }
     })

@@ -1,23 +1,26 @@
 <template>
-    <el-select v-model="sender" filterable placeholder="请选择配送员" @change="changeSender" style="width: 100%">
+    <el-select v-model="senderId" filterable placeholder="请选择配送员" @change="inputChange" style="width: 100%">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" >
         </el-option>
     </el-select>
 </template>
   
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted,defineEmits,defineProps } from 'vue'
 import request from '../../../request/request';
 import api from '../../../request/api';
 
 const props = defineProps({
-    changeSender:Function,
-    sender:String
+    senderId:String
 })
 
 
 const options = ref([]);
+const emits = defineEmits(['update:modelValue'])
 
+const inputChange = function (value) {
+    emits('update:modelValue', value);
+}
 
 onMounted(() => {
     request.post(api.getStaffs, {

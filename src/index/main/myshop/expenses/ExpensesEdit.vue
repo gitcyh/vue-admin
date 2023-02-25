@@ -15,7 +15,7 @@
                     <el-form-item label="费用名称" prop="name">
                         <el-input type="text" v-model="ruleForm.name" clearable  />
                     </el-form-item>
-                    <ExpenseCatSelect :expenseCat="ruleForm.categoryId" :changeValue="changeValue" required />
+                    <ExpenseCatSelect v-model="ruleForm.categoryId" required></ExpenseCatSelect>
                     <el-form-item label="金额" prop="amount">
                         <el-input v-model.number="ruleForm.amount" type="number"  />
                     </el-form-item>
@@ -65,9 +65,6 @@ const ruleForm = reactive({
     amount: 0,
     remark: '',
 })
-const changeValue = function (value) {
-    ruleForm.categoryId = value;
-}
 
 
 watch(visible,(newValue,oldValue)=>{

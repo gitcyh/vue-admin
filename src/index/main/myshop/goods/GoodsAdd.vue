@@ -11,9 +11,15 @@
             <div style="overflow-y: auto;height: 80vh;">
                 <el-form ref="ruleFormRef" :model="ruleForm" :rules="useGoods.rules" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="商品名称" prop="name">
-                        <el-input v-model="ruleForm.name" placeholder="请输入商品名称" clearable />
+                        <div style="display:flex;width:100%">
+                            <el-input v-model="ruleForm.name" placeholder="请输入商品名称" clearable style="width:300px"  />
+                            <div style="width:120px;margin-left:20px">或从系统中选择:</div>
+                            <GoodsSysSelect style="width:300px"  :changeGoods="changeGoods"></GoodsSysSelect>
+                        </div>
                     </el-form-item>
-                    <Brand :brand="ruleForm.brand" :changeValue="changeValue"></Brand>
+                    <el-form-item label="品牌名称" prop="brand">
+                        <BrandVue v-model="ruleForm.brand"></BrandVue>
+                    </el-form-item>
                     <el-form-item label="商品分类" prop="categoryId">
                         <TreeSelect :value="ruleForm.categoryId" :nodeClick="nodeClick" style="width:100%"></TreeSelect>
                     </el-form-item>
@@ -53,7 +59,7 @@
 import { ref,reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
-import Brand from '../../goodsHouse/Brand.vue';
+import BrandVue from '../../../../common/components/select/Brand.vue';
 import useGoods from './useGoods'
 import TreeSelect from '../../../../common/components/select/TreeSelect.vue'
 import Upload from '../../../../common/components/Upload.vue';
@@ -62,6 +68,7 @@ import operation from '../../../../common/util/operation';
 import sysUseGoods from '../../goodsHouse/useGoods'
 import request from '../../../../request/request';
 import api from '../../../../request/api';
+import GoodsSysSelect from '../../../../common/components/select/GoodsSysSelect.vue';
 
 
 const ruleFormRef = ref();
@@ -87,9 +94,13 @@ const nodeClick = function (id, deep) {
     ruleForm.categoryId = id;
 }
 
-const changeValue = function (value) {
-    ruleForm.brand = value;
+const changeGoods = function (data) {
+    ruleForm.name = data.label;
+    ruleForm.specs = data.specs;
+    ruleForm.categoryId = data.categoryId;
+    ruleForm.brand = data.brandName
 }
+
 
 const changeEditor = function (value) {
     ruleForm.goodsDesc = value;

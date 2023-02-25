@@ -14,12 +14,11 @@
                         <el-input type="text" v-model="ruleForm.description" clearable />
                     </el-form-item>
                     <el-form-item label="押金金额" prop="money">
-                        <el-input v-model="ruleForm.money" type="number" style="width:214px" />
+                        <el-input v-model="ruleForm.money" type="number"/>
                     </el-form-item>
                     <el-form-item label="押桶数量" prop="num">
-                        <el-input v-model="ruleForm.num" type="number" style="width:214px" />
+                        <el-input v-model="ruleForm.num" type="number"/>
                     </el-form-item>
-                    <DepositState :state="ruleForm.state" :changeState="changeState" />
                     <el-form-item label="押金单据">
                         <Upload ref="uploadDesposit" />
                     </el-form-item>
@@ -45,7 +44,6 @@ import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import useCustomer from './useCustomer'
 import Upload from '../../../../common/components/Upload.vue';
-import DepositState from './DepositState.vue';
 import request from '../../../../request/request';
 import api from '../../../../request/api';
 import operation from '../../../../common/util/operation';
@@ -62,13 +60,11 @@ const ruleForm = reactive({
     num: 0,
     description: '',
     remark: '',
-    state: null,
+    state: 1,
     fileId:'',
 })
 
-const changeState = function (value) {
-    ruleForm.state = value;
-}
+
 
 const close = function () {
     visible.value = false;

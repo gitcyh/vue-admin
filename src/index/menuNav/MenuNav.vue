@@ -1,12 +1,13 @@
 <template>
   <div class="menuNav-wrap">
-      <el-tag :type="currentPath===tag.path ? 'success' : 'info'" v-for="tag in tags" :key="tag.name" class="menuNav-item" closable  @click="navto(tag)" @close="handleClose(tag)">{{ tag.name }}</el-tag>
+      <el-tag :type="currentPath===tag.path ? 'success' : 'info'" v-for="tag in tags" :key="tag.name" class="menuNav-item"
+       closable  @click="navto(tag)" @close="handleClose(tag)" effect="dark">{{ tag.name }}</el-tag>
   </div>
 </template>
 
 
 <script setup>  
-import {ref,computed} from 'vue';
+import {computed} from 'vue';
 import {useRouter} from 'vue-router';
 import {menuStore} from "../../store/menuStore"
 
