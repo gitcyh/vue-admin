@@ -28,7 +28,7 @@
             </template>
         </el-table-column>
         <el-table-column label="备注" prop="remark" min-width="180" />
-        <el-table-column align="right" label="操作" width="220">
+        <el-table-column align="right" label="操作" width="230">
             <template #default="scope">
                 <el-button-group>
                     <el-button :icon="View" type="success" size="small"

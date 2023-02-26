@@ -2,42 +2,45 @@
     <div class="search-header">
         <div class="search-item">
             <SearchInputVue v-model="search"></SearchInputVue>
-            <SearchDateVue v-model="searchDate"></SearchDateVue>
-            <SearchMonthVue  v-model="searchMonth"></SearchMonthVue>
+            <SearchDateVue v-model:date="searchDate"></SearchDateVue>
+            <SearchMonthVue v-model:date="searchMonth"></SearchMonthVue>
         </div>
-        <OrderAddVue></OrderAddVue>
+        <OrderAddVue :getOrders="getOrders"></OrderAddVue>
     </div>
-    <div style="">
-        <el-table show-summary :summary-method="getSummaries" :data="filterTableData" @row-contextmenu="rowContextmenu" :row-style="rowStyle"
-         border style="width: 100%;" max-height="80vh">
-            <el-table-column align="center" label="序号" type="index" width="60" />
-            <el-table-column align="center" label="日期" prop="date" width="120">
+    <div @click="tableClick" class="mytable" style="overflow:auto;">
+        <el-table show-summary :summary-method="getSummaries" :data="filterTableData" @row-contextmenu="rowContextmenu"
+            :row-style="rowStyle" style="width: 100%;" max-height="80vh" v-loading="loading">
+            <template default="empty">
+                <el-empty :image-size="100" description='今日暂无订单哦'></el-empty>
+            </template>
+            <el-table-column align="center" label="序号" type="index" min-width="60" />
+            <el-table-column align="center" label="日期" prop="date" min-width="120">
                 <template #default="scope">
                     {{ scope.row.orderTime.split("T")[0] }}
                 </template>
             </el-table-column>
-            <el-table-column label="客户名称" prop="customerName" />
+            <el-table-column label="客户名称" prop="customerName" min-width="100" />
             <el-table-column label="地址" prop="address" min-width="200" />
-            <el-table-column label="手机号" prop="customerPhone" min-width="120" />
-            <el-table-column label="商品名称" prop="goodsName" />
-            <el-table-column label="规格" prop="specs" />
+            <el-table-column label="手机号" prop="customerPhone" min-width="100" />
+            <el-table-column label="商品名称" prop="goodsName" min-width="120" />
+            <el-table-column label="规格" prop="specs" min-width="100" />
             <el-table-column label="价格" prop="price" min-width="55" />
             <el-table-column label="数量" prop="num" min-width="55" />
             <el-table-column label="付款方式" prop="payway" min-width="80">
                 <template #default="scope">
-                    {{ options.getPayway(scope.row.payway)}}
+                    {{ options.getPayway(scope.row.payway) }}
                 </template>
             </el-table-column>
-            <el-table-column label="状态" prop="sendState" min-width="70" sortable >
+            <el-table-column label="状态" prop="sendState" min-width="80" sortable>
                 <template #default="scope">
-                    {{ options.getSendState(scope.row.sendState)}}
-                </template>     
+                    {{ options.getSendState(scope.row.sendState) }}
+                </template>
             </el-table-column>
-            <el-table-column label="配送员" prop="senderName" sortable />
-            <el-table-column label="备注" prop="remark" min-width="180" />
-            <el-table-column align="center" fixed="right" label="操作" width="280">
+            <el-table-column label="配送员" prop="senderName" sortable min-width="180" />
+            <el-table-column label="备注" prop="remark" min-width="120" />
+            <el-table-column align="center" fixed="right" label="操作" width="160">
                 <template #default="scope">
-                    <el-button-group>
+                    <el-button-group style="display:flex;flex-wrap: wrap;">
                         <el-button color="#626aef" :icon="CopyDocument" type="success" size="small"
                             @click="copy(scope.$index, scope.row)">复制</el-button>
                         <el-button :icon="View" type="success" size="small"
@@ -49,15 +52,16 @@
                     </el-button-group>
                 </template>
             </el-table-column>
+
         </el-table>
     </div>
-
-    <OrderEditVue ref="editChild" :id="id"></OrderEditVue>
+    <StyleVue ref="stylevue" :style="style" :changeStyle="changeStyle"></StyleVue>
+    <OrderEditVue :getOrders="getOrders" ref="editChild" :id="id"></OrderEditVue>
     <OrderViewVue ref="viewChild" :data="data"></OrderViewVue>
 </template>
   
 <script setup>
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, onMounted, watch, reactive } from 'vue'
 import { Delete, Edit, View, CopyDocument } from "@element-plus/icons-vue";
 import OrderAddVue from './OrderAdd.vue';
 import OrderEditVue from './OrderEdit.vue';
@@ -71,22 +75,49 @@ import SearchInputVue from '../../../../common/components/search/SearchInput.vue
 import SearchDateVue from '../../../../common/components/search/SearchDate.vue';
 import dateUtil from '../../../../common/util/dateUtil';
 import SearchMonthVue from '../../../../common/components/search/SearchMonth.vue';
+import StyleVue from '../../../../common/components/tool/Style.vue';
+
 
 const tableData = ref([]);
 const search = ref('')
 const searchDate = ref(dateUtil.getYMD(new Date()))
-const searchMonth = ref(dateUtil.getYM(new Date()))
+const searchMonth = ref('')
 const filterTableData = computed(() =>
     tableData.value.filter(
-        (data) => !search.value || data.customerName.includes(search.value) || data.address.includes(search.value) || data.customerPhone.includes(search.value)
-        || data.goodsName.includes(search.value) || data.specs.includes(search.value) || data.senderName.includes(search.value)
+        (data) => !search.value || data.customerName.includes(search.value) || data.address.includes(search.value) || data.customerPhone?.includes(search.value)
+            || data.goodsName.includes(search.value) || data.specs.includes(search.value) || data.senderName.includes(search.value)
     )
 )
-
+const loading = ref(false);
 const editChild = ref('');
 const viewChild = ref('');
 const data = ref({});
 const id = ref('');
+const rightId = ref('');// 鼠标右键选择的行
+const stylevue = ref();
+let target = {};
+const style = ref(
+    {
+        'font-family': '微软雅黑',
+        'font-size': "14px",
+        'font-weight': 'normal',
+        'background-color': 'rgba(255,255,255,1)',
+        color: 'rgba(0,0,0,1)',
+        'font-style': 'normal',
+    },
+)
+const changeStyle = function (value) {
+    style.value = value;
+    let row = tableData.value.find(item => item.id === rightId.value);
+    row && (row.style = value);
+    updateInfo(rightId.value, value)
+    while (target.tagName !== "TR") {
+        target = target.parentElement;
+    }
+    for (let key in value) {
+        target.style[key] = value[key]
+    }
+}
 
 
 const copy = (index, row) => {
@@ -101,7 +132,10 @@ const copy = (index, row) => {
 
 const handleEdit = (index, row) => {
     id.value = row.id;
-    editChild.value.visible = true;
+    setTimeout(() => {
+        editChild.value.visible = true;
+    }, 50)
+
 }
 
 const handleView = (index, row) => {
@@ -109,34 +143,41 @@ const handleView = (index, row) => {
     viewChild.value.visible = true;
 }
 
-const updateInfo = function(id,style){
-    request.post(api.sysUpdateInfo,{
-        id:id,
-        style:JSON.stringify(style)
-    }).then(res =>{
-        if(res.data.code !== 200){
+const updateInfo = function (id, style) {
+    request.post(api.sysUpdateInfo, {
+        id: id,
+        style: typeof style === 'string' ? style : JSON.stringify(style)
+    }).then(res => {
+        if (res.data.code !== 200) {
             operation.warning();
         }
     })
 }
 
-const rowContextmenu = function(row, column, event){
-    let style = JSON.parse(row.style);
-    style.color = "rgba(0,0,0,1)";
-    updateInfo(row.id,style);
-    let target = event.target;
-    while(target.tagName !== "TR"){
-        target = target.parentElement;
-    }
-    for(let key in style){
-        target.style[key] = style[key]
-    }
+const rowContextmenu = function (row, column, event) {
+    style.value = rowStyle({ row });
+    rightId.value = row.id;
+    target = event.target;
+    stylevue.value.styleShow = true;
+    stylevue.value.styleEl.style.left = event.x + "px";
+    stylevue.value.styleEl.style.top = event.y + "px";
 }
 
-const rowStyle = function({row,rowIndex}){
-    return JSON.parse(row.style)
+const tableClick = function () {
+    stylevue.value.styleShow = false;
 }
 
+const rowStyle = function ({ row, rowIndex }) {
+    if (row.style) {
+        if(typeof row.style === 'object'){
+            return row.style;
+        }else{
+            return JSON.parse(row.style);
+        }
+    }else{
+        return style.value;
+    }
+}
 
 const handleDelete = (index, row) => {
     Operation.handleDelete(function () {
@@ -151,34 +192,38 @@ const handleDelete = (index, row) => {
                 operation.warning();
             }
             close();
+            getOrders();
         })
     })
 }
 
-const getOrders = function (type="date",date=searchDate.value) {
+const getOrders = function (type = "date", date = searchDate.value) {
+    loading.value = true;
     request.post(api.sysGetOrders, {
         shopId: localStorage.getItem("shopId"),
-        type:type,
-        date:date,
+        type: type,
+        date: date,
     }).then(res => {
+        loading.value = false;
         if (res.data.code === 200) {
             tableData.value = res.data.data.data;
-        }else{
+        } else {
             tableData.value = [];
+            document.getElementsByClassName("el-table__empty-text")[0].innerText = "今日暂无订单哦,请添加或查询本月订单"
         }
     })
 }
 
-watch(searchDate,(newValue,oldValue)=>{
-    if(newValue){
-        getOrders("date",newValue);
+watch(searchDate, (newValue, oldValue) => {
+    if (newValue) {
+        getOrders("date", newValue);
     }
 
 })
 
-watch(searchMonth,(newValue,oldValue)=>{
-    if(newValue){
-        getOrders("month",newValue);
+watch(searchMonth, (newValue, oldValue) => {
+    if (newValue) {
+        getOrders("month", newValue);
     }
 
 })
@@ -206,9 +251,10 @@ const getSummaries = (param) => {
   
 
 <style scoped>
-.el-table tbody tr:hover>td {
-    background-color:none !important
-}
+/* 
+.mytable:deep() .el-table__body tr.hover-row>td.el-tabel__cell{
+    background-color: red  !important;
+} */
 </style>
 
 

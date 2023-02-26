@@ -1,7 +1,7 @@
 <template>
     <div class="search-content">
         <div class="search-text">搜 索:</div>
-        <el-input class="search-input" :prefix-icon="Search" v-model="search" @input="inputChange" clearable placeholder="请输入关键字" />
+        <el-input type="text" class="search-input" :prefix-icon="Search" v-model="search" @input="inputChange" clearable placeholder="请输入关键字" />
     </div>
 </template>
   

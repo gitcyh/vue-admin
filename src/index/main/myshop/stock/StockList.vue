@@ -14,6 +14,7 @@
 </template>
   
 <script setup>
+
 import { computed, ref, onMounted } from 'vue'
 import SearchInputVue from '../../../../common/components/search/SearchInput.vue';
 import useStock from './useStock';

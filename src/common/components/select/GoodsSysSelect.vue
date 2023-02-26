@@ -32,8 +32,7 @@ const filterFun = function(value){
 
 const changeFun = function(value){
     let data = options.find(item => item.value === value)
-    props.changeGoods(data)
-    console.log(data)
+    props.changeGoods(data);
 }
 
 onMounted(() => {
@@ -46,6 +45,7 @@ onMounted(() => {
                     specs: item.specs,
                     categoryId: item.categoryId,
                     brandName: item.brandName,
+                    imgId: item.imgId,
                 }
             })
             filterData.value = JSON.parse(JSON.stringify(options));

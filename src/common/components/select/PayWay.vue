@@ -14,10 +14,10 @@ defineProps({
     payway:Number,
 })
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:payway'])
 
 const inputChange = function (value) {
-    emits('update:modelValue', value);
+    emits('update:payway', value);
 }
 
 </script>

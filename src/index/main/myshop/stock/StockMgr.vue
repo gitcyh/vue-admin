@@ -16,6 +16,7 @@
 </template>
   
 <script setup>
+
 import { ref, onMounted, reactive } from 'vue'
 import StockListVue from './StockList.vue';
 import InStockListVue from './InStorList.vue';
@@ -32,6 +33,9 @@ const options = reactive(
       text: '库存剩余表'
     },
     tooltip: {},
+    legend: {
+      data: ['余量']
+    },
     xAxis: {
       axisLabel: {
         rotate: '45'
@@ -110,6 +114,7 @@ const getQuantity = function () {
     if (res.data.code === 200) {
       let data = res.data.data.data;
       data.forEach(item => {
+        //options.legend.data.push(item.goodsName);
         options.xAxis.data.push(item.goodsName);
         options.series[0].data.push(item.allowance);
       });

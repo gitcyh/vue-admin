@@ -26,6 +26,9 @@
   padding: 8px !important;
 }
 
+.el-table__body tr.hover-row>td.el-table__cell{
+  background-color: transparent  !important;
+}
 
 .search-header{
   display: flex;
@@ -42,7 +45,3 @@
   display: inline-block;
   padding-left: 4px;
 }
-/* .search-header .el-input{
-  width: 300px;
-  height: 30px;
-} */

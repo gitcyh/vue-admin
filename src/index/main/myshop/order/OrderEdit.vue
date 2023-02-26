@@ -25,7 +25,7 @@
                         <el-input v-model="ruleForm.address" type="text" readonly />
                     </el-form-item>
                     <el-form-item label="手机号" prop="customerPhone" v-show="ruleForm.customerId">
-                        <el-input type="text" v-model="ruleForm.customerPhone" readonly />
+                        <el-input type="text" v-model="ruleForm.customerPhone" clearable />
                     </el-form-item>
                     <el-form-item label="选择商品" prop="goodsName" required>
                         <GoodsSelect :goodsId="ruleForm.goodsId" :changeGoods="changeGoods"></GoodsSelect>
@@ -42,10 +42,10 @@
                             style="width: 100%" />
                     </el-form-item>
                     <el-form-item label="选择配送员" required>
-                        <SenderSelect v-model="ruleForm.senderId"></SenderSelect>
+                        <SenderSelect v-model:senderId="ruleForm.senderId"></SenderSelect>
                     </el-form-item>
-                    <PayWayVue v-model="ruleForm.payway" required></PayWayVue>
-                    <SendStateVue v-model="ruleForm.sendState" required></SendStateVue>
+                    <PayWayVue v-model:payway="ruleForm.payway" required></PayWayVue>
+                    <SendStateVue v-model:sendState="ruleForm.sendState" required></SendStateVue>
                     <el-form-item label="备注" prop="remark">
                         <el-input type="text" v-model="ruleForm.remark" clearable />
                     </el-form-item>
@@ -78,7 +78,8 @@ import jwtUtil from '../../../../common/util/jwtUtil'
 
 
 const props = defineProps({
-    id: String
+    id: String,
+    getOrders:Function
 })
 const ruleFormRef = ref();
 const visible = ref(false);
@@ -107,9 +108,7 @@ const ruleForm = reactive({
 const close = function () {
     visible.value = false;
 }
-const changeSender = function (value) {
-    ruleForm.senderId = value;
-}
+
 const changeCustomer = function (data) {
     ruleForm.customerId = data.value;
     ruleForm.customerName = data.name;
@@ -123,9 +122,6 @@ const changeGoods = function (data) {
     ruleForm.price = data.deliveryPrice;
 }
 
-const changeSendState = function (value) {
-    ruleForm.sendState = value;
-}
 const updateOrder = function () {
     request.post(api.sysUpdateOrder, {
         id:props.id,
@@ -152,6 +148,7 @@ const updateOrder = function () {
             operation.warning();
         }
         close();
+        props.getOrders();
     })
 }
 const submitForm = async (formEl) => {
@@ -166,7 +163,7 @@ const submitForm = async (formEl) => {
 }
 
 watch(visible, (newValue, oldValue) => {
-    if (newValue) {
+    if (newValue && props.id) {
         request.get(api.sysGetOrder, {
             params: {
                 id: props.id,

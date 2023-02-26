@@ -1,7 +1,7 @@
 <template>
     <el-tabs type="border-card" v-model="activeName">
         <el-tab-pane label="图表" name="chart">
-            <RingPieChart :options="options"></RingPieChart>
+            <PieChart :options="options"></PieChart>
         </el-tab-pane>
         <el-tab-pane label="费用支出明细表" name="expenses">
             <ExpensesList></ExpensesList>
@@ -10,48 +10,41 @@
 </template>
   
 <script setup>
-import { ref, reactive,onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import ExpensesList from './ExpensesList.vue';
-import RingPieChart from '../../../../common/components/echarts/RingPieChart.vue';
+import PieChart from '../../../../common/components/echarts/PieChart.vue';
 import request from '../../../../request/request';
 import api from '../../../../request/api';
+import dateUtil from '../../../../common/util/dateUtil';
 
 const activeName = ref("chart")
 const options = reactive(
     {
+        title: {
+            text: '支出统计表',
+            subtext: dateUtil.getYM(new Date()),
+            left: 'center'
+        },
         tooltip: {
             trigger: 'item'
         },
         legend: {
-            top: '5%',
-            left: 'center'
+            orient: 'vertical',
+            left: 'left'
         },
         series: [
             {
-                name: 'Access From',
+                name: '支出类别',
                 type: 'pie',
-                radius: ['40%', '70%'],
-                avoidLabelOverlap: false,
-                itemStyle: {
-                    borderRadius: 10,
-                    borderColor: '#fff',
-                    borderWidth: 2
-                },
-                label: {
-                    show: false,
-                    position: 'center'
-                },
+                radius: '50%',
+                data: [],
                 emphasis: {
-                    label: {
-                        show: true,
-                        fontSize: 40,
-                        fontWeight: 'bold'
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
-                },
-                labelLine: {
-                    show: false
-                },
-                data: []
+                }
             }
         ]
     }
@@ -66,10 +59,10 @@ const getPayoutChart = function () {
         shopId: localStorage.getItem("shopId")
     }).then(res => {
         if (res.data.code === 200) {
-            options.series[0].data = res.data.data.data.map(item =>{
+            options.series[0].data = res.data.data.data.map(item => {
                 return {
-                    value:item.money,
-                    name:item.category,
+                    value: item.money,
+                    name: item.category,
                 }
             })
         }

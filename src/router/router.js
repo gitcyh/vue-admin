@@ -31,7 +31,7 @@ const routes = [
                 path: '/index/myindex',
                 name: "首页",
                 components: {
-                    main: () => import(/* webpackChunkName: mycomp*/ '../index/main/myindex/Myindex.vue')
+                    main: () => import(/* webpackChunkName: mycomp*/ '../index/main/myindex/MyIndex.vue')
                 }
             },
             {

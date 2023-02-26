@@ -36,7 +36,7 @@ import { List, Menu as IconMenu, Location, Setting, User, HomeFilled, House, Ava
 
 const router = useRouter();
 const menuList = menuStore().$state.menuList;
-console.log(menuList)
+
 
 const defaultActive = computed(() => menuStore().getCurrentMenu);
 const icons = {

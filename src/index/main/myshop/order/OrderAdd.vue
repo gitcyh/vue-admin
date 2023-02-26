@@ -25,7 +25,7 @@
                         <el-input v-model="ruleForm.address" type="text" readonly />
                     </el-form-item>
                     <el-form-item label="手机号" prop="customerPhone" v-show="ruleForm.customerId" >
-                        <el-input type="text" v-model="ruleForm.customerPhone" readonly />
+                        <el-input type="text" v-model="ruleForm.customerPhone" clearable />
                     </el-form-item>
                     <el-form-item label="选择商品" prop="goodsName" required>
                         <GoodsSelect :goodsId="ruleForm.goodsId" :changeGoods="changeGoods"></GoodsSelect>
@@ -40,10 +40,10 @@
                         <el-input-number v-model="ruleForm.num" :min="0" size="small" :controls="false" style="width: 100%" />
                     </el-form-item>
                     <el-form-item label="选择配送员" required>
-                        <SenderSelect v-model="ruleForm.senderId"></SenderSelect>
+                        <SenderSelect v-model:senderId="ruleForm.senderId"></SenderSelect>
                     </el-form-item>
-                    <PayWayVue v-model="ruleForm.payway" required></PayWayVue>
-                    <SendStateVue v-model="ruleForm.sendState" required></SendStateVue>
+                    <PayWayVue v-model:payway="ruleForm.payway" required></PayWayVue>
+                    <SendStateVue v-model:sendState="ruleForm.sendState" required></SendStateVue>
                     <el-form-item label="备注" prop="remark">
                         <el-input type="text" v-model="ruleForm.remark" clearable />
                     </el-form-item>
@@ -77,6 +77,10 @@ import dateUtil from '../../../../common/util/dateUtil'
 
 
 
+const props = defineProps({
+    getOrders:Function,
+})
+
 
 const ruleFormRef = ref();
 const visible = ref(false);
@@ -97,15 +101,20 @@ const ruleForm = reactive({
     sendState: 0,
     senderId: '',
     remark: '',
-    style: '{"background-color":"rgba(255,255,255,1)"}'
+    style: {
+        'font-family': '微软雅黑',
+        'font-size': "14px",
+        'font-weight': 'normal',
+        'background-color': 'rgba(255,255,255,1)',
+        color: 'rgba(0,0,0,1)',
+        'font-style': 'normal',
+    }
 })
 
 const close = function () {
     visible.value = false;
 }
-const changeSender = function(value){
-    ruleForm.senderId = value;
-}
+
 const changeCustomer = function(data){
     ruleForm.customerId = data.value;
     ruleForm.customerName = data.name;
@@ -119,9 +128,6 @@ const changeGoods = function(data){
     ruleForm.price = data.deliveryPrice;
 }
 
-const changeSendState = function(value){
-    ruleForm.sendState = value;
-}
 const addOrder = function () {
     request.post(api.sysAddOrder, {
         userId: ruleForm.userId,
@@ -140,7 +146,7 @@ const addOrder = function () {
         sendState: ruleForm.sendState,
         senderId: ruleForm.senderId,
         remark: ruleForm.remark,
-        style:ruleForm.style,
+        style:JSON.stringify(ruleForm.style),
     }).then(res => {
         if (res.data.code === 200) {
             operation.success();
@@ -148,6 +154,7 @@ const addOrder = function () {
             operation.warning();
         }
         close();
+        props.getOrders();
     })
 }
 const submitForm = async (formEl) => {

@@ -36,7 +36,7 @@
                 <EditorView :data="scope.row.goodsDesc"></EditorView>
             </template>
         </el-table-column>
-        <el-table-column fixed="right" align="center" label="操作" width="220">
+        <el-table-column fixed="right" align="center" label="操作" width="230">
             <template #default="scope">
                 <el-button-group>
                     <el-button :icon="View" size="small" type="success"

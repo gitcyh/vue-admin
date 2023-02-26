@@ -25,7 +25,7 @@
         <el-table-column label="手机号" prop="phone" />
         <el-table-column label="身份证" prop="idCard" />
         <el-table-column label="住址" prop="address" min-width="200" />
-        <el-table-column align="center" label="操作" width="220">
+        <el-table-column align="center" label="操作" width="230">
             <template #default="scope">
                 <el-button-group>
                     <el-button :icon="View" type="success" size="small"

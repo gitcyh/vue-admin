@@ -14,10 +14,10 @@ defineProps({
     sendState:Number,
 })
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:sendState'])
 
 const inputChange = function (value) {
-    emits('update:modelValue', value);
+    emits('update:sendState', value);
 }
 
 </script>

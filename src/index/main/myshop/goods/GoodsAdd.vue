@@ -9,12 +9,13 @@
                 </div>
             </template>
             <div style="overflow-y: auto;height: 80vh;">
-                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useGoods.rules" label-width="100px" class="demo-ruleForm">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="useGoods.rules" label-width="100px"
+                    class="demo-ruleForm">
                     <el-form-item label="商品名称" prop="name">
                         <div style="display:flex;width:100%">
-                            <el-input v-model="ruleForm.name" placeholder="请输入商品名称" clearable style="width:300px"  />
+                            <el-input v-model="ruleForm.name" placeholder="请输入商品名称" clearable style="width:300px" />
                             <div style="width:120px;margin-left:20px">或从系统中选择:</div>
-                            <GoodsSysSelect style="width:300px"  :changeGoods="changeGoods"></GoodsSysSelect>
+                            <GoodsSysSelect style="width:300px" :changeGoods="changeGoods"></GoodsSysSelect>
                         </div>
                     </el-form-item>
                     <el-form-item label="品牌名称" prop="brand">
@@ -36,7 +37,7 @@
                         <el-input v-model.number="ruleForm.selfPrice" clearable />
                     </el-form-item>
                     <el-form-item label="商品图片" prop="imgId">
-                        <Upload ref="upload_imgId"></Upload>
+                        <Upload ref="upload_imgId" :file-list="getImgList()"></Upload>
                     </el-form-item>
                     <el-form-item label="商品描述" prop="goodsDesc">
                         <EditorVue ref="editorRef" :pushImageList="pushImageList" :valueHtml="ruleForm.goodsDesc"
@@ -52,11 +53,10 @@
             </template>
         </el-dialog>
     </div>
-
 </template>
   
 <script setup>
-import { ref,reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import BrandVue from '../../../../common/components/select/Brand.vue';
@@ -69,6 +69,7 @@ import sysUseGoods from '../../goodsHouse/useGoods'
 import request from '../../../../request/request';
 import api from '../../../../request/api';
 import GoodsSysSelect from '../../../../common/components/select/GoodsSysSelect.vue';
+import jwtUtil from '../../../../common/util/jwtUtil';
 
 
 const ruleFormRef = ref();
@@ -78,12 +79,12 @@ const ruleForm = reactive({
     brand: '',
     categoryId: '',
     specs: '',
-    costPrice:0,
-    deliveryPrice:0,
-    selfPrice:0,
+    costPrice: 0,
+    deliveryPrice: 0,
+    selfPrice: 0,
     goodsDesc: '',
     imgId: '',
-    goodsDesc:'',
+    goodsDesc: '',
 })
 
 const close = function () {
@@ -94,11 +95,26 @@ const nodeClick = function (id, deep) {
     ruleForm.categoryId = id;
 }
 
+const getImgList = function () {
+    if (ruleForm.imgId) {
+        return [
+            {
+                name: 'imgx.jpg',
+                url: jwtUtil.getImgUrl(ruleForm.imgId),
+            },
+        ]
+    }
+    return [];
+}
+
 const changeGoods = function (data) {
     ruleForm.name = data.label;
     ruleForm.specs = data.specs;
     ruleForm.categoryId = data.categoryId;
-    ruleForm.brand = data.brandName
+    ruleForm.brand = data.brandName;
+    if (data.imgId) {
+        ruleForm.imgId = data.imgId;
+    }
 }
 
 
@@ -123,16 +139,16 @@ const addSysGoods = function () {
         const imgId = res.data.data.fileId;
         ruleForm.imgId = imgId;
         request.post(api.addGoods, {
-            shopId:localStorage.getItem("shopId"),
-            costPrice:ruleForm.costPrice,
-            deliveryPrice:ruleForm.deliveryPrice,
-            selfPrice:ruleForm.selfPrice,
+            shopId: localStorage.getItem("shopId"),
+            costPrice: ruleForm.costPrice,
+            deliveryPrice: ruleForm.deliveryPrice,
+            selfPrice: ruleForm.selfPrice,
             goodsName: ruleForm.name,
             brandName: ruleForm.brand,
             categoryId: ruleForm.categoryId,
             specs: ruleForm.specs,
             goodsDesc: ruleForm.goodsDesc,
-            imgId:ruleForm.imgId,
+            imgId: ruleForm.imgId,
         }).then(res => {
             if (res.data.code === 200) {
                 operation.success("添加成功");
@@ -166,8 +182,6 @@ const submitForm = async (formEl) => {
     padding-top: 4px;
     padding-right: 10px;
 } */
-
-
 </style>
 
 

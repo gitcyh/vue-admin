@@ -25,7 +25,7 @@
         <el-table-column label="进货金额" prop="money" sortable />
         <el-table-column label="回桶数量" prop="bucket" />
         <el-table-column label="备注" prop="remark" min-width="150" />
-        <el-table-column align="center" fixed="right" label="操作" width="220">
+        <el-table-column align="center" fixed="right" label="操作" width="230">
             <template #default="scope">
                 <el-button-group>
                     <el-button :icon="View" size="small" type="success"

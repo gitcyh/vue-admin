@@ -5,18 +5,19 @@
 </template>
   
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits,onMounted } from "vue";
 
 
 const props = defineProps({
-    date: String
+   date:String
 })
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:date'])
 
 const changeDate = function (value) {
-    emits('update:modelValue', value);
+    emits('update:date', value);
 }
+
 
 </script>
   

@@ -16,10 +16,10 @@ const props = defineProps({
 
 
 const options = ref([]);
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:senderId'])
 
 const inputChange = function (value) {
-    emits('update:modelValue', value);
+    emits('update:senderId', value);
 }
 
 onMounted(() => {
