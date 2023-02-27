@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `staff`(
 CREATE TABLE IF NOT EXISTS `customer`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
     `shop_id` varchar(64) NOT NULL  COMMENT '所属店铺id',
-    `name` varchar(255) NOT NULL COMMENT '客户名称',
+    `name` varchar(255) NOT NULL DEFAULT '' COMMENT '客户名称',
     `address` varchar(255) NOT NULL  COMMENT '地址',
     `settlement` tinyint(4) NOT NULL DEFAULT 1  COMMENT '结算方式0水票,1及时支付,2月结',
     `wechat` varchar(64) DEFAULT NULL COMMENT '微信号',

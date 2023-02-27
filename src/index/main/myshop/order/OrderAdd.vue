@@ -15,7 +15,7 @@
                         <el-date-picker v-model="ruleForm.orderTime" 
                          type="datetime" placeholder="请选择日期" clearable  style="width: 100%" />
                     </el-form-item>
-                    <el-form-item label="选择客户" prop="customerName" required>
+                    <el-form-item label="选择客户"  required>
                         <CustomerSelectVue :customerId="ruleForm.customerId" :changeCustomer="changeCustomer"></CustomerSelectVue>
                     </el-form-item>
                     <el-form-item label="客户名称" prop="customerName" v-show="ruleForm.customerId" >
@@ -27,7 +27,7 @@
                     <el-form-item label="手机号" prop="customerPhone" v-show="ruleForm.customerId" >
                         <el-input type="text" v-model="ruleForm.customerPhone" clearable />
                     </el-form-item>
-                    <el-form-item label="选择商品" prop="goodsName" required>
+                    <el-form-item label="选择商品" required>
                         <GoodsSelect :goodsId="ruleForm.goodsId" :changeGoods="changeGoods"></GoodsSelect>
                     </el-form-item>
                     <el-form-item label="规格" prop="specs" v-show="ruleForm.goodsId">

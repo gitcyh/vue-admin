@@ -29,10 +29,22 @@ const payOptions = [
     },
     {
         value: 7,
-        label: '未支付',
+        label: '网单',
     },
     {
         value: 8,
+        label: '对公',
+    },
+    {
+        value: 9,
+        label: '未支付',
+    },
+    {
+        value: 10,
+        label: '记账',
+    },
+    {
+        value: 11,
         label: '其他',
     },
 ]

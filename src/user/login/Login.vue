@@ -58,6 +58,7 @@ const rules = reactive({
 
 const setMenu = function (role) {
     const store = menuStore();
+    store.changeCurrentMenu("/index/myindex");
     if (role === 1111) {
         store.changeState(userMenu,userSelectedMenu);
     } else if (role === 9999) {

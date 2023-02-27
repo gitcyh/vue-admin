@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { ElNotification } from 'element-plus'
+import options from '../../../../common/data/options'
 
 
 const warning = () => {
@@ -40,35 +41,35 @@ const resetForm = (formEl) => {
   formEl.resetFields()
 }
 
-const options = [
-  {
-      value: 0,
-      label: '水票',
-  },
-  {
-      value: 1,
-      label: '及时支付',
-  },
-  {
-      value: 2,
-      label: '月结',
-  },
-  {
-      value: 3,
-      label: '按季度',
-  },
-  {
-      value: 4,
-      label: '按年',
-  },
-  {
-      value: 5,
-      label: '其他',
-  },
-]
+// const options = [
+//   {
+//       value: 0,
+//       label: '水票',
+//   },
+//   {
+//       value: 1,
+//       label: '及时支付',
+//   },
+//   {
+//       value: 2,
+//       label: '月结',
+//   },
+//   {
+//       value: 3,
+//       label: '按季度',
+//   },
+//   {
+//       value: 4,
+//       label: '按年',
+//   },
+//   {
+//       value: 5,
+//       label: '其他',
+//   },
+// ]
 
 const getSettlement = function(value){
-  let item = options.find(item => item.value === value);
+  let item = options.payOptions.find(item => item.value === value);
   return item?.label || "未知";
 }
 
@@ -99,7 +100,7 @@ export default {
   despositRules,
   warning,
   resetForm,
-  options,
+  options:options.payOptions,
   getSettlement,
   states,
   getState

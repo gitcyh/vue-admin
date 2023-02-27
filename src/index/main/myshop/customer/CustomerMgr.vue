@@ -3,10 +3,13 @@
         <div class="search-item">
             <SearchInputVue v-model="search"></SearchInputVue>
         </div>
-        <CustomerAddVue></CustomerAddVue>
+        <div class="search-item">
+            <CustomerAddVue></CustomerAddVue>
+            <UploadButton :uploadUrl="uploadUrl"></UploadButton>
+        </div>
     </div>
 
-    <el-table :data="filterTableData" border style="width: 100%">
+    <el-table v-loading="loading" :data="filterTableData" border style="width: 100%" height="84vh" max-height="84vh">
         <el-table-column label="序号" type="index" width="60" />
         <el-table-column label="日期" prop="createTime" width="120">
             <template #default="scope">
@@ -24,7 +27,7 @@
         </el-table-column>
         <el-table-column label="押金管理" width="100">
             <template #default="scope">
-                <DepositMgr :customerId="scope.row.id"></DepositMgr>
+                <el-button  type="success" size="small" @click="handleDeposit(scope.$index, scope.row)">押金单</el-button>
             </template>
         </el-table-column>
         <el-table-column label="备注" prop="remark" min-width="180" />
@@ -41,11 +44,14 @@
             </template>
         </el-table-column>
     </el-table>
+    <Pages :total="total" :getData="getData"></Pages>
     <CustomerEditVue ref="editChild" :id="id"></CustomerEditVue>
     <CustomerViewVue ref="viewChild" :data="data"></CustomerViewVue>
+    <DepositMgr ref="deposit" :customerId="customerId"></DepositMgr>
 </template>
   
 <script setup>
+
 import { computed, ref, onMounted } from 'vue'
 import { Delete, Edit, View } from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
@@ -58,6 +64,8 @@ import api from '../../../../request/api';
 import operation from '../../../../common/util/operation';
 import useCustomer from './useCustomer';
 import SearchInputVue from '../../../../common/components/search/SearchInput.vue';
+import UploadButton from '../../../../common/components/UploadButton.vue';
+import Pages from '../../../../common/components/Pages.vue';
 
 const tableData = ref([]);
 const search = ref('')
@@ -65,12 +73,12 @@ const filterTableData = computed(() => {
     let value = search.value;
     return tableData.value.filter(
         (data) => {
-            return !value || data.name.includes(value) || data.address.includes(value) 
-            || data.phone.includes(value) || data.wechat.includes(value)
+            return !value || data.name?.includes(value) || data.address.includes(value)
+                || data.phone?.includes(value) || data.wechat?.includes(value)
         }
     )
 })
-
+const uploadUrl = ref("/api" + api.uploadCustomer)
 const editChild = ref('');
 const viewChild = ref('');
 const data = ref({});
@@ -83,6 +91,14 @@ const handleEdit = (index, row) => {
 const handleView = (index, row) => {
     data.value = row;
     viewChild.value.visible = true;
+}
+const deposit = ref();
+const customerId = ref('');
+const handleDeposit = function(index, row){
+    customerId.value = row.id;
+    setTimeout(()=>{
+        deposit.value.visible = true;
+    },50) 
 }
 
 const handleDelete = (index, row) => {
@@ -100,17 +116,40 @@ const handleDelete = (index, row) => {
         })
     })
 }
-
-
-const getCustomers = function () {
+const getData = function(currentPage,pageSize){
+    getCustomers(currentPage,pageSize);
+}
+const loading = ref(false);
+const getCustomers = function (currentPage=1,pageSize=100) {
+    loading.value = true;
     request.post(api.getCustomers, {
-        shopId: localStorage.getItem("shopId")
+        shopId: localStorage.getItem("shopId"),
+        currentPage:currentPage,
+        pageSize:pageSize,
     }).then(res => {
-        tableData.value = res.data.data.data;
+        loading.value = false;
+        if(res.data.code === 200){
+            tableData.value = res.data.data.data;
+        }else{
+            tableData.value = [];
+        }
+    })
+}
+
+const total = ref(100);
+const getCount = function(){
+    request.get(api.getCountCustomers, {
+        params:{
+            shopId: localStorage.getItem("shopId"),
+        }
+    }).then(res => {
+        total.value = res.data.data.data;
+        console.log(total.value)
     })
 }
 
 onMounted(() => {
+    getCount();
     getCustomers();
 })
 </script>

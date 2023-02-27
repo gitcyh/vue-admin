@@ -1,7 +1,6 @@
 <template>
     <el-select v-model="customerId" filterable placeholder="请选择客户" @change="changeFun" style="width: 100%">
         <el-option v-for="item in filterData" :key="item.value" :label="item.label" :value="item.value" :filter-method="filterFun">
-            <span>{{ item.name }}/</span>
             <span>{{ item.label }}</span>
         </el-option>
     </el-select>
