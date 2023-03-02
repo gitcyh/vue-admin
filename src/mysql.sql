@@ -1,6 +1,6 @@
 
 --
---用户表
+--后台用户表
 --
 CREATE TABLE IF NOT EXISTS `user`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '用户id',
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `user`(
     `phone` varchar(20) NOT NULL COMMENT '手机号',
     `email` varchar(60) NOT NULL COMMENT '邮箱用于找回密码',
     `picture_id`  varchar(64)  COMMENT '头像id',
-    `role` int(4) unsigned NOT NULL DEFAULT 1111 COMMENT '角色,1111:普通用户,6666:店铺管理员,9999超级管理员',
+    `role` int(4) unsigned NOT NULL DEFAULT 6666 COMMENT '角色,6666:店铺管理员,9999超级管理员',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS `customer`(
     `shop_id` varchar(64) NOT NULL  COMMENT '所属店铺id',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '客户名称',
     `address` varchar(255) NOT NULL  COMMENT '地址',
+    `longitude` decimal(10,7) DEFAULT NULL COMMENT '地址经度',
+    `latitude` decimal(10,7) DEFAULT NULL COMMENT '地址纬度',
     `settlement` tinyint(4) NOT NULL DEFAULT 1  COMMENT '结算方式0水票,1及时支付,2月结',
     `wechat` varchar(64) DEFAULT NULL COMMENT '微信号',
     `phone` varchar(16) DEFAULT NULL COMMENT '手机号',

@@ -13,6 +13,8 @@ const api = {
     sysUpdateOrder:"/sys/updateOrder",
     sysGetOrder:"/sys/getOrder",
     sysGetOrders:"/sys/getOrders",
+    sysGetTotal:"/sys/getTotal",
+    sysGetDataYM:"/sys/getDataYM",
     sysUpdateInfo:"/sys/updateInfo",
     addPayout:"/addPayout",
     deletePayout:"/deletePayout",

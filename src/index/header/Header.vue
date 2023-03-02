@@ -8,7 +8,7 @@
     </div>
     <Weather></Weather>
     <div class="header-name">
-      店铺后台管理系统
+      <!-- 店铺后台管理系统 -->
     </div>
     <Clock></Clock>
     <MessageVue></MessageVue>

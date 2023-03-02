@@ -76,4 +76,7 @@ const goto = (item) => {
   min-height: 400px;
   height: 100%;
 }
+.el-menu{
+  border-right:none;
+}
 </style>

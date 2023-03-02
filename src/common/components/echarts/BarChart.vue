@@ -41,13 +41,26 @@ const props = defineProps({
         default: {},
         required: true
     },
+    width:{
+        type: Number,
+        default: 400,
+        required: true
+    },
+    height:{
+        type: Number,
+        default: 300,
+        required: true
+    }
 })
 const resizeHandler = () => {
     myChart.value.resize()
 }
 
 onMounted(() => {
-    myChart.value = echarts.init(chartDom.value)
+    myChart.value = echarts.init(chartDom.value,null,{
+        width:props.width,
+        height:props.height
+    })
     myChart.value.setOption(props.options, true)
     window.addEventListener('resize', resizeHandler)
 })
@@ -63,8 +76,8 @@ watch(() => props.options, (newOptions) => {
 
 
 <style scoped>
-#barchart {
+/* #barchart {
     width: 600px;
     height: 600px;
-}
+} */
 </style>
