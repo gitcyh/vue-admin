@@ -1,10 +1,14 @@
 <template>
     <div class="wrap">
-        <div class="header">大数据可视化模板</div>
+        <div class="header"><SalesData type="date"></SalesData></div>
         <div class="content">
             <div class="left">
-                <div class="left-top"></div>
-                <div class="left-bottom"></div>
+                <div class="left-top">
+                    <BarChart :options="options2"></BarChart>
+                </div>
+                <div class="left-bottom">
+                    <BarChart :options="options3"></BarChart>
+                </div>
             </div>
             <div class="middle">
                 <div class="middle-top">
@@ -12,7 +16,7 @@
                     <SalesData type="year"></SalesData>
                 </div>
                 <div class="middle-mid">
-                    <BarChart :options="options" :width="600" :height="300"></BarChart>
+                    <BarChart :options="options"></BarChart>
                 </div>
                 <div class="middle-bottom">
                     <MapComponent></MapComponent>
@@ -20,86 +24,42 @@
             </div>
             <div class="right">
                 <div class="right-top"></div>
-                <div class="right-bottom"></div>
+                <div class="right-bottom">
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from "vue";
 import SalesData from "../../../common/components/echarts/SalesData.vue";
 import BarChart from "../../../common/components/echarts/BarChart.vue";
-import request from "../../../request/request";
-import api from '../../../request/api';
 import MapComponent from "../../../common/components/map/MapComponent.vue";
-import dateUtil from "../../../common/util/dateUtil";
+import useBarChart from "./userIndex/useBarChart";
+import useBarChartStaff  from "./userIndex/useBarChartStaff";
+import useBarChartCustomer from "./userIndex/useBarChartCustomer";
 
 
+const options = useBarChart();
+const options2 = useBarChartStaff();
+const options3 = useBarChartCustomer()
 
-const options = reactive(
-    {
-        title: {
-            text: '销售统计表'
-        },
-        tooltip: {},
-        xAxis: {
-            axisLabel: {
-                rotate: '45'
-            },
-            data: []
-        },
-        yAxis: {},
-        series: [
-            {
-                name: '金额',
-                type: 'bar',
-                label: {
-                    show: true,
-                    fontSize: 18,
-                    position: 'inside'
-                },
-                data: []
-            }
-        ]
-    }
-)
-
-const getDataYm = function () {
-    request.post(api.sysGetDataYM, {
-        shopId: localStorage.getItem("shopId"),
-        type: "month",
-        date: dateUtil.getYM(new Date()),
-    }).then(res => {
-        if (res.data.code === 200) {
-            let data = res.data.data.data;
-            data.forEach(item => {
-                options.xAxis.data.push(item.day);
-                options.series[0].data.push(item.money);
-            });
-        }
-    })
-}
-
-onMounted(() => {
-    getDataYm();
-})
 
 </script>
 
 <style scoped>
 .wrap {
     display: flex;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 82px);
     flex-direction: column;
-    background-color: rgba(2, 70, 131, 1);
+    background-color: rgba(29,43,86,1);
+    border: 1px solid #148ca6;
 }
 
 .header {
     height: 8%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
     font-size: 24px;
     font-weight: bold;
     color: #fff;
@@ -115,16 +75,17 @@ onMounted(() => {
     width: 25%;
     display: flex;
     flex-direction: column;
+    border-top: 1px solid #148ca6;
+    border-right: 1px solid #148ca6;
 }
 
 .left-top {
-    border: 1px solid #dcd;
-    height: 50%;
+    height: 30%;
+    border-bottom: 1px solid #148ca6;
 }
 
 .left-bottom {
-    border: 1px solid rgb(214, 23, 214);
-    height: 50%;
+    height: 70%;
 }
 
 .middle {
@@ -137,30 +98,35 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     height: 10%;
-    border: 1px solid red;
+    border-top: 1px solid #148ca6;
+    border-bottom: 1px solid #148ca6;
 }
 
 .middle-mid {
     height: 40%;
-    border: 1px solid #dcd;
+    border-bottom: 1px solid #148ca6;
 }
 
 .middle-bottom {
     height: 50%;
+    border: 1px solid #08bee7;
 }
 
 .right {
     width: 25%;
+    height: 100%;
 }
 
 .right-top {
-    border: 1px solid #dcd;
+    border-top: 1px solid #148ca6;
+    border-left: 1px solid #148ca6;
     height: 50%;
 }
 
 .right-bottom {
-    border: 1px solid rgb(214, 23, 214);
     height: 50%;
+    border-left: 1px solid #148ca6;
+    border-top: 1px solid #148ca6;
 }</style>
 
 

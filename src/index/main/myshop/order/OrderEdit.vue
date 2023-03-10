@@ -19,7 +19,7 @@
                         </CustomerSelectVue>
                     </el-form-item>
                     <el-form-item label="客户名称" prop="customerName" v-show="ruleForm.customerId">
-                        <el-input v-model="ruleForm.customerName" readonly />
+                        <el-input v-model="ruleForm.customerName" readonly/>
                     </el-form-item>
                     <el-form-item label="地址" prop="address" v-show="ruleForm.customerId">
                         <el-input v-model="ruleForm.address" type="text" readonly />

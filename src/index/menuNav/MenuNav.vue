@@ -43,7 +43,7 @@ router.afterEach((to, from) => {
 
 <style scoped>
 .menuNav-wrap{
-  background: #e2ebe4;
+  background: rgba(29,43,86,1);
   height: 30px;
   display: flex;
   align-items: center;

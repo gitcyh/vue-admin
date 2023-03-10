@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <el-table v-loading="loading" :data="filterTableData" border style="width: 100%" height="84vh" max-height="84vh">
+    <el-table v-loading="loading" :data="tableData" border style="width: 100%" height="84vh" max-height="84vh">
         <el-table-column label="序号" type="index" width="60" />
         <el-table-column label="日期" prop="createTime" width="120">
             <template #default="scope">
@@ -27,7 +27,7 @@
         </el-table-column>
         <el-table-column label="押金管理" width="100">
             <template #default="scope">
-                <el-button  type="success" size="small" @click="handleDeposit(scope.$index, scope.row)">押金单</el-button>
+                <el-button color="#626aef" size="small" @click="handleDeposit(scope.$index, scope.row)">押金单</el-button>
             </template>
         </el-table-column>
         <el-table-column label="备注" prop="remark" min-width="180" />
@@ -52,7 +52,7 @@
   
 <script setup>
 
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, watch } from 'vue'
 import { Delete, Edit, View } from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import CustomerAddVue from './CustomerAdd.vue';
@@ -69,23 +69,25 @@ import Pages from '../../../../common/components/Pages.vue';
 
 const tableData = ref([]);
 const search = ref('')
-const filterTableData = computed(() => {
-    let value = search.value;
-    return tableData.value.filter(
-        (data) => {
-            return !value || data.name?.includes(value) || data.address.includes(value)
-                || data.phone?.includes(value) || data.wechat?.includes(value)
-        }
-    )
-})
+// const filterTableData = computed(() => {
+//     let value = search.value;
+//     return tableData.value.filter(
+//         (data) => {
+//             return !value || data.name?.includes(value) || data.address.includes(value)
+//                 || data.phone?.includes(value) || data.wechat?.includes(value)
+//         }
+//     )
+// })
 const uploadUrl = ref("/api" + api.uploadCustomer)
 const editChild = ref('');
 const viewChild = ref('');
 const data = ref({});
 const id = ref("");
 const handleEdit = (index, row) => {
-    editChild.value.visible = true;
     id.value = row.id;
+    setTimeout(()=>{
+        editChild.value.visible = true;
+    },50)
 }
 
 const handleView = (index, row) => {
@@ -126,6 +128,7 @@ const getCustomers = function (currentPage=1,pageSize=100) {
         shopId: localStorage.getItem("shopId"),
         currentPage:currentPage,
         pageSize:pageSize,
+        value:search.value
     }).then(res => {
         loading.value = false;
         if(res.data.code === 200){
@@ -136,11 +139,19 @@ const getCustomers = function (currentPage=1,pageSize=100) {
     })
 }
 
+watch(search,(newValue,oldValue)=>{
+    if(newValue != oldValue){
+        getCount();
+        getCustomers()
+    }
+})
+
 const total = ref(100);
 const getCount = function(){
     request.get(api.getCountCustomers, {
         params:{
             shopId: localStorage.getItem("shopId"),
+            value: search.value
         }
     }).then(res => {
         total.value = res.data.data.data;

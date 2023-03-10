@@ -41,7 +41,7 @@ const getDefaultDate = function () {
         } else if (props.type === 'year') {
             return dateUtil.getY(new Date())
         }
-    }else{
+    } else {
         return props.date;
     }
 
@@ -76,9 +76,15 @@ const getTotal = function () {
         type: props.type,
         date: getDefaultDate(),
     }).then(res => {
-        const { money, total } = res.data.data.data;
-        summoney.value = money;
-        sumtotal.value = total;
+        if (res.data.code === 200) {
+            const { money, total } = res.data.data.data;
+            summoney.value = money;
+            sumtotal.value = total;
+        } else {
+            summoney.value = 0;
+            sumtotal.value = 0;
+        }
+
     })
 }
 
@@ -93,7 +99,7 @@ onMounted(() => {
     display: flex;
     width: 300px;
     height: 100%;
-    margin: 10px;
+    margin: 5px;
 
 }
 
@@ -104,7 +110,7 @@ onMounted(() => {
     margin-right: 20px;
 }
 
-.yuan{
+.yuan {
     font-size: 20px;
 }
 
@@ -114,12 +120,13 @@ onMounted(() => {
     width: 50%;
 }
 
-.title{
-    color:#fff;
+.title {
+    color: #fff;
     font-size: 12px;
 }
-.content{
-    color:#eaee09;
+
+.content {
+    color: #eaee09;
     font-size: 38px;
     font-weight: bold;
     padding-left: 10px;

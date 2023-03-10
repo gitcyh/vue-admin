@@ -15,6 +15,8 @@ const api = {
     sysGetOrders:"/sys/getOrders",
     sysGetTotal:"/sys/getTotal",
     sysGetDataYM:"/sys/getDataYM",
+    getNumByStaff:"/sys/getNumByStaff",
+    getNumByCustomer:"/sys/getNumByCustomer",
     sysUpdateInfo:"/sys/updateInfo",
     addPayout:"/addPayout",
     deletePayout:"/deletePayout",

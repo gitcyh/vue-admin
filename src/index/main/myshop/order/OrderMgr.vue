@@ -9,20 +9,20 @@
     </div>
     <div @click="tableClick" class="mytable" style="overflow:auto;">
         <el-table show-summary :summary-method="getSummaries" :data="filterTableData" @row-contextmenu="rowContextmenu"
-            :row-style="rowStyle" style="width: 100%;" max-height="80vh" v-loading="loading">
+            :row-style="rowStyle" style="width: 100%;" max-height="80vh" border v-loading="loading">
             <template default="empty">
                 <el-empty :image-size="100" description='今日暂无订单哦'></el-empty>
             </template>
-            <el-table-column align="center" label="序号" type="index" min-width="60" />
-            <el-table-column align="center" label="日期" prop="date" min-width="120">
+            <el-table-column align="center" label="序号" type="index" min-width="50" />
+            <el-table-column align="center" label="日期" prop="date" min-width="100">
                 <template #default="scope">
                     {{ scope.row.orderTime.split("T")[0] }}
                 </template>
             </el-table-column>
-            <el-table-column label="客户名称" prop="customerName" min-width="100" />
+            <el-table-column label="客户名称" prop="customerName" min-width="80" />
             <el-table-column label="地址" prop="address" min-width="200" />
             <el-table-column label="手机号" prop="customerPhone" min-width="100" />
-            <el-table-column label="商品名称" prop="goodsName" min-width="120" />
+            <el-table-column label="商品名称" prop="goodsName" min-width="140" />
             <el-table-column label="规格" prop="specs" min-width="100" />
             <el-table-column label="价格" prop="price" min-width="55" />
             <el-table-column label="数量" prop="num" min-width="55" />
@@ -36,9 +36,9 @@
                     {{ options.getSendState(scope.row.sendState) }}
                 </template>
             </el-table-column>
-            <el-table-column label="配送员" prop="senderName" sortable min-width="180" />
+            <el-table-column label="配送员" prop="senderName" sortable min-width="80" />
             <el-table-column label="备注" prop="remark" min-width="120" />
-            <el-table-column align="center" fixed="right" label="操作" width="160">
+            <el-table-column align="center" fixed="right" label="操作" width="230">
                 <template #default="scope">
                     <el-button-group style="display:flex;flex-wrap: wrap;">
                         <el-button color="#626aef" :icon="CopyDocument" type="success" size="small"
@@ -209,13 +209,16 @@ const getOrders = function (type = "date", date = searchDate.value) {
             tableData.value = res.data.data.data;
         } else {
             tableData.value = [];
-            document.getElementsByClassName("el-table__empty-text")[0].innerText = "今日暂无订单哦,请添加或查询本月订单"
+            let dom =  document.getElementsByClassName("el-table__empty-text")[0];
+            dom && (dom.innerText = "今日暂无订单哦,请添加或查询本月订单");
+          
         }
     })
 }
 
 watch(searchDate, (newValue, oldValue) => {
     if (newValue) {
+        searchMonth.value = null;
         getOrders("date", newValue);
     }
 
@@ -223,6 +226,7 @@ watch(searchDate, (newValue, oldValue) => {
 
 watch(searchMonth, (newValue, oldValue) => {
     if (newValue) {
+        searchDate.value = null;
         getOrders("month", newValue);
     }
 
@@ -251,10 +255,9 @@ const getSummaries = (param) => {
   
 
 <style scoped>
-/* 
-.mytable:deep() .el-table__body tr.hover-row>td.el-tabel__cell{
-    background-color: red  !important;
-} */
+.el-button--small {
+    padding: 5px;
+}
 </style>
 
 

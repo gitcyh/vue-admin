@@ -31,13 +31,30 @@ const props = defineProps({
         default: {},
         required: true
     },
+    width: Number,
+    height: Number,
 })
+
+
+const getWidth = function () {
+    return chartDom.value.clientWidth;
+}
+
+const getHeight = function () {
+    return chartDom.value.clientHeight;
+}
 const resizeHandler = () => {
-    myChart.value.resize()
+    myChart.value.resize({
+        width: getWidth(),
+        height: getHeight(),
+    })
 }
 
 onMounted(() => {
-    myChart.value = echarts.init(chartDom.value)
+    myChart.value = echarts.init(chartDom.value, null, {
+        width: props.width || getWidth(),
+        height: props.height || getHeight()
+    })
     myChart.value.setOption(props.options, true)
     window.addEventListener('resize', resizeHandler)
 })
@@ -54,7 +71,7 @@ watch(() => props.options, (newOptions) => {
 
 <style scoped>
 #mbarchart {
-    width: 1000px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
 }
 </style>

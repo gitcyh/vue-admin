@@ -13,7 +13,7 @@ import * as echarts from 'echarts/core';
 // 引入柱状图图表，图表后缀都为 Chart
 import { BarChart } from 'echarts/charts';
 // 引入提示框，标题，直角坐标系，数据集，内置数据转换器组件，组件后缀都为 Component
-import { TitleComponent, TooltipComponent,GridComponent, DatasetComponent, TransformComponent } from 'echarts/components';
+import { TitleComponent, TooltipComponent,GridComponent, DatasetComponent, TransformComponent, LegendComponent } from 'echarts/components';
 // 标签自动布局、全局过渡动画等特性
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 // 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
@@ -29,7 +29,8 @@ echarts.use([
     BarChart,
     LabelLayout,
     UniversalTransition,
-    CanvasRenderer
+    CanvasRenderer,
+    LegendComponent
 ]);
 
 
@@ -41,25 +42,28 @@ const props = defineProps({
         default: {},
         required: true
     },
-    width:{
-        type: Number,
-        default: 400,
-        required: true
-    },
-    height:{
-        type: Number,
-        default: 300,
-        required: true
-    }
+    width:Number,
+    height:Number,
 })
 const resizeHandler = () => {
-    myChart.value.resize()
+    myChart.value.resize({
+        width: getWidth(),
+        height:getHeight(),
+    })
+}
+
+const getWidth = function(){
+    return chartDom.value.clientWidth;
+}
+
+const getHeight = function(){
+    return chartDom.value.clientHeight;
 }
 
 onMounted(() => {
     myChart.value = echarts.init(chartDom.value,null,{
-        width:props.width,
-        height:props.height
+        width:props.width || getWidth(),
+        height:props.height || getHeight()
     })
     myChart.value.setOption(props.options, true)
     window.addEventListener('resize', resizeHandler)
@@ -76,8 +80,8 @@ watch(() => props.options, (newOptions) => {
 
 
 <style scoped>
-/* #barchart {
-    width: 600px;
-    height: 600px;
-} */
+#barchart {
+    width: 100%;
+    height: 100%;
+}
 </style>
