@@ -18,18 +18,30 @@ INSERT INTO `user` (`id`, `username`, `password`, `phone`,`email`, `picture_id`,
 ('1', 'admin', '123456cyhZ', '13576004423','1643017650@qq.com', '', '9999')
 
 --
---第三方用户信息表
+--微信用户表
 --
-CREATE TABLE IF NOT EXISTS `oauths`(
+CREATE TABLE IF NOT EXISTS `wxuser`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT 'id',
-    `user_id` varchar(30) NOT NULL COMMENT '用户id',
-    `oauth_type` varchar(30) NOT NULL COMMENT '第三方登陆类型 weibo、qq、wechat 等',
-    `oauth_id` varchar(255) NOT NULL COMMENT '第三方 uid 、openid 等',
-    `unionid` varchar(255)  COMMENT 'QQ / 微信同一主体下 Unionid 相同',
-    `credential` varchar(255)  COMMENT '密码凭证 /access_token (目前更多是存储在缓存里)',
+    `code`  varchar(64)  COMMENT '调用wx.login返回的临时code',
+    `cloud_id` varchar(64)  COMMENT '',
+    `encrypted_data` text  COMMENT '加密的敏感数据',
+    `nick_name` varchar(255) NOT NULL COMMENT '微信用户昵称',
+    `gender` tinyint  COMMENT '用户性别0男1女',
+    `language` varchar(16)  COMMENT '语言如zh_CN',
+    `province` varchar(32)  COMMENT '省份',
+    `phone` varchar(16)  COMMENT '手机号',
+    `city` varchar(32)  COMMENT '城市',
+    `contry` varchar(32) COMMENT '国家',
+    `avatar_url` text  COMMENT '用户头像地址',
+    `signature` varchar(64)  COMMENT '使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息',
+    `iv` varchar(32) COMMENT '加密算法的初始向量',
+    `session_key` varchar(32)  COMMENT '会话密钥',
+    `unionid` varchar(32)  COMMENT '用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回',
+    `openid` varchar(32) COMMENT '用户唯一标识,非常重要',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
+
 
 --
 --员工表
@@ -367,4 +379,31 @@ INSERT INTO `expense_category` (`id`,`name`,`description`) VALUES
 ('13','经营支出','进货,运费等'),
 ('14','其他','其他不便分类的费用')
 
+
+
+
+CREATE TABLE IF NOT EXISTS `wx_address`(
+    `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
+    `userid` varchar(255)  NOT NULL COMMENT "用户id",
+    `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址全称',
+    `address_tag` varchar(32) NOT NULL DEFAULT '' COMMENT "家或公司",
+    `auth_token` varchar(32) COMMENT "授权token",
+    `country_code` varchar(32) NOT NULL DEFAULT 'chn' COMMENT "国家码",
+    `country_name` varchar(32) NOT NULL DEFAULT '中国' COMMENT "国家名称",
+    `province_code` varchar(32) COMMENT "省份码" ,
+    `province_name` varchar(32) COMMENT "省份名称",
+    `city_code` varchar(32) COMMENT "城市码",
+    `city_name` varchar(64) COMMENT "城市名称",
+    `district_code` varchar(32) COMMENT "县或区码",
+    `district_name` varchar(64) COMMENT "县或区名",
+    `detail_address` varchar(400) COMMENT "详细地址",
+    `is_default` tinyint(4)  DEFAULT 0 COMMENT '1是默认地址0不是',
+    `longitude` decimal(10,7) COMMENT '用户经度',
+    `latitude` decimal(10,7) COMMENT '用户纬度',
+    `name` varchar(255) COMMENT "收货人姓名",
+    `phone` varchar(16)  COMMENT '手机号',
+    `phone_number` varchar(16)  COMMENT '手机号码',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
+)
 

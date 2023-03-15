@@ -137,7 +137,7 @@ const addSysGoods = function () {
     sysUseGoods.beforeAdd(imageList1, editorRef);
     upload_imgId.value.submitUpload().then(res => {
         const imgId = res.data.data.fileId;
-        ruleForm.imgId = imgId;
+        ruleForm.imgId = imgId || ruleForm.imgId;
         request.post(api.addGoods, {
             shopId: localStorage.getItem("shopId"),
             costPrice: ruleForm.costPrice,

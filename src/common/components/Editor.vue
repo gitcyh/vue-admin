@@ -2,7 +2,7 @@
     <div style="border: 1px solid #ccc">
         <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
             :mode="mode" />
-        <Editor style="height: 400px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
+        <Editor style="height: 300px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
             :mode="mode" @onCreated="handleCreated" @onChange="handleChange" />
     </div>
 </template>
