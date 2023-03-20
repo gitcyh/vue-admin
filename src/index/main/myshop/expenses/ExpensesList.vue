@@ -37,7 +37,7 @@
 </template>
   
 <script setup>
-import { computed, ref, onMounted,watch } from 'vue'
+import { computed, ref, onMounted,watch, provide } from 'vue'
 import { Edit, Delete } from "@element-plus/icons-vue";
 import ExpensesAdd from './ExpensesAdd.vue';
 import ExpensesEdit from './ExpensesEdit.vue';
@@ -123,6 +123,8 @@ watch(searchYear,(newValue,oldValue)=>{
     }
     
 })
+
+provide("refresh",getPayouts)
 
 onMounted(() => {
     getPayouts();

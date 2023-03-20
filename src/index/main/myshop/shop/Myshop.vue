@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref,onMounted } from "vue";
+import { ref,onMounted,provide } from "vue";
 import api from "../../../../request/api";
 import request from "../../../../request/request";
 import ShopAddVue from "./ShopAdd.vue";
@@ -19,6 +19,8 @@ import ShopViewVue from "./ShopView.vue";
 import jwtUtil from "../../../../common/util/jwtUtil";
 
 const hasShop = ref(false);
+
+
 
 const getShopByuserId = function(){
     request.get(api.getShop,{
@@ -35,7 +37,7 @@ const getShopByuserId = function(){
         }
     })
 }
-
+provide("refresh",getShopByuserId);
 onMounted(()=>{
     getShopByuserId();
 })

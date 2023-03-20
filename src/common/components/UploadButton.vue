@@ -6,7 +6,7 @@
 </template>
 
 <script  setup>
-import { defineProps } from 'vue';
+import { defineProps,inject } from 'vue';
 import { Upload } from '@element-plus/icons-vue'
 
 
@@ -14,6 +14,8 @@ defineProps({
     uploadUrl:String,
 })
 
+
+const refresh = inject("refresh");
 
 const headers = {
     token:localStorage.getItem("token")
@@ -25,6 +27,7 @@ const data = {
 
 const success = function(res,file,fileList){
     console.log(res,file,fileList)
+    refresh();
 }
 
 

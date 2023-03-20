@@ -80,7 +80,7 @@
 </template>
   
 <script setup>
-import { ref, reactive,watch } from 'vue'
+import { ref, reactive,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import UploadVue from '../../../../common/components/Upload.vue';
@@ -91,6 +91,8 @@ import api from '../../../../request/api';
 import jwtUtil from '../../../../common/util/jwtUtil';
 import dateUtil from '../../../../common/util/dateUtil';
 
+
+const refresh = inject("refresh");
 
 const upload_img = ref();
 const upload_license = ref();
@@ -146,6 +148,7 @@ const addShop = function () {
             operation.warning("操作失败");
         }
         close();
+        refresh();
     })
 }
 

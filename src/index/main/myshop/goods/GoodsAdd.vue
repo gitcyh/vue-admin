@@ -56,7 +56,7 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import BrandVue from '../../../../common/components/select/Brand.vue';
@@ -71,7 +71,7 @@ import api from '../../../../request/api';
 import GoodsSysSelect from '../../../../common/components/select/GoodsSysSelect.vue';
 import jwtUtil from '../../../../common/util/jwtUtil';
 
-
+const refresh = inject("refresh");
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
@@ -156,6 +156,7 @@ const addSysGoods = function () {
                 operation.warning(res.data.msg)
             }
             close();
+            refresh();
         })
     });
 
@@ -176,12 +177,7 @@ const submitForm = async (formEl) => {
 </script>
   
 <style scoped>
-/* .goods-add  .el-dialog__header {
-    height: 30px;
-    padding-left: 4px;
-    padding-top: 4px;
-    padding-right: 10px;
-} */
+
 </style>
 
 

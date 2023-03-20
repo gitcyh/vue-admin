@@ -2,7 +2,7 @@
     <div class="login-wrap">
         <div class="login-container">
             <div class="login-item login-title">
-                欢迎登录
+                欢迎登录水店管理系统
             </div>
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
                 <el-form-item class="login-item" label="" prop="userName">
@@ -88,7 +88,7 @@ const login = async function (formEl) {
                     })
                     operation.success("欢迎" + username + "进入系统!")
                 } else {
-                    operation.warning(res.data.msg)
+                    operation.warning("用户名或密码错误")
                 }
             });
         } else {

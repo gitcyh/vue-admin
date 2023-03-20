@@ -43,7 +43,7 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import useGoods from './useGoods'
@@ -70,6 +70,8 @@ const ruleForm = reactive({
     imgId: '',
 })
 
+
+const refresh = inject("refresh");
 
 const close = function () {
     visible.value = false;
@@ -108,6 +110,7 @@ const addSysGoods = function () {
             if (res.data.code === 200) {
                 operation.success("添加成功");
                 close();
+                refresh();
             } else {
                 operation.warning(res.data.msg)
             }

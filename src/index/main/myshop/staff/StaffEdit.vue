@@ -45,7 +45,7 @@
 </template>
   
 <script setup>
-import { ref, reactive,defineProps,watch } from 'vue'
+import { ref, reactive,defineProps,watch,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import useStaff from './useStaff'
@@ -57,7 +57,7 @@ const props = defineProps({
     id:String,
 })
 
-
+const refresh = inject("refresh");
 const ruleFormRef = ref();
 const visible = ref(false);
 defineExpose({
@@ -115,6 +115,7 @@ const updateStaff = function(){
             operation.success("操作失败");
         }
         close();
+        refresh();
     })
 }
 

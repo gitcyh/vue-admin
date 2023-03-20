@@ -38,7 +38,7 @@
 </template>
   
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import useCustomer from './useCustomer'
@@ -52,7 +52,7 @@ const props = defineProps({
     id: String,
 })
 
-
+const refresh = inject("refresh");
 const ruleFormRef = ref();
 const visible = ref(false);
 defineExpose({
@@ -111,6 +111,7 @@ const updateCustomer = function () {
             operation.warning("操作失败")
         }
         close();
+        refresh();
     })
 }
 

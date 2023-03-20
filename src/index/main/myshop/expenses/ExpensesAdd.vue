@@ -37,7 +37,7 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold, Plus } from '@element-plus/icons-vue'
 import ExpenseCatSelect from '../../../../common/components/select/ExpenseCatSelect.vue';
@@ -49,7 +49,7 @@ import operation from '../../../../common/util/operation';
 
 
 
-
+const refresh = inject("refresh");
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
@@ -79,6 +79,7 @@ const addPayout = function () {
             operation.warning();
         }
         close();
+        refresh();
     })
 }
 const submitForm = async (formEl) => {

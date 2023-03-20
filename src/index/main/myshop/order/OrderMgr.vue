@@ -61,7 +61,7 @@
 </template>
   
 <script setup>
-import { computed, ref, onMounted, watch, reactive } from 'vue'
+import { computed, ref, onMounted, watch, provide } from 'vue'
 import { Delete, Edit, View, CopyDocument } from "@element-plus/icons-vue";
 import OrderAddVue from './OrderAdd.vue';
 import OrderEditVue from './OrderEdit.vue';
@@ -215,6 +215,8 @@ const getOrders = function (type = "date", date = searchDate.value) {
         }
     })
 }
+
+provide("refresh",getOrders)
 
 watch(searchDate, (newValue, oldValue) => {
     if (newValue) {

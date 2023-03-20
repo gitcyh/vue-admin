@@ -36,7 +36,7 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import useCustomer from './useCustomer'
@@ -45,6 +45,8 @@ import api from '../../../../request/api'
 import operation from '../../../../common/util/operation'
 import Settlement from './Settlement.vue'
 
+
+const refresh = inject("refresh");
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
@@ -78,6 +80,7 @@ const addCustomer = function(){
             operation.success("操作失败");
         }
         close();
+        refresh();
     })
 }
 

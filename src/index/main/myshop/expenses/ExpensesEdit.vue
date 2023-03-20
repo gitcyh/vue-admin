@@ -36,7 +36,7 @@
 </template>
   
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import ExpenseCatSelect from '../../../../common/components/select/ExpenseCatSelect.vue';
@@ -51,7 +51,7 @@ const props = defineProps({
     id:String
 })
 
-
+const refresh = inject("refresh");
 const ruleFormRef = ref();
 const visible = ref(false);
 defineExpose({
@@ -108,6 +108,7 @@ const updateExpense = function(){
             operation.warning();
         }
         close();
+        refresh();
     })
 }
 

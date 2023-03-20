@@ -31,16 +31,45 @@ CREATE TABLE IF NOT EXISTS `wxuser`(
     `province` varchar(32)  COMMENT '省份',
     `phone` varchar(16)  COMMENT '手机号',
     `city` varchar(32)  COMMENT '城市',
-    `contry` varchar(32) COMMENT '国家',
+    `country` varchar(32) COMMENT '国家',
     `avatar_url` text  COMMENT '用户头像地址',
-    `signature` varchar(64)  COMMENT '使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息',
+    `signature` varchar(64)  COMMENT '使用 sha1( rawData + sessionkey ) 得到字符串,用于校验用户信息',
     `iv` varchar(32) COMMENT '加密算法的初始向量',
     `session_key` varchar(32)  COMMENT '会话密钥',
-    `unionid` varchar(32)  COMMENT '用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回',
+    `unionid` varchar(32)  COMMENT '用户在开放平台的唯一标识符,若当前小程序已绑定到微信开放平台帐号下会返回',
     `openid` varchar(32) COMMENT '用户唯一标识,非常重要',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
 )
+
+--微信地址表一个微信用户可以对应多个地址
+CREATE TABLE IF NOT EXISTS `wx_address`(
+    `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
+    `userid` varchar(255)  NOT NULL COMMENT "用户id",
+    `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址全称',
+    `address_tag` varchar(32) NOT NULL DEFAULT '' COMMENT "家或公司",
+    `auth_token` varchar(32) COMMENT "授权token",
+    `country_code` varchar(32) NOT NULL DEFAULT 'chn' COMMENT "国家码",
+    `country_name` varchar(32) NOT NULL DEFAULT '中国' COMMENT "国家名称",
+    `province_code` varchar(32) COMMENT "省份码" ,
+    `province_name` varchar(32) COMMENT "省份名称",
+    `city_code` varchar(32) COMMENT "城市码",
+    `city_name` varchar(64) COMMENT "城市名称",
+    `district_code` varchar(32) COMMENT "县或区码",
+    `district_name` varchar(64) COMMENT "县或区名",
+    `detail_address` varchar(400) COMMENT "详细地址",
+    `is_default` tinyint(4)  DEFAULT 0 COMMENT '1是默认地址0不是',
+    `longitude` decimal(10,7) COMMENT '用户经度',
+    `latitude` decimal(10,7) COMMENT '用户纬度',
+    `name` varchar(255) COMMENT "收货人姓名",
+    `phone` varchar(16)  COMMENT '手机号',
+    `phone_number` varchar(16)  COMMENT '手机号码',
+    `lift` tinyint(4) DEFAULT NULL  COMMENT '有无电梯',
+    `floors` tinyint(4) DEFAULT NULL  COMMENT '楼层数',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
+)
+
 
 
 --
@@ -67,6 +96,7 @@ CREATE TABLE IF NOT EXISTS `staff`(
 CREATE TABLE IF NOT EXISTS `customer`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
     `shop_id` varchar(64) NOT NULL  COMMENT '所属店铺id',
+    `customer_form` tinyint(4) NOT NULL DEFAULT 0  COMMENT '客户来源0默认人工录入1是微信客户',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '客户名称',
     `address` varchar(255) NOT NULL  COMMENT '地址',
     `longitude` decimal(10,7) DEFAULT NULL COMMENT '地址经度',
@@ -139,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `bank`(
     `bank_name` varchar(50) NOT NULL COMMENT '银行名称',
     `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效 -1:无效',
     `bankimg_id` varchar(64) DEFAULT NULL  COMMENT '银行图标id',
-    `bank_code` varchar(100)  COMMENT '第三方功能会用到，如用户申请提现，管理员付款到银行卡时会用到',
+    `bank_code` varchar(100)  COMMENT '第三方功能会用到,如用户申请提现,管理员付款到银行卡时会用到',
     `is_show` tinyint(4)  COMMENT '1：是 0：否',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
@@ -163,12 +193,12 @@ INSERT INTO `category` (`id`,`parent_id`,`name`,`sub_title`,`level`) VALUES
 ('1',null,'食品','食品类',1),
 ('2',null,'女装','女装类',1),
 ('3',null,'手机','手机类',1),
-('4',null,'百货','百货类',1)
+('4',null,'百货','百货类',1),
 ('5','1','牛奶饮料','牛奶饮料类',2),
 ('6','2','外套','外套类',2),
 ('7','3','手机配件','手机配件类',2),
 ('8','4','饰品','饰品类',2),
-('9','5','饮用水','饮用水类',3),
+('9','5','饮用水','饮用水类',3)
 
 -- --
 -- --店铺品牌表
@@ -216,6 +246,7 @@ CREATE TABLE IF NOT EXISTS `goods`(
     `cost_price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '成本价',
     `delivery_price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '配送价',
     `self_price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '自提价',
+    `active_price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '活动价',
     `is_sale` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否上架-1已下架0待上架1已上架',
     `is_best` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否精品0:否 1:是',
     `is_hot` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否热销产品0:否 1:是',
@@ -247,8 +278,8 @@ INSERT INTO `brand_sys` (`id`,`brand`) VALUES
 ('4','王老吉'),
 ('5','梧桐山'),
 ('6','益力'),
-('7','百岁山')
-('8','吾尔康')
+('7','百岁山'),
+('8','吾尔康'),
 ('9','恒大'),
 ('10','冰露'),
 ('11','屈臣氏'),
@@ -262,11 +293,11 @@ INSERT INTO `brand_sys` (`id`,`brand`) VALUES
 
 
 --
---订单明细表
+--微信订单明细表
 --
-CREATE TABLE IF NOT EXISTS `order_list`(
+CREATE TABLE IF NOT EXISTS `wx_order_detail`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '订单明细id',
-    `order_id` varchar(64) NOT NULL PRIMARY KEY COMMENT '订单明细id',
+    `order_id` varchar(64) NOT NULL COMMENT '所属订单id',
     `shop_id` varchar(64) NOT NULL COMMENT '店铺id',
     `goods_id` varchar(64) NOT NULL COMMENT '商品id',
     `price` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '成交价',
@@ -277,7 +308,55 @@ CREATE TABLE IF NOT EXISTS `order_list`(
 )
 
 --
---订单表
+--微信订单表
+--
+CREATE TABLE IF NOT EXISTS `wx_order`(
+    `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '订单id',
+    `order_num` varchar(64) NOT NULL COMMENT '订单编号',
+    `user_id` varchar(64) NOT NULL  COMMENT '下单的用户id',
+    `shop_id` varchar(64) NOT NULL COMMENT '店铺id',
+    `address_id` varchar(64) NOT NULL COMMENT '客户地址id',
+    `address` varchar(255)  COMMENT '客户地址',
+    `customer_name` varchar(255)  COMMENT '客户名称',
+    `customer_phone` varchar(20) COMMENT '客户手机号',
+    `sum_money` decimal(11,2) NOT NULL DEFAULT 0 COMMENT '总成交额',
+    `sum_count` int NOT NULL DEFAULT 0 COMMENT '总成交数量',
+    `prefer_money`  decimal(11,2) NOT NULL DEFAULT 0 COMMENT '优惠金额',
+    `send_state` tinyint(4) NOT NULL DEFAULT 1 COMMENT '配送状态0:未配送,1:配送中,2:已配送,3:客户自提,4:其他',
+    `payway` tinyint(4) NOT NULL DEFAULT 0 COMMENT '支付方式0:微信支付,1:支付宝,2:水票,3:月结,4:现金,5:其他',
+    `sender_id` varchar(64) COMMENT '配送员一般是员工id或客户自提',
+    `remark` varchar(255)  COMMENT '备注',
+    `style` text  COMMENT '背景颜色',
+    `data_flag` tinyint(4) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:无效',
+    `order_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '订单创建日期可修改',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
+)
+
+--优惠券表
+CREATE TABLE IF NOT EXISTS `prefer` (
+    `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '优惠券id',
+    `prefer_name` varchar(63) NULL COMMENT '优惠券名称',
+    `prefer_desc` varchar(255) NULL COMMENT '优惠券介绍,通常是显示优惠券使用限制文字',
+    `tag` varchar(64) NULL COMMENT '优惠券标签,例如新人专用',
+    `total` int(11) NULL DEFAULT '0' COMMENT '优惠券数量,如果是0,则是无限量',
+    `discount` decimal(10,2) NULL DEFAULT '0.00' COMMENT '优惠金额,',
+    `min` decimal(10,2) NULL DEFAULT '0.00' COMMENT '最少消费金额才能使用优惠券。',
+    `prefer_limit` smallint(6) NULL DEFAULT '1' COMMENT '用户领券限制数量,如果是0,则是不限制;默认是1,限领一张.',
+    `prefer_type` smallint(6) NULL DEFAULT '0' COMMENT '优惠券赠送类型,如果是0则通用券,用户领取;如果是1,则是注册赠券;如果是2,则是优惠券码兑换;',
+    `prefer_status` smallint(6) NULL DEFAULT '0' COMMENT '优惠券状态,如果是0则是正常可用;如果是1则是过期; 如果是2则是下架。',
+    `goods_type` smallint(6) NULL DEFAULT '0' COMMENT '商品限制类型,如果0则全商品,如果是1则是类目限制,如果是2则是商品限制。',
+    `goods_value` varchar(1023) NULL DEFAULT '[]' COMMENT '商品限制值,goods_type如果是0则空集合,如果是1则是类目集合,如果是2则是商品集合。',
+    `prefer_code` varchar(63) NULL COMMENT '优惠券兑换码',
+    `time_type` smallint(6) NULL DEFAULT '0' COMMENT '有效时间限制,如果是0,则基于领取时间的有效天数days;如果是1,则start_time和end_time是优惠券有效期;',
+    `days` smallint(6) NULL DEFAULT '0' COMMENT '基于领取时间的有效天数days。',
+    `start_time` datetime NULL COMMENT '使用券开始时间',
+    `end_time` datetime NULL COMMENT '使用券截至时间',
+    `data_flag` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除标志1:有效 -1:无效'
+)
+
+--
+--平台订单表
 --
 CREATE TABLE IF NOT EXISTS `order_sys`(
     `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '订单id',
@@ -381,29 +460,4 @@ INSERT INTO `expense_category` (`id`,`name`,`description`) VALUES
 
 
 
-
-CREATE TABLE IF NOT EXISTS `wx_address`(
-    `id` varchar(64) NOT NULL PRIMARY KEY COMMENT '唯一id',
-    `userid` varchar(255)  NOT NULL COMMENT "用户id",
-    `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址全称',
-    `address_tag` varchar(32) NOT NULL DEFAULT '' COMMENT "家或公司",
-    `auth_token` varchar(32) COMMENT "授权token",
-    `country_code` varchar(32) NOT NULL DEFAULT 'chn' COMMENT "国家码",
-    `country_name` varchar(32) NOT NULL DEFAULT '中国' COMMENT "国家名称",
-    `province_code` varchar(32) COMMENT "省份码" ,
-    `province_name` varchar(32) COMMENT "省份名称",
-    `city_code` varchar(32) COMMENT "城市码",
-    `city_name` varchar(64) COMMENT "城市名称",
-    `district_code` varchar(32) COMMENT "县或区码",
-    `district_name` varchar(64) COMMENT "县或区名",
-    `detail_address` varchar(400) COMMENT "详细地址",
-    `is_default` tinyint(4)  DEFAULT 0 COMMENT '1是默认地址0不是',
-    `longitude` decimal(10,7) COMMENT '用户经度',
-    `latitude` decimal(10,7) COMMENT '用户纬度',
-    `name` varchar(255) COMMENT "收货人姓名",
-    `phone` varchar(16)  COMMENT '手机号',
-    `phone_number` varchar(16)  COMMENT '手机号码',
-    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间'
-)
 

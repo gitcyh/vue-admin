@@ -60,7 +60,7 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,inject } from 'vue'
 import SendStateVue from '../../../../common/components/select/SendState.vue'
 import PayWayVue from '../../../../common/components/select/PayWay.vue'
 import SenderSelect from '../../../../common/components/select/SenderSelect.vue'
@@ -76,11 +76,7 @@ import jwtUtil from '../../../../common/util/jwtUtil'
 import dateUtil from '../../../../common/util/dateUtil'
 
 
-
-const props = defineProps({
-    getOrders:Function,
-})
-
+const refresh = inject("refresh");
 
 const ruleFormRef = ref();
 const visible = ref(false);
@@ -154,7 +150,7 @@ const addOrder = function () {
             operation.warning();
         }
         close();
-        props.getOrders();
+        refresh();
     })
 }
 const submitForm = async (formEl) => {

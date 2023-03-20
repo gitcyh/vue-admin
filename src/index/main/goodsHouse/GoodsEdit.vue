@@ -39,7 +39,7 @@
 </template>
   
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import useGoods from './useGoods'
@@ -52,6 +52,8 @@ import api from '../../../request/api'
 import Upload from '../../../common/components/Upload.vue'
 import jwtUtil from '../../../common/util/jwtUtil'
 
+
+const refresh = inject("refresh");
 const props = defineProps({
     id: String,
 })
@@ -138,6 +140,7 @@ const updateSysGoods = function () {
             if (res.data.code === 200) {
                 operation.success("修改成功");
                 close();
+                refresh();
             } else {
                 operation.warning(res.data.msg)
             }

@@ -52,7 +52,7 @@
   
 <script setup>
 
-import { computed, ref, onMounted, watch } from 'vue'
+import { provide, ref, onMounted, watch } from 'vue'
 import { Delete, Edit, View } from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import CustomerAddVue from './CustomerAdd.vue';
@@ -141,8 +141,7 @@ const getCustomers = function (currentPage=1,pageSize=100) {
 
 watch(search,(newValue,oldValue)=>{
     if(newValue != oldValue){
-        getCount();
-        getCustomers()
+        getAll();
     }
 })
 
@@ -158,10 +157,16 @@ const getCount = function(){
         console.log(total.value)
     })
 }
-
-onMounted(() => {
+ 
+const getAll = function(){
     getCount();
     getCustomers();
+}
+
+provide("refresh",getAll)
+
+onMounted(() => {
+   getAll();
 })
 </script>
   

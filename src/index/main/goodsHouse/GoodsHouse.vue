@@ -42,7 +42,7 @@
 </template>
   
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, provide } from 'vue'
 import { Delete, Edit, View } from "@element-plus/icons-vue";
 import Operation from '../../../common/util/operation';
 import GoodsAdd from './GoodsAdd.vue'
@@ -100,13 +100,12 @@ const handleDelete = (index, row) => {
 }
 
 
-
 const getGoodsList = function () {
     request.post(api.sysGetGoodsList).then(res => {
         tableData.value = res.data.data.data;
     })
 }
-
+provide("refresh",getGoodsList);
 onMounted(() => {
     getGoodsList();
 })

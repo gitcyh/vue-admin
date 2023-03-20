@@ -55,7 +55,7 @@
 </template>
   
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, provide } from 'vue'
 import { Top, Edit, View } from "@element-plus/icons-vue";
 import GoodsAdd from './GoodsAdd.vue'
 import GoodsEditVue from './GoodsEdit.vue';
@@ -115,6 +115,7 @@ const getGoodsList = function () {
     })
 }
 
+provide("refresh",getGoodsList)
 onMounted(() => {
     getGoodsList();
 })

@@ -26,7 +26,7 @@
                 <el-input type="text" :value="ruleForm.shopCompany" readonly/>
             </el-form-item>
             <el-form-item label="店铺经纬度" style="display:flex;justify-content: space-between;">
-                <el-input type="text" :value="ruleForm.longitude"  readonly/>
+                <el-input type="text" :value="ruleForm.longitude+','+ruleForm.latitude"  readonly/>
             </el-form-item>
             <el-form-item label="营业时间">
                 <el-col :span="10">
@@ -70,7 +70,7 @@
 </template>
   
 <script setup>
-import { ref, reactive,onMounted } from 'vue'
+import { ref, reactive,onMounted,provide } from 'vue'
 import ShopEditVue from './ShopEdit.vue';
 import useShop from './useShop';
 import jwtUtil from '../../../../common/util/jwtUtil';
@@ -141,8 +141,14 @@ const getLicenseSrc = function(){
 }
 
 
-onMounted(()=>{
+
+const getShop = function(){
     useShop.getShop(ruleForm);
+}
+
+provide("refreshView",getShop);
+onMounted(()=>{
+    getShop();
 })
 
 </script>

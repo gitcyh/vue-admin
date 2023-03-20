@@ -43,7 +43,7 @@
 </template>
   
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted,provide } from 'vue'
 import { Delete, Edit, View } from "@element-plus/icons-vue";
 import Operation from '../../../../common/util/operation';
 import StaffAdd from './StaffAdd.vue'
@@ -104,6 +104,8 @@ const getStaffs = function () {
     })
 }
 
+
+provide("refresh",getStaffs)
 
 onMounted(() => {
     getStaffs();

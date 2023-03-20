@@ -49,7 +49,7 @@
 </template>
   
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { CloseBold } from '@element-plus/icons-vue'
 import useGoodsCheck from './useGoods'
@@ -63,6 +63,8 @@ import request from '../../../../request/request'
 import api from '../../../../request/api'
 import operation from '../../../../common/util/operation'
 
+
+const refresh = inject("refresh")
 const ruleFormRef = ref();
 const visible = ref(false);
 const editorRef = ref();
@@ -145,7 +147,7 @@ const updateSysGoods = function () {
     useGoods.beforeAdd(imageList1, editorRef);
     upload_imgId.value.submitUpload().then(res => {
         const imgId = res.data.data.fileId;
-        ruleForm.imgId = imgId;
+        ruleForm.imgId = imgId || ruleForm.imgId;
         request.post(api.updateGoods, {
             id: ruleForm.id,
             goodsName: ruleForm.name,
@@ -164,6 +166,7 @@ const updateSysGoods = function () {
                 operation.warning(res.data.msg)
             }
             close();
+            refresh();
         })
     });
 }

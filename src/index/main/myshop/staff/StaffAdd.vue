@@ -48,7 +48,7 @@
 </template>
   
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,inject } from 'vue'
 import { ElButton, ElDialog } from 'element-plus'
 import { Plus, CloseBold } from '@element-plus/icons-vue'
 import useStaff from './useStaff'
@@ -57,7 +57,7 @@ import api from '../../../../request/api';
 import operation from '../../../../common/util/operation';
 import dateUtil from '../../../../common/util/dateUtil';
 
-
+const refresh = inject("refresh");
 const ruleFormRef = ref();
 const visible = ref(false);
 const ruleForm = reactive({
@@ -92,6 +92,7 @@ const addStaff = function(){
             operation.success("操作失败");
         }
         close();
+        refresh();
     })
 }
 
